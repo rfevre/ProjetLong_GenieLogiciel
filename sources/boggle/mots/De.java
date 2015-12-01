@@ -1,5 +1,6 @@
 package boggle.mots;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,7 +78,7 @@ public class De {
 		return indexFaceVisible < faces.length ? faces[indexFaceVisible] : "-";
     }
 	
-	/** Permet de recupere une face aleatoir */
+	/** Permet de recuperer une face aléatoire */
 	public void setRandomFace(){
 		int rnd = (int) (Math.random() * 6);
 		this.setIndexFaceVisible(rnd);
@@ -87,4 +88,26 @@ public class De {
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
     
 	///////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	public static void main(String[] args)
+	{
+		
+		De de1 = new De(1,2);
+		De de2 = new De(2,3);
+		De de3 = new De(1,2);
+		
+		List<De> liste = new ArrayList<De>();
+		
+		liste.add(de1);
+		liste.add(de2);
+		
+		System.out.println(existeDeja(de3, liste));
+		
+		
+		
+		
+	}
+	
 }

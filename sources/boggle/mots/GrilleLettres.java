@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GrilleLettres {
     
@@ -104,14 +106,65 @@ public class GrilleLettres {
     	
     }
     
+    
+    
+    /**
+     * Permet de verifier si un mot est valide :
+     *  1 - toutes les lettres utilisés sont dans la grille,
+     *  2 - taille minimum 'dimension-1',
+     *  3 - le mot est construit avec des dés adjacents
+     * @param unMot : mot recherchee
+     * @return vrai si le mot est valide, sinon false.
+     */
+    public boolean estUnMotValide(String unMot){
+    	
+    	// Verifier taille minimal
+    	// Pour chaque lettre, appeler methode estUneLettreValid() et 
+    	
+    	// Stocker liste des dés adjacents de la première lettre
+    	// A partir de la lettre numéro 2 :
+    	// vérifier si elle est présente dans la liste des dés adjacents mais de la lettre précédente.
+    	return true;
+    }
+    
+    /** 
+     * Permet de connaitre les dès situé autour d'un dè sélectionné
+     * TODO : Interdire les valeurs qui dépasse les dimensions
+     * */
+    public List<De> getListeDesAdjacents(int x, int y){
+    	List<De> desAdjacents = new ArrayList<De>();
 
+    	De centre = new De(x, y);
+    	for(int i=x-1;i<x+2;i++){
+    		for (int j=y-1;j<y+2;j++){
+    			if(i>=0 && i<dimension && j>=0 && j<dimension){
+    				De unDe = grille[i][j];
+    				if (!centre.equals(unDe)){
+    					desAdjacents.add(unDe);
+    				}	
+    			}
+    		}
+    	}
+    	return desAdjacents;
+    }
+    
+    
     
     
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
     
     ///////////////////////////////////////////////////////////////////////////
     
-    
+   
+    public static void main(String[] args) {
+		GrilleLettres grille = new GrilleLettres(4, "config/des-4x4.csv");
+		System.out.println(grille);
+		System.out.println(grille.estUneLettreValide("M"));
+		System.out.println(grille.estUneLettreValide("U"));
+		System.out.println(grille.estUneLettreValide("S"));
+		System.out.println(grille.estUneLettreValide("T"));
+		System.out.println(grille.estUneLettreValide("A"));
+	}
 
     
 }

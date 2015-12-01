@@ -140,7 +140,7 @@ public class ArbreLexical {
 	 * @param fichier : chemin vers le fichier source
 	 * @return ArbreLexical representant le contenu du ficher.
 	 */
-	public static ArbreLexical lireMots(String fichier) {
+	public static ArbreLexical creerArbreDepuisFichier(String fichier) {
 		ArbreLexical arbre = new ArbreLexical();
 		try {
 			final File f = new File(fichier);
