@@ -14,7 +14,6 @@ public class GrilleLettres {
 
     
     // CONSTRUCTEUR ///////////////////////////////////////////////////////////
-       
   
     public GrilleLettres(int dimension){
     	this.dimension = dimension;
@@ -25,7 +24,6 @@ public class GrilleLettres {
     	this(dimension);
     	this.initGrilleDepuisFichier(chemin);
     }
-    
 
     // GET-SET ////////////////////////////////////////////////////////////////
     
@@ -87,65 +85,33 @@ public class GrilleLettres {
 
 
     /**
-    *
-    * Cette méthode permet de savoir si l'on a dejà selectionné un dé.
-    * Elle regarde si dans la liste( mise en paramètre), le dé( mis en paramètre)
-    * s'y trouve déjà.
-    * Si le dé s'y trouve, on retourne <code>true</code>,
-    * sinon on retourne <code>false</code>.
-    *
-    *
-    * @param De de : Correspond au dé que l'on doit vérifier
-    * @param List<De> liste : Liste dans laquelle il y a tous les dés déjà selectionnés.
-    * @return boolean
-    */
-    public boolean existeDeja(De de, List<De> liste){
-
-    	for ( De unDe : liste)
-    	{
-    		if( unDe.getX() == de.getX() && unDe.getY() == de.getY())
-    		{
-    			return true;
+     * Permet de verifier si une lettre est presente dans la grille.
+     * @param lettre : lettre recherchee
+     * @return vrai si lettre est dans la grille, sinon false.
+     */
+    public boolean estUneLettreValide(String lettre){
+    	boolean isValide = false;
+    	for (int i = 0; i < dimension; i++) {
+    		for (int j = 0; j < dimension; j++) {
+    			if(lettre.equals(grille[i][j].getChaineFaceVisible())){
+    				isValide = true;
+    				break;
+    			}
     		}
     	}
-    	return false;
+    	
+    	return isValide;
+    	
     }
-
-
+    
 
     
     
-
-
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
     
-    public static void main(String[] args) throws IOException {
+    ///////////////////////////////////////////////////////////////////////////
+    
+    
 
-    	//GrilleLettres g = new GrilleLettres(4);    	
-    	//*System.out.println(g);
-    	//g.initGrilleDepuisFichier("config/des-4x4.csv");
-    	//System.out.println(g);
-
-    	/**
-    	*
-    	* Test de la méthode existeDeja
-    	*
-    	*/
-    	De de1 = new De(0,1);
-    	De de2 = new De(1,1);
-    	De de3 = new De(2,3);
-    	De de4 = new De(2,2);
-
-    	List<De> liste = new List<De>();
-
-    	liste.add(de1);
-    	liste.add(de2);
-    	liste.add(de3);
-
-    	System.out.println(existeDeja(de1,liste));
-    	System.out.println(existeDeja(de4,liste));
-
-
-	}
     
 }

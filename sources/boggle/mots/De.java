@@ -1,18 +1,23 @@
 package boggle.mots;
 
+import java.util.List;
+
 /**
- * TODO : 
- * 		- Longueur chaine differente de 6 
+ * 
+ */
+/**
+ * Cette Classe represente un De de 6 faces.
+ * Une lettre est inscrite sur chaque face.
+ *
+ * TODO : Longueur chaine differente de 6 
  */
 public class De {
-
-    
 	
     private int x,y;								// Position du de
     private String[] faces = new String[6] ;		// Liste des faces du tableau
     private int indexFaceVisible;					// Index de la face visible
     
-    // CONSTRUCTEURS //////////////////////////////////////////////////////////
+    // CONSTRUCTORS ///////////////////////////////////////////////////////////
     
     public De(int x, int y){
     	this.x = x;
@@ -40,15 +45,33 @@ public class De {
     public void setIndexFaceVisible(int indexFaceVisible) { this.indexFaceVisible = indexFaceVisible; }
     
 
-	public String toString() {
-		//return "-> Pos(" + x + "," + y + "), faces=" + Arrays.toString(faces) + ", Face visible : " + indexFaceVisible+ " -> " + getChaineFaceVisible();
-		//return "(" + x + "," + y + "," +getChaineFaceVisible()+")";
-		return getChaineFaceVisible();
+	public String toString() { return getChaineFaceVisible(); }
+
+	public boolean equals(Object o) {
+		final De autre = (De) o;
+		return (x == autre.getX() && y == autre.getY());  
 	}
-    
 	
+	
+	// STATIC METHODS /////////////////////////////////////////////////////////
+    /**
+    * Permet de savoir si un de est present dans une liste ou pas.
+    * @param de : Correspond au dé que l'on doit vérifier.
+    * @param liste : Liste dans laquelle il y a tous les dés déjà selectionnés.
+    * @return <code>vrai</code> si le de existe dans la liste sinon <code>false</code> 
+    */
+    public static boolean existeDeja(final De de, final List<De> liste){
+    	if(de == null || liste == null || liste.size() == 0) return false;
+    	for (De d : liste){
+    		if(d.equals(de)){ return true; }
+    	}
+    	return false;
+    }
+    
+    
 	// PUBLIC METHODS /////////////////////////////////////////////////////////
 	
+
 	/** Permet de recuperer la chaine presente sur la face visible du dé */
 	public String getChaineFaceVisible(){
 		return indexFaceVisible < faces.length ? faces[indexFaceVisible] : "-";
@@ -60,13 +83,8 @@ public class De {
 		this.setIndexFaceVisible(rnd);
 	}
 
-
-
-
-	
-	
 	
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
     
-    
+	///////////////////////////////////////////////////////////////////////////
 }
