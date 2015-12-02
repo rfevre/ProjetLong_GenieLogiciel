@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class GrilleLettres {
     
@@ -103,29 +104,71 @@ public class GrilleLettres {
     	}
     	
     	return isValide;
-    	
     }
     
     
     
     /**
-     * Permet de verifier si un mot est valide :
+     * Permet de verifier si un mot est valide à partir de la position d'un dé:
      *  1 - toutes les lettres utilisés sont dans la grille,
      *  2 - taille minimum 'dimension-1',
      *  3 - le mot est construit avec des dés adjacents
      * @param unMot : mot recherchee
      * @return vrai si le mot est valide, sinon false.
      */
-    public boolean estUnMotValide(String unMot){
+    public boolean estUnMotValideAvecPosition(String unMot, De de){
+    	//Pour chaque lettre du mot
+    	if(!this.estUneLettreValide(""+unMot.charAt(0))){
+    		return false; 			
+    	}
     	
-    	// Verifier taille minimal
-    	// Pour chaque lettre, appeler methode estUneLettreValid() et 
+    	boolean isValid = false;
     	
-    	// Stocker liste des dés adjacents de la première lettre
-    	// A partir de la lettre numéro 2 :
-    	// vérifier si elle est présente dans la liste des dés adjacents mais de la lettre précédente.
-    	return true;
+    	//On récupére la liste des dès adjacents
+    	List<De> desAdjacents=this.getListeDesAdjacents(de.getX(),de.getY());
+    	
+    	if(unMot.length()>1){
+    		for(De deBis : desAdjacents){
+    			//On test si la lettre suivante est dans la liste de dès adjacents
+    			if (deBis.toString().equals(""+unMot.charAt(1))){
+    		    	return this.estUnMotValideAvecPosition(unMot.substring(1,unMot.length()),deBis);
+   				}
+    			else{
+    				isValid=false;
+    			}
+    		}
+    	}
+    	else{
+    		return true;
+    	}
+    	
+    	return isValid;
     }
+    
+    /**
+     * Permet de verifier si un mot est valide dans la grille:
+     *  1 - toutes les lettres utilisés sont dans la grille,
+     *  2 - taille minimum 'dimension-1',
+     *  3 - le mot est construit avec des dés adjacents
+     * @param unMot : mot recherchee
+     * @return vrai si le mot est valide, sinon false.
+     */
+    public boolean estUnMotValideSansPosition(String unMot){
+		if (unMot.length()<dimension-1)
+			return false;
+		
+		for(int i=0;i<dimension;i++){
+    		for (int j=0;j<dimension;j++){
+    			if(this.grille[i][j].toString().equals(""+unMot.charAt(0))){
+    				if(this.estUnMotValideAvecPosition(unMot,this.grille[i][j])){
+    					return true;
+    				}
+    			}
+    		} 				
+    	}
+    	return false;
+    }
+    
     
     /** 
      * Permet de connaitre les dès situé autour d'un dè sélectionné
@@ -157,13 +200,37 @@ public class GrilleLettres {
     
    
     public static void main(String[] args) {
-		GrilleLettres grille = new GrilleLettres(4, "config/des-4x4.csv");
-		System.out.println(grille);
-		System.out.println(grille.estUneLettreValide("M"));
-		System.out.println(grille.estUneLettreValide("U"));
-		System.out.println(grille.estUneLettreValide("S"));
-		System.out.println(grille.estUneLettreValide("T"));
-		System.out.println(grille.estUneLettreValide("A"));
+		GrilleLettres grilleTest = new GrilleLettres(4, "config/des-4x4.csv");
+    	/*GrilleLettres grilleTest = new GrilleLettres(4);
+ 
+    	grilleTest.grille[0][0]=new De(0, 0, "A;A;A;A;A;A");
+    	grilleTest.grille[0][1]=new De(0, 1, "B;B;B;B;B;B");
+    	grilleTest.grille[0][2]=new De(0, 2, "C;C;C;C;C;C");
+    	grilleTest.grille[0][3]=new De(0, 3, "D;D;D;D;D;D");
+    	
+    	grilleTest.grille[1][0]=new De(1, 0, "A;A;A;A;A;A");
+    	grilleTest.grille[1][1]=new De(1, 1, "B;B;B;B;B;B");
+    	grilleTest.grille[1][2]=new De(1, 2, "C;C;C;C;C;C");
+    	grilleTest.grille[1][3]=new De(1, 3, "D;D;D;D;D;D");
+    	
+    	grilleTest.grille[2][0]=new De(2, 0, "A;A;A;A;A;A");
+    	grilleTest.grille[2][1]=new De(2, 1, "B;B;B;B;B;B");
+    	grilleTest.grille[2][2]=new De(2, 2, "C;C;C;C;C;C");
+    	grilleTest.grille[2][3]=new De(2, 3, "D;D;D;D;D;D");
+    	
+    	grilleTest.grille[3][0]=new De(3, 0, "A;A;A;A;A;A");
+    	grilleTest.grille[3][1]=new De(3, 1, "B;B;B;B;B;B");
+    	grilleTest.grille[3][2]=new De(3, 2, "C;C;C;C;C;C");
+    	grilleTest.grille[3][3]=new De(3, 3, "D;D;D;D;D;D");*/
+
+		System.out.println(grilleTest);
+		
+		Scanner sc = new Scanner(System.in);
+		while(true){
+		String str = sc.nextLine();
+		System.out.println(grilleTest.estUnMotValideAvecPosition(str,grilleTest.grille[3][2]));
+		System.out.println(grilleTest.estUnMotValideSansPosition(str));
+		}
 	}
 
     

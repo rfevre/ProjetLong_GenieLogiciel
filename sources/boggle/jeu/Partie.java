@@ -68,10 +68,16 @@ public class Partie {
 		
 	}
 	
+	//TODO : finir le case (ajout du score du joueur en fonction du nombre de lettre du mot)
 	public void calculerScore(Joueur joueur){
-		// Verifier liste mots joueur dans arbre
-		// mettre a jour le score du joueur
-		// vider liste mots joueurs
+		for(String mot : joueur.getListeMots()){
+			if (arbre.contient(mot)){
+				switch(mot.length()){
+					//a faire
+				}
+			}
+		}
+		joueur.setListeMots(new ArrayList<String>());
 	}
 	
 	
