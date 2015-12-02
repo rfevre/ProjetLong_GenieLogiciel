@@ -2,6 +2,7 @@ package boggle.jeu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class Joueur {
 	
@@ -66,7 +67,32 @@ public class Joueur {
 	}
 	
 	/**
-	 * TODO : Implémenter compareTo pour trier la liste des mots ( Collections.sort())
+	 *
+	 * @author Mustapha EL MASSAOUDI
+	 * @return int
+	 * @param String mot1
+	 * @param String mot2	
+	 *
+	 * Si le mot mis en paramètres est égale au mot testé, on retourne 0
+	 * Si le mot mis en paramètres est plus grand que le mot testé, on retourne 1 
+	 * Si le mot mis en paramètres est plsu petit que le mot testé, on retourne -1
+	 *
 	 */
-	
+	public int compareTo(String mot1, String mot2)
+	{
+		if(mot1.length() == mot2.length() )
+		{
+			return 0;
+		}
+		else if(mot1.length() > mot2.length())
+		{
+			return 1;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+
 }
