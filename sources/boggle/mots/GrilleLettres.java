@@ -109,15 +109,18 @@ public class GrilleLettres {
     
     
     /**
+     * TODO : faire en sorte qu'il ne s'arrête pas au premier Dè qu'il trouve bon
      * Permet de verifier si un mot est valide à partir de la position d'un dé:
      *  1 - toutes les lettres utilisés sont dans la grille,
      *  2 - taille minimum 'dimension-1',
      *  3 - le mot est construit avec des dés adjacents
      * @param unMot : mot recherchee
      * @return vrai si le mot est valide, sinon false.
+     * 
+     * @author fevrer
      */
-    public boolean estUnMotValideAvecPosition(String unMot, De de){
-    	//Pour chaque lettre du mot
+    public boolean estUnMotValideAvecPosition(String unMot, De de, List<De> listeDeUtilise){
+    	//On test si la Lettre est dans la grille
     	if(!this.estUneLettreValide(""+unMot.charAt(0))){
     		return false; 			
     	}
@@ -130,8 +133,10 @@ public class GrilleLettres {
     	if(unMot.length()>1){
     		for(De deBis : desAdjacents){
     			//On test si la lettre suivante est dans la liste de dès adjacents
-    			if (deBis.toString().equals(""+unMot.charAt(1))){
-    		    	return this.estUnMotValideAvecPosition(unMot.substring(1,unMot.length()),deBis);
+    			//Et que l'on n'est pas déjà passé par le Dè
+    			if (deBis.toString().equals(""+unMot.charAt(1)) && !De.existeDeja(deBis,listeDeUtilise)){
+    				listeDeUtilise.add(deBis);
+    		    	return this.estUnMotValideAvecPosition(unMot.substring(1,unMot.length()),deBis, listeDeUtilise);
    				}
     			else{
     				isValid=false;
@@ -152,15 +157,20 @@ public class GrilleLettres {
      *  3 - le mot est construit avec des dés adjacents
      * @param unMot : mot recherchee
      * @return vrai si le mot est valide, sinon false.
+     * 
+     * @author fevrer
      */
     public boolean estUnMotValideSansPosition(String unMot){
+    	//Liste pour enregistrer les dès par lequels nous sommes passé
+    	List<De> listeDeUtilise = new ArrayList<De>();
+    	
 		if (unMot.length()<dimension-1)
 			return false;
 		
 		for(int i=0;i<dimension;i++){
     		for (int j=0;j<dimension;j++){
     			if(this.grille[i][j].toString().equals(""+unMot.charAt(0))){
-    				if(this.estUnMotValideAvecPosition(unMot,this.grille[i][j])){
+    				if(this.estUnMotValideAvecPosition(unMot,this.grille[i][j],listeDeUtilise)){
     					return true;
     				}
     			}
@@ -228,7 +238,7 @@ public class GrilleLettres {
 		Scanner sc = new Scanner(System.in);
 		while(true){
 		String str = sc.nextLine();
-		System.out.println(grilleTest.estUnMotValideAvecPosition(str,grilleTest.grille[3][2]));
+		//System.out.println(grilleTest.estUnMotValideAvecPosition(str,grilleTest.grille[3][2]));
 		System.out.println(grilleTest.estUnMotValideSansPosition(str));
 		}
 	}

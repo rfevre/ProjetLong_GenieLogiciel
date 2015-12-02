@@ -68,12 +68,37 @@ public class Partie {
 		
 	}
 	
-	//TODO : finir le case (ajout du score du joueur en fonction du nombre de lettre du mot)
+	/**
+	 * Vérifie si les mots dans la liste du joueur sont dans le dictionnaire,
+	 * puis calcul le score du joueur par rapport à la taille des mots,
+	 * et enfin vide la liste de mots.
+	 * 
+	 * @param joueur
+	 * 
+	 * @author fevrer
+	 */
 	public void calculerScore(Joueur joueur){
 		for(String mot : joueur.getListeMots()){
 			if (arbre.contient(mot)){
 				switch(mot.length()){
-					//a faire
+				case 7: 
+					joueur.ajoutScore(5); 
+					break;
+				case 6: 
+					joueur.ajoutScore(3); 
+					break;
+				case 5: 
+					joueur.ajoutScore(2);
+					break;
+				case 4: 
+					joueur.ajoutScore(1); 
+					break;
+				case 3: 
+					joueur.ajoutScore(1); 
+					break;
+				default:
+					joueur.ajoutScore(11); 
+					break;
 				}
 			}
 		}

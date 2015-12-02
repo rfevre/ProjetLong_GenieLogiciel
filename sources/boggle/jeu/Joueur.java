@@ -66,7 +66,7 @@ public class Joueur {
 	}
 	
 	/**
-	 * TODO Implémenter compareTo pour trier la liste des mots ( Collections.sort())
+	 * TODO : Implémenter compareTo pour trier la liste des mots ( Collections.sort())
 	 */
 	
 }

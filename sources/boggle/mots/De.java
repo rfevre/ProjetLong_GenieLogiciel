@@ -105,9 +105,6 @@ public class De {
 		
 		System.out.println(existeDeja(de3, liste));
 		
-		
-		
-		
 	}
 	
 }
