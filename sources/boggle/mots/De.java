@@ -1,6 +1,5 @@
 package boggle.mots;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,14 +9,14 @@ import java.util.List;
  * Cette Classe represente un De de 6 faces.
  * Une lettre est inscrite sur chaque face.
  *
- * TODO : Longueur chaine differente de 6 
  */
 public class De {
 	
     private int x,y;								// Position du de
     private String[] faces = new String[6] ;		// Liste des faces du tableau
     private int indexFaceVisible;					// Index de la face visible
-    
+    private boolean dejaVisite = false;
+   
     // CONSTRUCTORS ///////////////////////////////////////////////////////////
     
     public De(int x, int y){
@@ -39,14 +38,21 @@ public class De {
     public int getY() { return y; }
     public String[] getFaces() { return faces; }
     public int getIndexFaceVisible() { return indexFaceVisible; }
-    
+    public boolean isDejaVisite() { return dejaVisite; }  
+	
     public void setX(int x) { this.x = x; }
     public void setY(int y) { this.y = y; }
     public void setFaces(String[] faces) { this.faces = faces; }
     public void setIndexFaceVisible(int indexFaceVisible) { this.indexFaceVisible = indexFaceVisible; }
+    public void setDejaVisite(boolean dejaVisite) { this.dejaVisite = dejaVisite; }
     
-
-	public String toString() { return getChaineFaceVisible(); }
+    
+	public String toString() {
+		if(dejaVisite){
+			return "*"+getChaineFaceVisible();
+		}
+		return " "+getChaineFaceVisible(); 
+	}
 
 	public boolean equals(Object o) {
 		final De autre = (De) o;
@@ -90,21 +96,5 @@ public class De {
 	///////////////////////////////////////////////////////////////////////////
 	
 	
-	
-	public static void main(String[] args)
-	{
-		
-		De de1 = new De(1,2);
-		De de2 = new De(2,3);
-		De de3 = new De(1,2);
-		
-		List<De> liste = new ArrayList<De>();
-		
-		liste.add(de1);
-		liste.add(de2);
-		
-		System.out.println(existeDeja(de3, liste));
-		
-	}
-	
+
 }

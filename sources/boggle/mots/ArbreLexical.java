@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import boggle.autre.Utils;
+
 /**
  * La classe ArbreLexical permet de stocker de façon compacte et d'accéder
  * rapidement à un ensemble de mots.
@@ -34,8 +36,8 @@ public class ArbreLexical {
 	
 	// GET-SET ////////////////////////////////////////////////////////////////
 	
-	public void setLettre(String lettre){ this.lettre = lettre; }
 	public int getNbFils() { return nbFils; }  
+	public void setLettre(String lettre){ this.lettre = lettre; }
 	public void setNbFils(int nbFils) { this.nbFils = nbFils; }
 	
 	public String toString(){ return this.lettre ; }
@@ -171,12 +173,9 @@ public class ArbreLexical {
 	}
 	
 	
-	/**
-	 * Affiche le contenu de l'arbre
-	 * @param k : valeur du décalage (pour l'affichage)
-	 */
+	/** Affiche le contenu de l'arbre */
 	public void afficherArbre(int k){
-		System.out.println( repeter(" ║ ", k) + " ╠═ " +this );
+		System.out.println( Utils.repeter(" ║ ", k) + " ╠═ " +this );
 		for(int i=0; i< TAILLE_ALPHABET ; i++) {
 			 ArbreLexical arbre = fils[i];
 			 if (arbre!=null) {
@@ -185,11 +184,21 @@ public class ArbreLexical {
 		 }
 	}
 	
-
-	// PRIVATE METHODS ////////////////////////////////////////////////////////
+	/** Permet de verifier que les mots qui sont dans la liste sont dans le dictionnaire */
+	public List<String> sontDansLeDictionnaire(List<String> listeMots){
+		if(listeMots == null) return null;
+		final ArrayList<String> tmp = new ArrayList<String>();
+		
+		for(String mot : listeMots){
+			if(this.contient(mot)){
+				tmp.add(mot);
+			}
+		}
+		return tmp;
+	}
 	
-	/** Permet de répéter une chaine */
-	private static String repeter(String str, int nb){ return new String(new char[nb]).replace("\0", str); }
+	// PRIVATE METHODS ////////////////////////////////////////////////////////
+
 	
 	
 	
@@ -197,27 +206,6 @@ public class ArbreLexical {
 	
 	///////////////////////////////////////////////////////////////////////////
 
-	public static void main(String[] args) {
-		ArbreLexical a = new ArbreLexical();
-		a.ajouter("AB");
-		a.ajouter("ABC");
-		a.ajouter("ABK");
-		a.ajouter("AZE");
-		a.afficherArbre(0);
-		System.out.println(a.motsCommencantPar("C", new ArrayList<String>()));
-		
-//		ArbreLexical a = ArbreLexical.lireMots("config/test.txt");
-//		a.afficherArbre(0);
-//		System.out.println(a.contient("JAVA"));
-//		
-//		ArrayList<String> res = new ArrayList<String>();
-//
-// 		//a.motsCommencantPar("JAVAN", res);
-// 		//System.out.println(res);
-//		ArbreLexical n = a.getArbreFromString("AB");
-//		n.getListeMots("->", res);
-// 		System.out.println(res);
-	}
 
 	
 

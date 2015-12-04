@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import boggle.autre.Utils;
 
 public class GrilleLettres {
     
@@ -16,8 +16,11 @@ public class GrilleLettres {
     private De[][] grille;			
 
     
-    // CONSTRUCTEUR ///////////////////////////////////////////////////////////
-  
+    // CONSTRUCTORS ///////////////////////////////////////////////////////////
+    public GrilleLettres(){
+    	this(4,	Utils.DOSSIER_CONFIG + Utils.getConfigProperty("des"));
+    }
+    
     public GrilleLettres(int dimension){
     	this.dimension = dimension;
     	this.grille = new De[dimension][dimension];
@@ -49,6 +52,25 @@ public class GrilleLettres {
 	}
     
     // PUBLIC METHODS /////////////////////////////////////////////////////////
+	
+	public De getDe(int x, int y){
+		if(x<0 || x>dimension-1 || y<0 || y>dimension-1) return null;
+		return this.grille[x][y];
+	}
+	/** Permet d'initialiser une grille a partir d'une chaine qui represente le contenu de chaquue de
+	 * @param chaine
+	 */
+	public void initGrilleDepuisChaine(String chaine){
+		chaine = chaine.replaceAll(" ", "");
+		int k = 0;
+		for (int i = 0; i < dimension; i++) {
+			for (int j = 0; j < dimension; j++) {
+				grille[i][j] = new De(i, j, Utils.repeter(chaine.charAt(k)+";", 6));
+				k++;
+			}
+		}
+	}
+	
     /** Permet d'initialiser la grille depuis un fichier */
     public void initGrilleDepuisFichier(String chemin){
     	int rx, ry;
@@ -74,18 +96,12 @@ public class GrilleLettres {
 	    		line = br.readLine();
 	    		nbDes--;
 	    	}
-	     
 	    	br.close();
 
-		} catch (FileNotFoundException e) {
-			System.err.println("Erreur : " + e.getMessage());
-		} catch (IOException e) {
-			System.err.println("Erreur : " + e.getMessage());
-		} catch (Exception e) {
-			System.err.println("Erreur : " + e.getMessage());
-		}        
+		} catch (FileNotFoundException e) {	System.err.println("Erreur : " + e.getMessage());
+		} catch (IOException e) { System.err.println("Erreur : " + e.getMessage());
+		} catch (Exception e) { System.err.println("Erreur : " + e.getMessage()); }        
     }
-
 
     /**
      * Permet de verifier si une lettre est presente dans la grille.
@@ -102,92 +118,112 @@ public class GrilleLettres {
     			}
     		}
     	}
-    	
     	return isValide;
     }
     
-    
-    
     /**
-     * TODO : faire en sorte qu'il ne s'arrête pas au premier Dè qu'il trouve bon
-     * Permet de verifier si un mot est valide à partir de la position d'un dé:
-     *  1 - toutes les lettres utilisés sont dans la grille,
-     *  2 - taille minimum 'dimension-1',
-     *  3 - le mot est construit avec des dés adjacents
-     * @param unMot : mot recherchee
-     * @return vrai si le mot est valide, sinon false.
-     * 
-     * @author fevrer
+     * Permet de verifier la validite d'un mot.<br/>
+     * <strong>IMPORTANT</strong> il faut appeler la methode resetDejaVisite() 
+     * pour reinitialiser les des visites.
+     * @param mot mot recherche.
+     * @return vrai si trouve, sinon false.
      */
-    public boolean estUnMotValideAvecPosition(String unMot, De de, List<De> listeDeUtilise){
-    	//On test si la Lettre est dans la grille
-    	if(!this.estUneLettreValide(""+unMot.charAt(0))){
-    		return false; 			
-    	}
+    public boolean estUnMotValide(String mot){
+    	if(mot==null || mot.isEmpty()) return false;
+    	if(mot.length() == 1){ return estUneLettreValide(mot);}
     	
-    	boolean isValid = false;
+    	final String premiereLettre = ""+mot.charAt(0);	
+    	final List<De> listeDesLettre = getListeDesFromLettre(premiereLettre);
     	
-    	//On récupére la liste des dès adjacents
-    	List<De> desAdjacents=this.getListeDesAdjacents(de.getX(),de.getY());
-    	
-    	if(unMot.length()>1){
-    		for(De deBis : desAdjacents){
-    			//On test si la lettre suivante est dans la liste de dès adjacents
-    			//Et que l'on n'est pas déjà passé par le Dè
-    			if (deBis.toString().equals(""+unMot.charAt(1)) && !De.existeDeja(deBis,listeDeUtilise)){
-    				listeDeUtilise.add(deBis);
-    		    	return this.estUnMotValideAvecPosition(unMot.substring(1,unMot.length()),deBis, listeDeUtilise);
-   				}
-    			else{
-    				isValid=false;
-    			}
+    	for(De d : listeDesLettre){
+    		if(estUnMotValide(d, mot.substring(1))){
+    			return true;
     		}
+    		d.setDejaVisite(false);
     	}
-    	else{
-    		return true;
-    	}
-    	
-    	return isValid;
+    	return false;  	
     }
     
     /**
-     * Permet de verifier si un mot est valide dans la grille:
-     *  1 - toutes les lettres utilisés sont dans la grille,
-     *  2 - taille minimum 'dimension-1',
-     *  3 - le mot est construit avec des dés adjacents
-     * @param unMot : mot recherchee
-     * @return vrai si le mot est valide, sinon false.
-     * 
-     * @author fevrer
+     * Permet de verifier la validitie d'un mot en partant d'un De
+     * @param de De de depart
+     * @param mot mot recherche
+     * @return vrai si trouve sinon false.
      */
-    public boolean estUnMotValideSansPosition(String unMot){
-    	//Liste pour enregistrer les dès par lequels nous sommes passé
-    	List<De> listeDeUtilise = new ArrayList<De>();
-    	
-		if (unMot.length()<dimension-1)
-			return false;
-		
-		for(int i=0;i<dimension;i++){
-    		for (int j=0;j<dimension;j++){
-    			if(this.grille[i][j].toString().equals(""+unMot.charAt(0))){
-    				if(this.estUnMotValideAvecPosition(unMot,this.grille[i][j],listeDeUtilise)){
-    					return true;
-    				}
+    public boolean estUnMotValide(De de, String mot){
+    	de.setDejaVisite(true);
+    	//System.out.print (de + "("+de.getX() + ","+de.getY()+") »» ");
+    	if(mot.length() == 0) return true;
+    	final List<De> desAdjacents = getListeDesAdjacents(de);
+    	final String lettre = ""+mot.charAt(0);
+    	final List<De> nextDeList = getListeDesFromLettre(lettre, desAdjacents);
+    	for(De d : nextDeList){
+    		if(!d.isDejaVisite()){
+    			//System.out.println(de + "("+de.getX() + ","+de.getY()+")");
+    			d.setDejaVisite(true);
+    			if(estUnMotValide(d, mot.substring(1))){
+    				return true;
+    			}else{
+    				d.setDejaVisite(false);
     			}
-    		} 				
+    			
+    		}
     	}
     	return false;
     }
     
+    /**
+     * Permet de parcourir <strong>une grille</strong> de De et de recuperer 
+     * tous ceux  qui affichent la lettre <em>lettre</em> passée en parametre.
+     * @param lettre : lettre recherchee
+     * @return liste de De.
+     */
+    public List<De> getListeDesFromLettre(String lettre){
+    	List<De> tmp = new ArrayList<De>();
+    	for (int i = 0; i < dimension; i++) {
+    		for (int j = 0; j < dimension; j++) {
+    			final De current = this.grille[i][j];
+    			if(lettre.equals(current.getChaineFaceVisible())){
+    				tmp.add(current);
+    			}
+    		}
+    	}
+    	return tmp;
+    }
     
-    /** 
-     * Permet de connaitre les dès situé autour d'un dè sélectionné
-     * TODO : Interdire les valeurs qui dépasse les dimensions
-     * */
-    public List<De> getListeDesAdjacents(int x, int y){
+    /**
+     * Permet de parcourir une liste de De et de recuperer tous ceux  qui 
+     * affichent la lettre <em>lettre</em> passée en parametre.
+     * @param lettre lettre recherchée.
+     * @param liste liste de De
+     * @return liste
+     */
+    public List<De> getListeDesFromLettre(String lettre, List<De> liste){
+    	List<De> tmp = new ArrayList<De>();
+    	for(De de : liste){
+    		if(lettre.equals(de.getChaineFaceVisible())){
+    			tmp.add(de);
+    		}    		
+    	}   	
+    	return tmp;
+    }
+    
+    /** Permet de reinistialiser les des visites. */
+    public void resetDejaVisite(){
+    	for (int i = 0; i < dimension; i++) {
+    		for (int j = 0; j < dimension; j++) {
+    			final De current = this.grille[i][j];
+    			current.setDejaVisite(false);
+    		}
+    	}
+    }
+    
+    /** Permet de recuperer la liste des des adjacents */
+    public List<De> getListeDesAdjacents(De centre){
+    	if(centre==null) return null;
     	List<De> desAdjacents = new ArrayList<De>();
-
-    	De centre = new De(x, y);
+    	int x = centre.getX();
+    	int y = centre.getY();
     	for(int i=x-1;i<x+2;i++){
     		for (int j=y-1;j<y+2;j++){
     			if(i>=0 && i<dimension && j>=0 && j<dimension){
@@ -210,37 +246,32 @@ public class GrilleLettres {
     
    
     public static void main(String[] args) {
-		GrilleLettres grilleTest = new GrilleLettres(4, "config/des-4x4.csv");
-    	/*GrilleLettres grilleTest = new GrilleLettres(4);
- 
-    	grilleTest.grille[0][0]=new De(0, 0, "A;A;A;A;A;A");
-    	grilleTest.grille[0][1]=new De(0, 1, "B;B;B;B;B;B");
-    	grilleTest.grille[0][2]=new De(0, 2, "C;C;C;C;C;C");
-    	grilleTest.grille[0][3]=new De(0, 3, "D;D;D;D;D;D");
+    	GrilleLettres g = new GrilleLettres();
+    	//g.initGrilleDepuisChaine("ABCD EFGH IJKL MNOP");
+    	System.out.println(g);
     	
-    	grilleTest.grille[1][0]=new De(1, 0, "A;A;A;A;A;A");
-    	grilleTest.grille[1][1]=new De(1, 1, "B;B;B;B;B;B");
-    	grilleTest.grille[1][2]=new De(1, 2, "C;C;C;C;C;C");
-    	grilleTest.grille[1][3]=new De(1, 3, "D;D;D;D;D;D");
     	
-    	grilleTest.grille[2][0]=new De(2, 0, "A;A;A;A;A;A");
-    	grilleTest.grille[2][1]=new De(2, 1, "B;B;B;B;B;B");
-    	grilleTest.grille[2][2]=new De(2, 2, "C;C;C;C;C;C");
-    	grilleTest.grille[2][3]=new De(2, 3, "D;D;D;D;D;D");
     	
-    	grilleTest.grille[3][0]=new De(3, 0, "A;A;A;A;A;A");
-    	grilleTest.grille[3][1]=new De(3, 1, "B;B;B;B;B;B");
-    	grilleTest.grille[3][2]=new De(3, 2, "C;C;C;C;C;C");
-    	grilleTest.grille[3][3]=new De(3, 3, "D;D;D;D;D;D");*/
-
-		System.out.println(grilleTest);
-		
-		Scanner sc = new Scanner(System.in);
-		while(true){
-		String str = sc.nextLine();
-		//System.out.println(grilleTest.estUnMotValideAvecPosition(str,grilleTest.grille[3][2]));
-		System.out.println(grilleTest.estUnMotValideSansPosition(str));
-		}
+    	
+    	
+//    	GrilleLettres grilleTest = new GrilleLettres(4, "config/des-4x4.csv");
+//
+//		Joueur j = new Joueur("Toto");
+//    	System.out.println(grilleTest);
+//		
+//		Scanner sc = new Scanner(System.in);
+//		String str = "";
+//		do{
+//			str = sc.nextLine().toUpperCase();
+//			if(grilleTest.estUnMotValide(str)){
+//				j.ajouterUnMot(str);
+//			}
+//			grilleTest.resetDejaVisite();
+//			
+//			
+//		}while(!"".equals(str));
+//		System.out.println(j.getNom() + " : " + j.getListeMots());
+//		sc.close();
 	}
 
     
