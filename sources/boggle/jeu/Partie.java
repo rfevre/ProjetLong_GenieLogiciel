@@ -105,6 +105,10 @@ public class Partie {
 	
 	public static void main(String[] args) {
 		Partie p = new Partie(1);
+		GrilleLettres g = new GrilleLettres(4);
+		g.initGrilleDepuisChaine("PAGE LESO TELE EILP");
+		//System.out.println(g);
+		p.setGrille(g);
 		p.lancerPartieConsole();
 
 	}

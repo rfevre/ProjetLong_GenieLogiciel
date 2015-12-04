@@ -40,7 +40,9 @@ public class Joueur {
 	public void ajoutScore(int score){ this.score+=score; }
 	
 	/** Permet d'ajouter un mot a liste */
-	public void ajouterUnMot(String mot){ listeMots.add(mot); }
+	public void ajouterUnMot(String mot){ 
+		if(!listeMots.contains(mot)){ listeMots.add(mot);}
+	}
 	
 	/** Permet de vider la liste des mots du joueur. */
 	public void resetListeMots(){ this.setListeMots(new ArrayList<String>()); }

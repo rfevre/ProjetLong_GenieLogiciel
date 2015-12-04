@@ -36,7 +36,9 @@ public class Utils {
 	public static String repeter(String str, int nb){ return new String(new char[nb]).replace("\0", str); }
 	
 	
-
+public static void main(String[] args) {
+	System.out.println(getConfigProperty("dictionnaire"));
+}
 	
 	
 }
