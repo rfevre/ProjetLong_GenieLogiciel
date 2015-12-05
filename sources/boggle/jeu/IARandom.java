@@ -23,7 +23,6 @@ public class IARandom extends Joueur {
 		
 		List<De> listeRetourner = new ArrayList<De>();
 		
-		
 		// On sélectionne un nombre aléatoire de 3(inclus) à 17(exclus)
 		Random rand = new Random();
 		int nbAlea = rand.nextInt(14) + 3;
@@ -88,11 +87,14 @@ public class IARandom extends Joueur {
 	}
 	
 	public static void main(String[] args) {
-		/*IARandom r = new IARandom("test");
+		GrilleLettres grilleTest = new GrilleLettres(4, "config/des-4x4.csv");
+		System.out.println(grilleTest.toString());
+		IARandom j = new IARandom("J");
+		List<De> liste = j.choisirUnMot(grilleTest);
+		for (De de : liste) {
+			System.out.println(de.toString());
+		}
 		
-		for (int i = 0; i < 10; i++) {
-			System.out.println(r.choisirUnMot());
-		}*/
 		
 	}
 	
