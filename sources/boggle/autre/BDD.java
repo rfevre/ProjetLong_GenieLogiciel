@@ -11,99 +11,105 @@ import java.util.List;
 import boggle.jeu.Joueur;
 
 public class BDD {
-
+	private Connection connexion = null;
+	PreparedStatement ps ;
+	
 	/**
-	 * 
-	 * M√©thode qui permet de se connecter √† la base de donn√©es SQLite
-	 * 
-	 * TODO : refaire la m√©thode de connexion
-	 * 
+	 * Constructeur
 	 */
-	public Connection connexion(){
-		
-		Connection con = null;
-		
+	public BDD(){
 		try
 		    {   
 				Class.forName("org.sqlite.JDBC");
-				con =  DriverManager.getConnection("jdbc:sqlite:top10.db");
+				connexion =  DriverManager.getConnection("jdbc:sqlite:top10.db");
+				System.out.println("Connexion rÈussi");
 		    }
 		catch (ClassNotFoundException | SQLException e) 
 		    {
 				e.printStackTrace();
+				System.out.println("Connexion pas rÈussi");
 		    }
-		
-		return con;
 	}
 	
 	/**
-	 * M√©thode qui ajoute dans la base de donn√©es un joueur ( et donc son score )
+	 * MÈthode qui ferme la connexion
+	 * @throws SQLException
+	 */
+	public void fermer() throws SQLException {
+		try 
+	    {
+			this.connexion.close();
+		} 
+		catch (SQLException e) 
+		    {
+			e.printStackTrace();
+		    }
+	}
+	
+	/**
+	 * MÈthode qui ajoute dans la base de donnÈes un joueur ( et donc son score )
 	 * 
 	 * @param joueur
 	 */
-	public void ajouterUnScore(Joueur joueur){
+	public void ajouterUnScore(Joueur joueur) throws SQLException{
 		
-		// On r√©cup√®re les informations du joueur
+		// On rÈcupËre les informations du joueur
 		String nomJoueur = joueur.getNom();
 		int scoreJoueur = joueur.getScore();
-		
-		// On se connecte √† la base de donn√©es
-		Connection con =  this.connexion();
-		
-		// On ins√®re dans la base de donn√©es les donn√©es
-		PreparedStatement ps;
-		int rs;
-		
-		try 
-	    {			
-			
-			ps = con.prepareStatement("INSERT INTO top10 VALUES ( '"+nomJoueur+"' , "+scoreJoueur+" )");
-			rs = ps.executeUpdate();
+		// On crÈe la requÍte
+		String insertion = "INSERT INTO top10 VALUES ( '"+nomJoueur+"' , "+scoreJoueur+" )";
 				
-			// L'insertion a bien √©t√© effectu√©
-			if(rs!=0)
-			    {
-				 	
-			    }
-			else // L'insertion n'as pas √©t√© effectu√©
-			    {
-					
-			    }
-			
+		try 
+	    {	
+			ps = connexion.prepareStatement(insertion);
+			int nb = ps.executeUpdate();
+			if(nb!=0)
+			    {System.out.println("Insertion rÈussi");}
+			else
+			    {System.out.println("Insertion pas rÈussi");}
 	    } 
-		catch (SQLException e) 
-	    {
-			e.printStackTrace();
-	    }
-		finally
-	    {
-			try 
-			    {
-				con.close();
-			    } 
-			catch (SQLException e) 
-			    {
-				e.printStackTrace();
-			    }
-	    }
-		
+		catch (SQLException e){e.printStackTrace();}
 	}
 	
 	/**
 	 * 
-	 * M√©thode qui retourne une liste de String sous la forme 'nom_score'
-	 * Cette m√©thode sert √† faire le Top 10
+	 * MÈthode qui retourne une liste de String
+	 * Cette mÈthode sert ‡† faire le Top 10
 	 * 
-	 * @return
+	 * @return Une liste contenant au maximum 10 String sous la forme 'nom_score'
 	 */
-	public List<String> getListScores()
-	{
+	public List<String> getListScores() throws SQLException{
 		List<String> liste = new ArrayList<String>();
+		String requeteTop10 = " SELECT nom, score FROM top10 ORDER BY score DESC LIMIT 10";
+		String nomJoueur, scoreJoueur;
 		
-		// On r√©cup√®re les 10 meilleurs scores
-		String requete = " SELECT nom, score FROM top10 ORDER BY score DESC LIMIT 10";
-		
-		
+		try {
+			ps = connexion.prepareStatement(requeteTop10);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()){
+				nomJoueur = rs.getString("nom");
+				scoreJoueur = rs.getString("score");
+				liste.add(nomJoueur+"_"+scoreJoueur);
+			}
+		} catch (SQLException e) {e.getMessage();}
 		return liste;
+	}
+	
+	public static void main(String[] args) throws SQLException {
+		
+		BDD con = new BDD();
+		
+		for (int i = 0; i < 15; i++) {
+			Joueur j = new Joueur("Joueur"+i);
+			j.setScore(i+10);
+			con.ajouterUnScore(j);
+		}
+		
+		System.out.println(" ************* TOP 10 ************");
+		List<String> liste = con.getListScores();
+		for (String string : liste) {
+			System.out.println(string);
+		}
+		con.fermer();
 	}
 }
