@@ -59,6 +59,7 @@ public class IARandom extends Joueur {
 			}
 			else 
 			{
+				unDeAdj.setDejaVisite(true);
 				listeRetourner.add(unDeAdj);
 				i++;
 			}
