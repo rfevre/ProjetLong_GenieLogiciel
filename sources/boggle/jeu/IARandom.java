@@ -26,7 +26,7 @@ public class IARandom extends Joueur {
 		// On sélectionne un nombre aléatoire de 3(inclus) à 17(exclus)
 		Random rand = new Random();
 		int nbAlea = rand.nextInt(14) + 3;
-		
+		System.out.println(nbAlea);
 		// On sélectionne un De de depart de façon aléatoire de la grille
 		// Mettre setDejaVisite() à true && ajouter ce De à la liste
 		int x, y;
@@ -92,6 +92,7 @@ public class IARandom extends Joueur {
 		IARandom j = new IARandom("J");
 		List<De> liste = j.choisirUnMot(grilleTest);
 		for (De de : liste) {
+			System.out.println(de.getX()+" - "+de.getY());
 			System.out.println(de.toString());
 		}
 		
