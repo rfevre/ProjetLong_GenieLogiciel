@@ -12,7 +12,7 @@ import boggle.jeu.Joueur;
 
 public class BDD {
 	private Connection connexion = null;
-	PreparedStatement ps ;
+	private PreparedStatement ps ;
 	
 	/**
 	 * Constructeur
@@ -22,17 +22,17 @@ public class BDD {
 		    {   
 				Class.forName("org.sqlite.JDBC");
 				connexion =  DriverManager.getConnection("jdbc:sqlite:top10.db");
-				System.out.println("Connexion réussi");
+				System.out.println("Connexion rï¿½ussi");
 		    }
 		catch (ClassNotFoundException | SQLException e) 
 		    {
 				e.printStackTrace();
-				System.out.println("Connexion pas réussi");
+				System.out.println("Connexion pas rï¿½ussi");
 		    }
 	}
 	
 	/**
-	 * Méthode qui ferme la connexion
+	 * Mï¿½thode qui ferme la connexion
 	 * @throws SQLException
 	 */
 	public void fermer() throws SQLException {
@@ -47,16 +47,16 @@ public class BDD {
 	}
 	
 	/**
-	 * Méthode qui ajoute dans la base de données un joueur ( et donc son score )
+	 * Mï¿½thode qui ajoute dans la base de donnï¿½es un joueur ( et donc son score )
 	 * 
 	 * @param joueur
 	 */
 	public void ajouterUnScore(Joueur joueur) throws SQLException{
 		
-		// On récupère les informations du joueur
+		// On rï¿½cupï¿½re les informations du joueur
 		String nomJoueur = joueur.getNom();
 		int scoreJoueur = joueur.getScore();
-		// On crée la requête
+		// On crï¿½e la requï¿½te
 		String insertion = "INSERT INTO top10 VALUES ( '"+nomJoueur+"' , "+scoreJoueur+" )";
 				
 		try 
@@ -64,17 +64,17 @@ public class BDD {
 			ps = connexion.prepareStatement(insertion);
 			int nb = ps.executeUpdate();
 			if(nb!=0)
-			    {System.out.println("Insertion réussi");}
+			    {System.out.println("Insertion rï¿½ussi");}
 			else
-			    {System.out.println("Insertion pas réussi");}
+			    {System.out.println("Insertion pas rï¿½ussi");}
 	    } 
 		catch (SQLException e){e.printStackTrace();}
 	}
 	
 	/**
 	 * 
-	 * Méthode qui retourne une liste de String
-	 * Cette méthode sert à  faire le Top 10
+	 * Mï¿½thode qui retourne une liste de String
+	 * Cette mï¿½thode sert ï¿½ faire le Top 10
 	 * 
 	 * @return Une liste contenant au maximum 10 String sous la forme 'nom_score'
 	 */

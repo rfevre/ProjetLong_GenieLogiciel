@@ -1,6 +1,6 @@
 package boggle.gui.components.ecrans;
 
-import gui.core.Fenetre;
+import boggle.gui.core.Fenetre;
 
 public abstract class EcranFactory {
 	

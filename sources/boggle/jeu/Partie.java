@@ -15,8 +15,8 @@ public class Partie {
 	private ArbreLexical arbre;
 	
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
-	public Partie(int nbTours){
-		this.nbTours = nbTours;
+	public Partie(){
+		this.nbTours = 1;
 		this.grille  = new GrilleLettres();
 		this.arbre   = ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire"));
 		this.listeJoueurs = new ArrayList<Joueur>();
@@ -104,7 +104,7 @@ public class Partie {
 	
 	
 	public static void main(String[] args) {
-		Partie p = new Partie(1);
+		Partie p = new Partie();
 		GrilleLettres g = new GrilleLettres(4);
 		g.initGrilleDepuisChaine("PAGE LESO TELE EILP");
 		//System.out.println(g);

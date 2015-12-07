@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import boggle.autre.Utils;
 
@@ -14,11 +16,12 @@ public class GrilleLettres {
     
     private int dimension;				// taille de la grille
     private De[][] grille;			
-
+    private Deque<De> listeDeSelectionnes;
     
     // CONSTRUCTORS ///////////////////////////////////////////////////////////
     public GrilleLettres(){
     	this(4,	Utils.DOSSIER_CONFIG + Utils.getConfigProperty("des"));
+    	this.setListeDeSelectionnes(new LinkedList<De>());
     }
     
     public GrilleLettres(int dimension){
@@ -39,6 +42,8 @@ public class GrilleLettres {
     public void setDimension(int dimension) { this.dimension = dimension; }
     public void setGrille(De[][] grille) { this.grille = grille; }
         
+    public Deque<De> getListeDeSelectionnes() { return listeDeSelectionnes; }  
+    public void setListeDeSelectionnes(Deque<De> listeDeSelectionnes) { this.listeDeSelectionnes = listeDeSelectionnes; }
 
 	public String toString() {
     	final StringBuilder res = new StringBuilder();
@@ -53,6 +58,30 @@ public class GrilleLettres {
     
     // PUBLIC METHODS /////////////////////////////////////////////////////////
 	
+	/**
+	 * Permet de mettre à jour la liste des dés sélectionnés
+	 * @param de
+	 */
+	public void updateListeDesSelectionnes(De de){
+		
+		if(listeDeSelectionnes.isEmpty()){
+			de.setDejaVisite(true);
+			listeDeSelectionnes.add(de);
+		
+		}else{
+			if(de.isDejaVisite() && de.equals(listeDeSelectionnes.getLast())){
+				listeDeSelectionnes.removeLast();
+				de.setDejaVisite(false);
+			}
+			else if(!de.isDejaVisite() && getListeDesAdjacents(listeDeSelectionnes.getLast()).contains(de)){
+				de.setDejaVisite(true);
+				listeDeSelectionnes.add(de);
+			}
+		}		
+	}
+	
+	
+	/** Permet de recuperer un de avec ses coord x, y*/
 	public De getDe(int x, int y){
 		if(x<0 || x>dimension-1 || y<0 || y>dimension-1) return null;
 		return this.grille[x][y];
@@ -273,6 +302,7 @@ public class GrilleLettres {
 //		System.out.println(j.getNom() + " : " + j.getListeMots());
 //		sc.close();
 	}
+
 
     
 }

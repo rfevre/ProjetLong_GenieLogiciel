@@ -8,7 +8,7 @@ import boggle.gui.panels.InfosPanel;
 import boggle.gui.panels.ListeJoueursPanel;
 import boggle.gui.panels.ListeMotsPanel;
 import boggle.gui.panels.TextInputPanel;
-import gui.core.Fenetre;
+import boggle.gui.core.Fenetre;
 
 public class EcranJeu extends Ecran{
 	

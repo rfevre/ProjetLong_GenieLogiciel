@@ -9,7 +9,7 @@ public class ListeJoueursPanel extends JPanel {
 	
 	
 	public ListeJoueursPanel(){
-		this.setPreferredSize(new Dimension(300, 800));
+		this.setPreferredSize(new Dimension(200, 800));
 		this.setBackground(Color.GREEN);
 	}
 	
