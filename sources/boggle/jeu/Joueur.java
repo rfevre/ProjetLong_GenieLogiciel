@@ -25,7 +25,7 @@ public class Joueur {
 	
 	public String getNom() { return nom; }  
 	public List<String> getListeMots() { Collections.sort(this.listeMots); return listeMots; }  
-	public int getScore() { return score; }  
+	public int getScore() { return score; }
 	
 	public void setNom(String nom) { this.nom = nom; }  
 	public void setScore(int score) { this.score = score; }  

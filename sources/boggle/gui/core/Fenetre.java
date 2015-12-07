@@ -24,31 +24,15 @@ public class Fenetre extends JFrame{
 		this.updateEcranEnCours();
 		this.setVisible(true);
 		this.requestFocus();
-		
-		
-		
-		
 	}
 	
-	
-	
-
 	public void updateEcranEnCours() {
 		this.setContentPane(EcranFactory.getInstance(ECRAN_EN_COURS, this));
 		this.revalidate();
-		
 	}
 
 	
 	public static void main(String[] args) throws InterruptedException {
 		Fenetre f = new Fenetre();
-		
-		
-		
-		
-		
-		
 	}
-	
-	
 }

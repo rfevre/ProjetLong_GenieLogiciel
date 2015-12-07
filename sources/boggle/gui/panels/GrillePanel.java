@@ -37,18 +37,7 @@ public class GrillePanel extends JPanel {
 				
 			}
 		}
-		
-		
-		
-		
-		
 	}
-	
-	
-	
-	
-	
-
 	
 	private class DeGraphique extends JLabel implements MouseListener {
 		

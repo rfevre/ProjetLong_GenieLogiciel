@@ -32,7 +32,7 @@ public class BDD {
 	}
 	
 	/**
-	 * M�thode qui ferme la connexion
+	 * Méthode qui ferme la connexion
 	 * @throws SQLException
 	 */
 	public void fermer() throws SQLException {
@@ -47,7 +47,7 @@ public class BDD {
 	}
 	
 	/**
-	 * M�thode qui ajoute dans la base de donn�es un joueur ( et donc son score )
+	 * Méthode qui ajoute dans la base de donnés un joueur ( et donc son score )
 	 * 
 	 * @param joueur
 	 */
@@ -64,17 +64,17 @@ public class BDD {
 			ps = connexion.prepareStatement(insertion);
 			int nb = ps.executeUpdate();
 			if(nb!=0)
-			    {System.out.println("Insertion r�ussi");}
+			    {System.out.println("Insertion réussi");}
 			else
-			    {System.out.println("Insertion pas r�ussi");}
+			    {System.out.println("Insertion pas réussi");}
 	    } 
 		catch (SQLException e){e.printStackTrace();}
 	}
 	
 	/**
 	 * 
-	 * M�thode qui retourne une liste de String
-	 * Cette m�thode sert � faire le Top 10
+	 * Méthode qui retourne une liste de String
+	 * Cette  méthode sert faire le Top 10
 	 * 
 	 * @return Une liste contenant au maximum 10 String sous la forme 'nom_score'
 	 */
