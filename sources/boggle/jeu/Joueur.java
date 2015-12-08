@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Joueur {
+public class Joueur implements Comparable<Joueur> {
 	
 	// Attributs 
 	
@@ -46,5 +46,20 @@ public class Joueur {
 	
 	/** Permet de vider la liste des mots du joueur. */
 	public void resetListeMots(){ this.setListeMots(new ArrayList<String>()); }
+	
+	@Override
+	public boolean equals(Object obj) {
+		Joueur autre = (Joueur)obj;
+		return this.nom.equals(autre.getNom());
+	}
+	
+	@Override
+	public int compareTo(Joueur autre) {
+		return this.score-autre.getScore();
+	}
+	
+	
+	
+	
 	
 }

@@ -1,19 +1,11 @@
 package boggle.gui.panels;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.util.List;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.Timer;
 
-import boggle.gui.core.Fenetre;
-import boggle.jeu.Joueur;
-import javafx.scene.control.ProgressBar;
 
 public class InfosPanel extends JPanel {
 
@@ -21,7 +13,7 @@ public class InfosPanel extends JPanel {
 	 * 
 	 *  Comment on récupère le joueur qui est en train de joué ?
 	 * **/
-	private List<Joueur>  joueurs = Fenetre.modele.getListeJoueurs();
+
 	
 	
 	/**
@@ -37,18 +29,14 @@ public class InfosPanel extends JPanel {
 	
 	public void init() {
 		
-		// Joueur
-		Joueur j = new Joueur("Mustapha");
-		j.setScore(200);
-		joueurs.add(0, j);
-		
+	
 		
 		// Elements présents dans le PanelInfos
 		JLabel nomEtScore, btnRetour;
 		JProgressBar chrono  = new JProgressBar();
 		
 		// Nom et score
-		nomEtScore = new JLabel(j.toString());
+		nomEtScore = new JLabel("toto");
 		
 		
 		// Chronomètre

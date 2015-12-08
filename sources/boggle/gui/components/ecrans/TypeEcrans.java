@@ -2,7 +2,7 @@ package boggle.gui.components.ecrans;
 
 public enum TypeEcrans {
 	
-	MENU, JEU, OPTIONS, SCORES, INFOS, QUITTER 
+	MENU, SELECTION_JOUEURS, JEU, OPTIONS, SCORES, INFOS, QUITTER 
 	
 
 }

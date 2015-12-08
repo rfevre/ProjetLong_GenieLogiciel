@@ -1,6 +1,5 @@
 package boggle.gui.panels;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -40,7 +39,7 @@ public class GrillePanel extends JPanel implements Observer {
 	public void init(){
 		this.setLayout(new GridBagLayout());
 		JPanel jp = new JPanel(new GridLayout(grille.getDimension(), grille.getDimension(), 10, 10));
-		jp.setPreferredSize(new Dimension(700, 700));
+		jp.setPreferredSize(new Dimension(500, 500));
 		for(int i=0; i<grille.getDimension(); i++){
 			for(int j=0; j<grille.getDimension(); j++){
 				DeGraphique current = new DeGraphique(grille.getDe(i, j));

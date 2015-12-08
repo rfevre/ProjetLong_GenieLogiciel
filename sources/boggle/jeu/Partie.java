@@ -13,6 +13,7 @@ public class Partie {
 	private GrilleLettres grille; 
 	private int nbTours;
 	private ArbreLexical arbre;
+	private Joueur joueurEnCours;
 	
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	public Partie(){
@@ -29,18 +30,38 @@ public class Partie {
 	public GrilleLettres getGrille() { return grille; }  
 	public List<Joueur> getListeJoueurs() { return listeJoueurs; }  
 	public int getNbTours() { return nbTours; }  
+	public Joueur getJoueurEnCours() { return joueurEnCours; }   
 	
 	public void setListeJoueurs(List<Joueur> listeJoueurs) { this.listeJoueurs = listeJoueurs; }  
 	public void setArbre(ArbreLexical arbre) { this.arbre = arbre; }  
 	public void setGrille(GrilleLettres grille) { this.grille = grille; }  
 	public void setNbTours(int nbTours) { this.nbTours = nbTours; }
+	public void setJoueurEnCours(Joueur joueurEnCours) { this.joueurEnCours = joueurEnCours; }
 	
 	// PUBLIC METHODS /////////////////////////////////////////////////////////
 	
+	/**
+	 * Ajoute un joueur à la liste de joueurs
+	 * @param joueur
+	 */
 	public void ajouterJoueur(Joueur joueur){
-		this.listeJoueurs.add(joueur);
+		if(!this.listeJoueurs.contains(joueur)){
+			this.listeJoueurs.add(joueur);
+		}
+	}
+	
+	/**
+	 * Supprime un joueur à la liste de joueurs
+	 * @param joueur
+	 */
+	public void supprimerJoueur(Joueur joueur){
+		if(this.listeJoueurs.contains(joueur)){
+			this.listeJoueurs.remove(joueur);
+		}
 	}
 
+	
+	
 	public void lancerPartie(){}
 	
 	public void lancerPartieConsole(){
@@ -99,10 +120,16 @@ public class Partie {
 	}
 	
 	
+	
+
+	
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
 	
+	
+
+
 	public static void main(String[] args) {
 		Partie p = new Partie();
 		GrilleLettres g = new GrilleLettres(4);

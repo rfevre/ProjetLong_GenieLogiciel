@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import boggle.gui.core.Fenetre;
+import boggle.gui.core.Game;
 
 public class EcranMenu extends Ecran {
 
@@ -93,7 +94,7 @@ public class EcranMenu extends Ecran {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			Fenetre.ECRAN_EN_COURS = TypeEcrans.JEU;
+			Game.ECRAN_EN_COURS = TypeEcrans.JEU;
 			if(1 == ((MenuBtn) e.getSource()).getId() ){
 				fenetre.updateEcranEnCours();
 				
