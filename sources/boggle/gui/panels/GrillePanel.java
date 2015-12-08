@@ -1,53 +1,100 @@
 package boggle.gui.panels;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import boggle.gui.core.Fenetre;
+import boggle.gui.core.Game;
+import boggle.jeu.Partie;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
 
-public class GrillePanel extends JPanel {
+public class GrillePanel extends JPanel implements Observer {
 
-	private GrilleLettres  grille = Fenetre.modele.getGrille(); 
-
+	private static final long serialVersionUID = 1L;
+	private Partie modele;  
+	private GrilleLettres  grille;
+	private DeGraphique[][] listeDesGraphiques;
 	
 	
 	public GrillePanel(){
-		this.setPreferredSize(new Dimension(800, 400));
-		//this.setBackground(Color.YELLOW);
+		this.modele = Game.getInstance().getModele();
+		this.grille = modele.getGrille();
+		this.grille.addObserver(this);
+		this.listeDesGraphiques = new DeGraphique[grille.getDimension()][grille.getDimension()];
 		init();
 		
 	}
 	
+	
 	public void init(){
-		
-		this.setLayout(new GridLayout(grille.getDimension(), grille.getDimension(), 5, 5));
-		
+		this.setLayout(new GridBagLayout());
+		JPanel jp = new JPanel(new GridLayout(grille.getDimension(), grille.getDimension(), 10, 10));
+		jp.setPreferredSize(new Dimension(700, 700));
 		for(int i=0; i<grille.getDimension(); i++){
 			for(int j=0; j<grille.getDimension(); j++){
-				this.add(new DeGraphique(grille.getDe(i, j)));
+				DeGraphique current = new DeGraphique(grille.getDe(i, j));
+				this.listeDesGraphiques[i][j] = current;
+				jp.add(current);
 				
 			}
 		}
+		this.add(jp);
 	}
+	
+
+	@Override
+	public void update(Observable o, Object arg) {
+		De _de = (De) arg;
+		final DeGraphique current = this.listeDesGraphiques[_de.getX()][_de.getY()];
+		if(current.getDe().isDejaVisite()){
+			current.setBackground(Color.red);
+		}else{
+			current.setBackground(Color.gray);
+		}
+		
+//		for(int i=0; i<grille.getDimension(); i++){
+//			for(int j=0; j<grille.getDimension(); j++){
+//				final DeGraphique current = this.listeDesGraphiques[i][j];
+//				if(current.getDe().isDejaVisite()){
+//					current.setBackground(Color.red);
+//				}else{
+//					current.setBackground(Color.gray);
+//				}
+//			}
+//		}
+		
+	}	
+	
+	
+	
+
 	
 	private class DeGraphique extends JLabel implements MouseListener {
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private De de;
 		public DeGraphique(De de){
 			super("<html><h1>" +de.getChaineFaceVisible()+ "</h1></html>", SwingConstants.CENTER);
+			
 			this.de = de;
 			this.setBackground(Color.gray);
 			this.setForeground(Color.black);
 			this.setOpaque(true);
+			this.setBorder(null);
 			this.addMouseListener(this);
 			
 		}
@@ -56,11 +103,7 @@ public class GrillePanel extends JPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			DeGraphique current = (DeGraphique) e.getSource();
-			De de = current.getDe();
-			grille.updateListeDesSelectionnes(de);
-			
-			System.out.println(grille.getListeDeSelectionnes());
+
 			
 //			if(etat){
 //				this.setBackground(Color.RED);
@@ -77,24 +120,21 @@ public class GrillePanel extends JPanel {
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			this.setBackground(Color.WHITE);
-			this.setForeground(Color.black);
 			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-//			De de = current.getDe();
-//			if(de)
-			this.setBackground(Color.gray);
-			this.setForeground(Color.black);
-			
-			
 			
 		}
 
 		@Override
-		public void mousePressed(MouseEvent arg0) {
+		public void mousePressed(MouseEvent e) {
+			DeGraphique current = (DeGraphique) e.getSource();
+			De de = current.getDe();
+			grille.updateListeDesSelectionnes(de);
+			
+			System.out.println(grille.getListeDeSelectionnes());
 		}
 
 		@Override
@@ -104,6 +144,13 @@ public class GrillePanel extends JPanel {
 		}
 		
 	}
+
+
+
+
+
+
+
 	
 	
 	

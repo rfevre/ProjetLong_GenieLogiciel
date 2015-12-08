@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+
 import boggle.autre.Utils;
 
-public class GrilleLettres {
+public class GrilleLettres extends Observable {
     
     private int dimension;				// taille de la grille
     private De[][] grille;			
@@ -77,7 +79,9 @@ public class GrilleLettres {
 				de.setDejaVisite(true);
 				listeDeSelectionnes.add(de);
 			}
-		}		
+		}
+		this.setChanged();
+		this.notifyObservers(de);
 	}
 	
 	
