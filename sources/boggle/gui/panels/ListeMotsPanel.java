@@ -3,6 +3,8 @@ package boggle.gui.panels;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,8 +26,21 @@ public class ListeMotsPanel extends JPanel {
 		this.setLayout(new FlowLayout()) ;
 
 		// on cree la table a partir d'un modele de table
-		table = new JTable(new MyTableModel()) ;
+		MyTableModel tableModel = new MyTableModel();
+		
+		//exemple d'insertion dans le model
+		List<String> test = new ArrayList<>();
+		test.add("ouech");
+		test.add("ouech");
+		test.add("canne");
+		test.add("a");
+		test.add("peche");
+		tableModel.setData(test);
+		
 
+		tableModel.fireTableStructureChanged();
+		table = new JTable(tableModel) ;
+		
 		// et on la place dans un JScrollPane
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setPreferredScrollableViewportSize(dimension);

@@ -3,6 +3,9 @@
  */
 package boggle.autre;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -10,39 +13,34 @@ import javax.swing.table.AbstractTableModel;
  *
  */
 public class MyTableModel extends AbstractTableModel {
+	
+	List<String> data = new ArrayList<String>();
+    String colNames[] = {"Mots trouvés"};
+    
+    
+    public int getRowCount() {
+        return data.size();
+    }
 
-	private static final long serialVersionUID = 1L;
-	// nom des champs
-	private String[]
-			columnNames = {"Liste de Mots"};
-	// données brutes
-	private Object[][] data = {
-			{"Bonjour"},
-			{"Bonjour"},
-			{"Je"},
-			{"Test"},
-			{"Un"},
-			{"WAZZZZZZZZZZZZZA"},
-			{"Truc"}
-	};	
+    public int getColumnCount() {
+        return colNames.length;
+    }
 
-	// Redefinition de quelques methodes de AbstractTableModel 
+    public String getValueAt(int rowIndex, int columnIndex) {
+    	return data.get(rowIndex);
+    }
 
-	/** Nombre de colonnes dans la table */
-	public int getColumnCount() { return columnNames.length ; }
-	/** Nombre de lignes dans la table */
-	public int getRowCount() { return data.length ; }
-	/** Nom du champ correspondant a la colonne specifiee */
-	public String getColumnName(int col) { return columnNames[col] ; }
-	/** Valeur du champ de la colonne col pour la ligne specifiee */
-	public Object getValueAt(int row, int col) { return data[row][col] ; }
-
-	public Class getColumnClass(int columnIndex) {
-		return getValueAt(0, columnIndex).getClass() ;
-	}
-
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		data[rowIndex][columnIndex] = aValue ;
-		fireTableCellUpdated(rowIndex, columnIndex);
-	}
+    public String getColumnName(int columnIndex) {
+        return colNames[columnIndex];
+    }
+    
+    public void setData(List<String> liste){
+    	data=liste;
+    }
+    
+    public List<String> getData(){
+    	return data;
+    }
+    
 }
+
