@@ -14,6 +14,7 @@ import boggle.autre.MyTableModel;
 public class ListeMotsPanel extends JPanel {
 
 	private JTable table ;
+	private MyTableModel tableModel;
 	private static Dimension dimension = new Dimension(300,800);
 
 	private static final long serialVersionUID = 1L;
@@ -26,10 +27,14 @@ public class ListeMotsPanel extends JPanel {
 		this.setLayout(new FlowLayout()) ;
 
 		// on cree la table a partir d'un modele de table
-		MyTableModel tableModel = new MyTableModel();
+		tableModel = new MyTableModel("Mots Ajoutés");
 		
 		//exemple d'insertion dans le model
-		List<String> test = new ArrayList<>();
+		List<String> test = tableModel.getData();
+		
+		
+		
+		
 		test.add("ouech");
 		test.add("ouech");
 		test.add("canne");
@@ -46,5 +51,14 @@ public class ListeMotsPanel extends JPanel {
 		table.setPreferredScrollableViewportSize(dimension);
 
 		this.add(scrollPane);
+		
+		
+		/*try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		test.add("toto");*/
 	}
 }

@@ -15,9 +15,11 @@ import javax.swing.table.AbstractTableModel;
 public class MyTableModel extends AbstractTableModel {
 	
 	List<String> data = new ArrayList<String>();
-    String colNames[] = {"Mots trouvés"};
+    String colNames[] = new String[1];
     
-    
+    public MyTableModel(String nomColonne){
+    	colNames[0]=nomColonne;
+    }
     public int getRowCount() {
         return data.size();
     }
