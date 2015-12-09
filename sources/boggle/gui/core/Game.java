@@ -5,7 +5,7 @@ import boggle.jeu.Partie;
 
 
 
-public class Game implements Runnable {
+public class Game implements Runnable  {
 
 	public static final int WIDTH  = 1100;
 	public static final int HEIGHT = WIDTH * 3 / 4 ;
@@ -15,7 +15,7 @@ public class Game implements Runnable {
 	private boolean  jeuEnCours;
 	private Thread   thread;
 
-	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.OPTIONS; 
+	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.SELECTION_JOUEURS; 
 	private static Game instance; 
 	
 	// CONSTRUCTORS ///////////////////////////////////////////////////////////

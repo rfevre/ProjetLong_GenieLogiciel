@@ -9,12 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import boggle.autre.MyTableModel;
+import boggle.autre.JTableModel;
 
 public class ListeJoueursPanel extends JPanel {
 	
 	private JTable table ;
-	private MyTableModel tableModel ;
+	private JTableModel tableModel ;
 	private static Dimension dimension = new Dimension(200,800);
 	
 	public ListeJoueursPanel(){
@@ -24,7 +24,7 @@ public class ListeJoueursPanel extends JPanel {
 		this.setLayout(new FlowLayout()) ;
 
 		// on cree la table a partir d'un modele de table
-		tableModel = new MyTableModel("Joueurs");
+		tableModel = new JTableModel("Joueurs");
 		
 		//exemple d'insertion dans le model
 		List<String> test = tableModel.getData();	

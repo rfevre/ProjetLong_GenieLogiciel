@@ -9,12 +9,12 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import boggle.autre.MyTableModel;
+import boggle.autre.JTableModel;
 
 public class ListeMotsPanel extends JPanel {
 
 	private JTable table ;
-	private MyTableModel tableModel;
+	private JTableModel tableModel;
 	private static Dimension dimension = new Dimension(300,800);
 
 	private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public class ListeMotsPanel extends JPanel {
 		this.setLayout(new FlowLayout()) ;
 
 		// on cree la table a partir d'un modele de table
-		tableModel = new MyTableModel("Mots Ajoutés");
+		tableModel = new JTableModel("Mots Ajoutés");
 		
 		//exemple d'insertion dans le model
 		List<String> test = tableModel.getData();

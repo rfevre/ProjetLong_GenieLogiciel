@@ -18,7 +18,7 @@ public class Fenetre extends JFrame{
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
-		//this.setContentPane(EcranFactory.getInstance(Game.ECRAN_EN_COURS, this));
+		this.setContentPane(EcranFactory.getInstance(Game.ECRAN_EN_COURS, this));
 		this.setVisible(true);
 		this.requestFocus();
 	}

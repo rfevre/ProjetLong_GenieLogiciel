@@ -22,7 +22,7 @@ public class EcranOptions extends Ecran {
 	private EcranOptions(Fenetre fenetre) {
 		this.fenetre = fenetre;
 		this.setBackground(Color.BLUE);
-		System.out.println("ECRAN JEU");
+		System.out.println("ECRAN OPTIONS");
 		init();
 	}
 	

@@ -12,14 +12,16 @@ import javax.swing.table.AbstractTableModel;
  * @author fevrer
  *
  */
-public class MyTableModel extends AbstractTableModel {
+public class JTableModel extends AbstractTableModel {
 	
+	private static final long serialVersionUID = 1L;
 	List<String> data = new ArrayList<String>();
     String colNames[] = new String[1];
     
-    public MyTableModel(String nomColonne){
+    public JTableModel(String nomColonne){
     	colNames[0]=nomColonne;
     }
+    
     public int getRowCount() {
         return data.size();
     }
