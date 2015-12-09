@@ -22,14 +22,15 @@ public class BDD {
 		    {   
 				Class.forName("org.sqlite.JDBC");
 				connexion =  DriverManager.getConnection("jdbc:sqlite:top10.db");
-				System.out.println("Connexion r�ussi");
 		    }
 		catch (ClassNotFoundException | SQLException e) 
 		    {
 				e.printStackTrace();
-				System.out.println("Connexion pas r�ussi");
 		    }
 	}
+	
+	
+	
 	
 	/**
 	 * Méthode qui ferme la connexion
@@ -53,20 +54,14 @@ public class BDD {
 	 */
 	public void ajouterUnScore(Joueur joueur) throws SQLException{
 		
-		// On r�cup�re les informations du joueur
 		String nomJoueur = joueur.getNom();
 		int scoreJoueur = joueur.getScore();
-		// On cr�e la requ�te
 		String insertion = "INSERT INTO top10 VALUES ( '"+nomJoueur+"' , "+scoreJoueur+" )";
 				
 		try 
 	    {	
 			ps = connexion.prepareStatement(insertion);
-			int nb = ps.executeUpdate();
-			if(nb!=0)
-			    {System.out.println("Insertion réussi");}
-			else
-			    {System.out.println("Insertion pas réussi");}
+			ps.executeUpdate();
 	    } 
 		catch (SQLException e){e.printStackTrace();}
 	}
@@ -76,20 +71,22 @@ public class BDD {
 	 * Méthode qui retourne une liste de String
 	 * Cette  méthode sert faire le Top 10
 	 * 
-	 * @return Une liste contenant au maximum 10 String sous la forme 'nom_score'
+	 * @return Une liste contenant au maximum 10 String sous la forme 'nom score'
 	 */
-	public List<String> getListScores() throws SQLException{
-		List<String> liste = new ArrayList<String>();
+	public List<Joueur> getListScores() throws SQLException{
+		List<Joueur> liste = new ArrayList<Joueur>();
 		String requeteTop10 = " SELECT nom, score FROM top10 ORDER BY score DESC LIMIT 10";
-		String nomJoueur, scoreJoueur;
-		
+		String nomJoueur;
+		int scoreJoueur;
 		try {
 			ps = connexion.prepareStatement(requeteTop10);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()){
 				nomJoueur = rs.getString("nom");
-				scoreJoueur = rs.getString("score");
-				liste.add(nomJoueur+"_"+scoreJoueur);
+				scoreJoueur = rs.getInt("score");
+				Joueur joueurTop10 =  new Joueur(nomJoueur);
+				joueurTop10.setScore(scoreJoueur);
+				liste.add(joueurTop10);
 			}
 		} catch (SQLException e) {e.getMessage();}
 		return liste;
@@ -98,17 +95,10 @@ public class BDD {
 	public static void main(String[] args) throws SQLException {
 		
 		BDD con = new BDD();
-		
-		for (int i = 0; i < 15; i++) {
-			Joueur j = new Joueur("Joueur"+i);
-			j.setScore(i+10);
-			con.ajouterUnScore(j);
-		}
-		
 		System.out.println(" ************* TOP 10 ************");
-		List<String> liste = con.getListScores();
-		for (String string : liste) {
-			System.out.println(string);
+		List<Joueur> joueurs = con.getListScores();
+		for (Joueur j : joueurs) {
+			System.out.println(j.getNom()+ " "+String.valueOf(j.getScore()) );
 		}
 		con.fermer();
 	}

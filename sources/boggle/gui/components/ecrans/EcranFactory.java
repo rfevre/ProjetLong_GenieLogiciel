@@ -12,6 +12,7 @@ public abstract class EcranFactory {
 		if(TypeEcrans.SELECTION_JOUEURS == typeEcran) return EcranSelectionJoueurs.getInstance(fenetre);
 		if(TypeEcrans.JEU  == typeEcran) return EcranJeu.getInstance(fenetre);
 		if(TypeEcrans.OPTIONS  == typeEcran) return EcranOptions.getInstance(fenetre);
+		if(TypeEcrans.SCORES == typeEcran) return EcranScores.getInstance(fenetre);
 		
 		return null;
 		
