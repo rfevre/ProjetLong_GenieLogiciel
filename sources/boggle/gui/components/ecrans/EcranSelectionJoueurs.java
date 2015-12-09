@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
+import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -44,7 +45,18 @@ public class EcranSelectionJoueurs extends Ecran {
 		init();
 	}
 	
-	
+	/**
+	 * Fonction qui vérifie si la liste des avatars est vide ou non
+	 * @return
+	 */
+	public boolean listeAvatarsVide(){
+		for (Avatar av : listeAvatars) {
+			if(av.isActif()){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 	@Override
@@ -58,9 +70,6 @@ public class EcranSelectionJoueurs extends Ecran {
 		final Button btnContinuer = new Button(1, "Continuer");
 		final Button btnRetour = new Button(2, "Retour");
 		
-		
-		
-		// TODO : Mettre 5 avatars
 		
 		
 		gbc.gridx = 0; gbc.gridy = 0;
@@ -96,7 +105,7 @@ public class EcranSelectionJoueurs extends Ecran {
 		private static final long serialVersionUID = 1L;
 		
 		private JLabel		photo;
-		private TextField	nom;
+		private JTextField	nom;
 		private JSpinner	typeIA;
 		private boolean		actif;
 		private boolean		estHumain;
@@ -117,7 +126,7 @@ public class EcranSelectionJoueurs extends Ecran {
 
 		public boolean isActif() { return actif; }
 
-		public boolean isEstHumain() { return estHumain; }
+		public boolean estHumain() { return estHumain; }
 
 
 		public Joueur getJoueurInstance(){
@@ -131,6 +140,9 @@ public class EcranSelectionJoueurs extends Ecran {
 			return null;
 		}
 
+		
+		
+		
 		private void init(){
 			this.setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -139,7 +151,7 @@ public class EcranSelectionJoueurs extends Ecran {
 						
 			photo = new JLabel("Ma Photo");
 			photo.setPreferredSize(new Dimension(150, 150));
-			nom = new TextField();
+			nom = new JTextField();
 			typeIA = new JSpinner(new SpinnerListModel(TypeJoueur.getListeIA()));
 			((DefaultEditor) typeIA.getEditor()).getTextField().setEditable(false);
 			

@@ -15,7 +15,7 @@ public class Game implements Runnable  {
 	private boolean  jeuEnCours;
 	private Thread   thread;
 
-	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.SCORES; 
+	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.JEU; 
 	private static Game instance; 
 	
 	// CONSTRUCTORS ///////////////////////////////////////////////////////////
