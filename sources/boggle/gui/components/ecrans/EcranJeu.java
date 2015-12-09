@@ -3,11 +3,11 @@ package boggle.gui.components.ecrans;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
-import boggle.gui.panels.GrillePanel;
-import boggle.gui.panels.InfosPanel;
-import boggle.gui.panels.ListeJoueursPanel;
-import boggle.gui.panels.ListeMotsPanel;
-import boggle.gui.panels.TextInputPanel;
+import boggle.gui.components.panels.GrillePanel;
+import boggle.gui.components.panels.InfosPanel;
+import boggle.gui.components.panels.ListeJoueursPanel;
+import boggle.gui.components.panels.ListeMotsPanel;
+import boggle.gui.components.panels.TextInputPanel;
 import boggle.gui.core.Fenetre;
 
 public class EcranJeu extends Ecran{

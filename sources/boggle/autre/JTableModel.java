@@ -12,10 +12,10 @@ import javax.swing.table.AbstractTableModel;
  * @author fevrer
  *
  */
-public class JTableModel extends AbstractTableModel {
+public class JTableModel<T> extends AbstractTableModel {
 	
 	private static final long serialVersionUID = 1L;
-	List<String> data = new ArrayList<String>();
+	List<T> data = new ArrayList<T>();
     String colNames[] = new String[1];
     
     public JTableModel(String nomColonne){
@@ -30,7 +30,7 @@ public class JTableModel extends AbstractTableModel {
         return colNames.length;
     }
 
-    public String getValueAt(int rowIndex, int columnIndex) {
+    public T getValueAt(int rowIndex, int columnIndex) {
     	return data.get(rowIndex);
     }
 
@@ -38,11 +38,11 @@ public class JTableModel extends AbstractTableModel {
         return colNames[columnIndex];
     }
     
-    public void setData(List<String> liste){
+    public void setData(List<T> liste){
     	data=liste;
     }
     
-    public List<String> getData(){
+    public List<T> getData(){
     	return data;
     }
     

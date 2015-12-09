@@ -15,7 +15,7 @@ public class Game implements Runnable  {
 	private boolean  jeuEnCours;
 	private Thread   thread;
 
-	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.SELECTION_JOUEURS; 
+	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.SCORES; 
 	private static Game instance; 
 	
 	// CONSTRUCTORS ///////////////////////////////////////////////////////////
@@ -57,6 +57,10 @@ public class Game implements Runnable  {
 		} catch (Exception e) { System.out.println(e.getMessage());	}
 	}
 	
+	public void goToEcran(TypeEcrans ecran){
+		ECRAN_EN_COURS = ecran;
+		this.fenetre.updateEcranEnCours();
+	}
 	
 	// PRIVATE METHODS /////////////////////////////////////////////////////////////
 

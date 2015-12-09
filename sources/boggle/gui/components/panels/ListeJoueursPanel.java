@@ -1,4 +1,4 @@
-package boggle.gui.panels;
+package boggle.gui.components.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,11 +10,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import boggle.autre.JTableModel;
+import boggle.gui.core.Game;
+import boggle.jeu.Joueur;
 
 public class ListeJoueursPanel extends JPanel {
 	
 	private JTable table ;
-	private JTableModel tableModel ;
+	private JTableModel<Joueur> tableModel ;
 	private static Dimension dimension = new Dimension(200,800);
 	
 	public ListeJoueursPanel(){
@@ -24,14 +26,10 @@ public class ListeJoueursPanel extends JPanel {
 		this.setLayout(new FlowLayout()) ;
 
 		// on cree la table a partir d'un modele de table
-		tableModel = new JTableModel("Joueurs");
+		tableModel = new JTableModel<Joueur>("Joueurs");
 		
 		//exemple d'insertion dans le model
-		List<String> test = tableModel.getData();	
-		test.add("Zac");
-		test.add("Mousssssss");
-		test.add("Rémy");
-		tableModel.setData(test);
+		tableModel.setData(Game.getInstance().getModele().getListeJoueurs());
 		tableModel.fireTableStructureChanged();
 		table = new JTable(tableModel) ;
 		

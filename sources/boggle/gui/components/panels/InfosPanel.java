@@ -1,4 +1,4 @@
-package boggle.gui.panels;
+package boggle.gui.components.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -16,13 +16,18 @@ import boggle.mots.GrilleLettres;
 
 public class IAPresqueRandom extends Joueur {
 
-	private ArbreLexical arbre = ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire"));
+	private ArbreLexical arbre;
 	
-	public IAPresqueRandom(String nom)
-	{
+	public IAPresqueRandom(String nom){
 		super(nom);
+		
 	}
 	
+    public ArbreLexical getArbre() { return arbre; }            
+    
+    public void setArbre(ArbreLexical arbre) { this.arbre = arbre; } 
+
+
 	/**
 	 * Méthode qui choisit aléatoirement un mot mais qui se trouve dans le dico 
 	 * @return Retourne une liste de De (qui forme un mot )

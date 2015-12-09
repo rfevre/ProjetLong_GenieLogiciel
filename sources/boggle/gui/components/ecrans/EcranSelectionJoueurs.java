@@ -14,15 +14,21 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerListModel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Fenetre;
+import boggle.gui.core.Game;
+import boggle.jeu.Joueur;
+import boggle.jeu.JoueurFactory;
 import boggle.jeu.TypeJoueur;
 public class EcranSelectionJoueurs extends Ecran {
 
 	private Fenetre fenetre;
 	private static final long serialVersionUID = 1L;
 	private static EcranSelectionJoueurs instance;
+	private Avatar[] listeAvatars = new Avatar[5];
 	
 	public static EcranSelectionJoueurs getInstance(Fenetre fenetre) {
 		if(instance == null){
@@ -47,18 +53,11 @@ public class EcranSelectionJoueurs extends Ecran {
 		GridBagConstraints gbc2 = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 
-		final JPanel listeAvatars = new JPanel();
-		final JPanel listeBtns = new JPanel();
-		final JLabel btnContinuer = new JLabel("Continuer");
-		final JLabel btnRetour = new JLabel("Retour");
+		final JPanel avatarsPanel = new JPanel();
+		final JPanel btnsAvatar = new JPanel();
+		final Button btnContinuer = new Button(1, "Continuer");
+		final Button btnRetour = new Button(2, "Retour");
 		
-		
-		btnContinuer.setBackground(Color.red);
-		btnRetour.setBackground(Color.red);
-		btnContinuer.setPreferredSize(new Dimension(150, 40));
-		btnRetour.setPreferredSize(new Dimension(150, 40));
-		btnContinuer.setOpaque(true);
-		btnRetour.setOpaque(true);
 		
 		
 		// TODO : Mettre 5 avatars
@@ -70,8 +69,9 @@ public class EcranSelectionJoueurs extends Ecran {
 		gbc.anchor = GridBagConstraints.CENTER;
 
 		for(int i=0; i<5; i++){
-			listeAvatars.add(new Avatar());
-			
+			final Avatar current = new Avatar();
+			avatarsPanel.add(current);
+			this.listeAvatars[i] = current;
 		}
 
 		gbc2.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -79,15 +79,15 @@ public class EcranSelectionJoueurs extends Ecran {
 		//gbc2.fill = GridBagConstraints.REMAINDER;
 		gbc2.gridwidth = 1;
 		gbc2.weightx = 1;
-		listeBtns.setLayout(new GridBagLayout());
-		listeBtns.add(btnRetour, gbc2);
+		btnsAvatar.setLayout(new GridBagLayout());
+		btnsAvatar.add(btnRetour, gbc2);
 		gbc2.anchor = GridBagConstraints.FIRST_LINE_END;
-		listeBtns.add(btnContinuer, gbc2);
-		this.add(listeAvatars, gbc);
+		btnsAvatar.add(btnContinuer, gbc2);
+		this.add(avatarsPanel, gbc);
 		
 		gbc.gridy = 1;
 		gbc.gridx = 0; 
-		this.add(listeBtns, gbc);
+		this.add(btnsAvatar, gbc);
 		
 	}
 	
@@ -102,6 +102,36 @@ public class EcranSelectionJoueurs extends Ecran {
 		private boolean		estHumain;
 		
 		public Avatar(){
+			this.actif = false;
+			this.estHumain = true;
+			init();
+			updateAvatar();
+		}
+		
+		
+		
+		
+		public String getNom() { return nom.getText(); }
+
+		public TypeJoueur getTypeIA() { return (TypeJoueur) typeIA.getValue(); }
+
+		public boolean isActif() { return actif; }
+
+		public boolean isEstHumain() { return estHumain; }
+
+
+		public Joueur getJoueurInstance(){
+			if(actif){
+				if(estHumain){
+					return JoueurFactory.getInstance( TypeJoueur.HUMAIN, getNom());
+				}else{					
+					return JoueurFactory.getInstance( getTypeIA(), getNom());
+				}
+			}
+			return null;
+		}
+
+		private void init(){
 			this.setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.insets = new Insets(5, 5, 5, 5);
@@ -112,8 +142,6 @@ public class EcranSelectionJoueurs extends Ecran {
 			nom = new TextField();
 			typeIA = new JSpinner(new SpinnerListModel(TypeJoueur.getListeIA()));
 			((DefaultEditor) typeIA.getEditor()).getTextField().setEditable(false);
-			actif = false;
-			estHumain=true;
 			
 			gbc.gridy = 0; 
 			this.add(typeIA, gbc);
@@ -125,9 +153,12 @@ public class EcranSelectionJoueurs extends Ecran {
 			this.addMouseListener(this);
 			photo.setBackground(Color.BLUE);
 			photo.setOpaque(true);
-			updateAvatar();
+			
 		}
 		
+		
+		
+		/** Permet de mettre a jour l'affichage de l'avatar selon ses attributs */
 		private void updateAvatar(){
 			if(actif){
 				this.nom.setEnabled(true);
@@ -181,6 +212,48 @@ public class EcranSelectionJoueurs extends Ecran {
 	
 	
 	
+	private class Button extends CustomButton {
+		
+		private static final long serialVersionUID = 1L;
+
+		public Button(int id, String libelle) {
+			super(id, libelle, SwingConstants.CENTER, 150, 40);
+			this.setBackground(Color.red);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			super.mouseEntered(e);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			super.mouseExited(e);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			Button button = (Button) e.getSource();
+			if(button.getId() == 1){
+				// Click sur continuer
+				//Game.getInstance().goToEcran(TypeEcrans.JEU);
+				verifierListeJoueurs();
+				
+			}else if(button.getId() == 2){
+				// Click sur retour
+				Game.getInstance().goToEcran(TypeEcrans.MENU);
+			}
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			super.mouseReleased(e);
+		}
+
+
+
+
+	}
 	
 	
 	
@@ -189,8 +262,24 @@ public class EcranSelectionJoueurs extends Ecran {
 	
 	
 	
-	
-	
+	private void verifierListeJoueurs(){
+		
+		for(Avatar avatar : listeAvatars){
+			if(avatar.isActif()){
+				if(avatar.getNom().isEmpty()){
+					avatar.nom.requestFocus();		
+					
+				}else{
+					Joueur joueur = avatar.getJoueurInstance();
+					System.out.println(joueur);
+					Game.getInstance().getModele().ajouterJoueur(joueur);
+					Game.getInstance().goToEcran(TypeEcrans.JEU);
+				}				
+			}
+		}
+		
+		
+	}
 	
 	
 	
