@@ -129,7 +129,7 @@ public class IAPresqueRandom extends Joueur {
 		return null;
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		GrilleLettres grilleTest = new GrilleLettres(4, "config/des-4x4.csv");
 		System.out.println(grilleTest.toString());
 		IAPresqueRandom j = new IAPresqueRandom("J");
@@ -143,6 +143,6 @@ public class IAPresqueRandom extends Joueur {
 		for (De de : liste) {
 			System.out.println(de.toString());
 		}
-	}
+	}*/
 	
 }
