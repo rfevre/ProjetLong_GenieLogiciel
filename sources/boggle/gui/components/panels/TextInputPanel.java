@@ -99,10 +99,13 @@ public class TextInputPanel extends JPanel implements Observer {
 			}
 			else if(button.getId() == 2) // Bouton Ajouter
 			{
-				Deque<De> liste = Game.modele.getGrille().getListeDeSelectionnes();
-				
-				
-				
+				Deque<De> liste = grille.getListeDeSelectionnes();
+				String chaine = "";
+				for(De lettre : liste){
+					chaine+= lettre.getChaineFaceVisible();
+				}
+				Game.modele.getListeJoueurs().get(0).ajouterUnMot(chaine);
+				System.out.println(Game.modele.getListeJoueurs().get(0).getListeMots());
 			}
 			
 			else if(button.getId() == 3) // BOuton Terminer
@@ -121,16 +124,30 @@ public class TextInputPanel extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+
+		//De de = (De) arg;
+		//this.champSaisie.setText(this.champSaisie.getText()+de.getChaineFaceVisible());
 		GrilleLettres g = (GrilleLettres) o;
+		System.out.println("GRILLE : " + g);
 		StringBuilder unMot = new StringBuilder();
+		
 		for(De s : g.getListeDeSelectionnes()){
 			unMot.append(s.getChaineFaceVisible());
 		}
 		this.champSaisie.setText(unMot.toString());
 		
+		
+		
+		
+//	GrilleLettres g = (GrilleLettres) o;
+//		StringBuilder unMot = new StringBuilder();
+//		for(De s : g.getListeDeSelectionnes()){
+//			unMot.append(s.getChaineFaceVisible());
+//		}
+//		this.champSaisie.setText(unMot.toString());
+		
 	}
 	
-	private List<List<De>> selection = new ArrayList<>();
 	private class JTextFiledFormat extends PlainDocument {
 		private static final long serialVersionUID = 1L;
 		private int limit;
@@ -145,17 +162,16 @@ public class TextInputPanel extends JPanel implements Observer {
 			if(str == null) return;
 			System.out.println("|" +str + "|");
 			str = str.toUpperCase();
-			if ((getLength() + str.length()) <= limit && grille.estUneLettreValide(str)) {
-				super.insertString(offs, str, a);
-				List<De> liste = grille.getListeDesFromLettre(str);
-				if(liste.size() == 1){
-					grille.getListeDeSelectionnes().add(liste.get(0));
-					update(grille,null);
-					return;
-				}else{
-					grille.updateStatutListeDes(liste);
-					
-				}
+			
+			if ((getLength() + str.length()) <= limit){ 
+					if(str.length() == 1){
+						if(grille.estUneLettreValide(str)) {
+							super.insertString(offs, str, a);
+						}
+						
+					}else{
+						super.insertString(offs, str, a);
+					}
 			}
 		}
 
