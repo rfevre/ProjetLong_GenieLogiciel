@@ -104,13 +104,13 @@ public class TextInputPanel extends JPanel implements Observer {
 				for(De lettre : liste){
 					chaine+= lettre.getChaineFaceVisible();
 				}
-				Game.modele.getListeJoueurs().get(0).ajouterUnMot(chaine);
-				System.out.println(Game.modele.getListeJoueurs().get(0).getListeMots());
+				Game.modele.getJoueurEnCours().ajouterUnMot(chaine);
+				System.out.println(Game.modele.getJoueurEnCours().getListeMots());
 			}
 			
 			else if(button.getId() == 3) // BOuton Terminer
 			{
-				
+				Game.modele.setClicTerminer(true);
 			}
 				
 			
@@ -153,7 +153,7 @@ public class TextInputPanel extends JPanel implements Observer {
 		private int limit;
 		public JTextFiledFormat(int limit){
 			this.limit = limit;
-			
+			grille.getGrille();
 		}
 
 
@@ -170,6 +170,7 @@ public class TextInputPanel extends JPanel implements Observer {
 						}
 						
 					}else{
+						
 						super.insertString(offs, str, a);
 					}
 			}
