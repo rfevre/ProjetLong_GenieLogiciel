@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.TextField;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -19,27 +18,24 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import boggle.gui.components.elements.CustomButton;
-import boggle.gui.core.Fenetre;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
 import boggle.jeu.JoueurFactory;
 import boggle.jeu.TypeJoueur;
 public class EcranSelectionJoueurs extends Ecran {
 
-	private Fenetre fenetre;
 	private static final long serialVersionUID = 1L;
 	private static EcranSelectionJoueurs instance;
 	private Avatar[] listeAvatars = new Avatar[5];
 	
-	public static EcranSelectionJoueurs getInstance(Fenetre fenetre) {
+	public static EcranSelectionJoueurs getInstance() {
 		if(instance == null){
-			instance = new EcranSelectionJoueurs(fenetre);
+			instance = new EcranSelectionJoueurs();
 		}
 		return instance;
 	}
 		
-	private EcranSelectionJoueurs(Fenetre fenetre) {
-		this.fenetre = fenetre;
+	private EcranSelectionJoueurs() {
 		//this.setBackground(Color.PINK);
 		System.out.println("ECRAN SELECTION");
 		init();
@@ -253,7 +249,7 @@ public class EcranSelectionJoueurs extends Ecran {
 				
 			}else if(button.getId() == 2){
 				// Click sur retour
-				Game.getInstance().goToEcran(TypeEcrans.MENU);
+				Game.goToEcran(TypeEcrans.MENU);
 			}
 		}
 
@@ -284,8 +280,8 @@ public class EcranSelectionJoueurs extends Ecran {
 				}else{
 					Joueur joueur = avatar.getJoueurInstance();
 					System.out.println(joueur);
-					Game.getInstance().getModele().ajouterJoueur(joueur);
-					Game.getInstance().goToEcran(TypeEcrans.JEU);
+					Game.modele.ajouterJoueur(joueur);
+					Game.goToEcran(TypeEcrans.JEU);
 				}				
 			}
 		}

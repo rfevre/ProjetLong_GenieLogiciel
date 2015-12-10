@@ -8,24 +8,21 @@ import boggle.gui.components.panels.InfosPanel;
 import boggle.gui.components.panels.ListeJoueursPanel;
 import boggle.gui.components.panels.ListeMotsPanel;
 import boggle.gui.components.panels.TextInputPanel;
-import boggle.gui.core.Fenetre;
 
 public class EcranJeu extends Ecran{
 	
-	private Fenetre fenetre;
 	private static final long serialVersionUID = 1L;
 	private static EcranJeu instance;
 	
 	
-	public static Ecran getInstance(Fenetre fenetre) {
+	public static Ecran getInstance() {
 		if(instance == null){
-			instance = new EcranJeu(fenetre);
+			instance = new EcranJeu();
 		}
 		return instance;
 	}
 	
-	private EcranJeu(Fenetre fenetre) {
-		this.fenetre = fenetre;
+	private EcranJeu() {
 		this.setBackground(Color.BLUE);
 		System.out.println("ECRAN JEU");
 		init();

@@ -3,18 +3,18 @@ package boggle.gui.components.panels;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import boggle.autre.JTableModel;
 
 public class ListeMotsPanel extends JPanel {
 
 	private JTable table ;
-	private JTableModel tableModel;
+	private JTableModel<String> tableModel;
 	private static Dimension dimension = new Dimension(300,800);
 
 	private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public class ListeMotsPanel extends JPanel {
 		this.setLayout(new FlowLayout()) ;
 
 		// on cree la table a partir d'un modele de table
-		tableModel = new JTableModel("Mots Ajoutés");
+		tableModel = new JTableModel<String>("Mots Ajoutés");
 		
 		//exemple d'insertion dans le model
 		List<String> test = tableModel.getData();

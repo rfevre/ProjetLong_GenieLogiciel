@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import boggle.autre.Utils;
 import boggle.mots.ArbreLexical;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;

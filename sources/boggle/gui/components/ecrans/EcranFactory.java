@@ -1,18 +1,17 @@
 package boggle.gui.components.ecrans;
 
-import boggle.gui.core.Fenetre;
 
 public abstract class EcranFactory {
 	
 	
 	
-	public static Ecran getInstance(TypeEcrans typeEcran, Fenetre fenetre){
+	public static Ecran getInstance(TypeEcrans typeEcran ){
 		
-		if(TypeEcrans.MENU == typeEcran) return EcranMenu.getInstance(fenetre);
-		if(TypeEcrans.SELECTION_JOUEURS == typeEcran) return EcranSelectionJoueurs.getInstance(fenetre);
-		if(TypeEcrans.JEU  == typeEcran) return EcranJeu.getInstance(fenetre);
-		if(TypeEcrans.OPTIONS  == typeEcran) return EcranOptions.getInstance(fenetre);
-		if(TypeEcrans.SCORES == typeEcran) return EcranScores.getInstance(fenetre);
+		if(TypeEcrans.MENU == typeEcran) return EcranMenu.getInstance();
+		if(TypeEcrans.SELECTION_JOUEURS == typeEcran) return EcranSelectionJoueurs.getInstance();
+		if(TypeEcrans.JEU  == typeEcran) return EcranJeu.getInstance();
+		if(TypeEcrans.OPTIONS  == typeEcran) return EcranOptions.getInstance();
+		if(TypeEcrans.SCORES == typeEcran) return EcranScores.getInstance();
 		
 		return null;
 		

@@ -24,7 +24,7 @@ public class Fenetre extends JFrame{
 	}
 	
 	public void updateEcranEnCours(){
-		this.setContentPane(EcranFactory.getInstance(Game.ECRAN_EN_COURS, this));
+		this.setContentPane(EcranFactory.getInstance(Game.ECRAN_EN_COURS));
 		this.revalidate();
 	}
 		

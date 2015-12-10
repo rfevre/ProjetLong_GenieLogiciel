@@ -14,21 +14,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import boggle.gui.core.Game;
-import boggle.jeu.Partie;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
 
 public class GrillePanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	private Partie modele;  
 	private GrilleLettres  grille;
 	private DeGraphique[][] listeDesGraphiques;
 	
 	
 	public GrillePanel(){
-		this.modele = Game.getInstance().getModele();
-		this.grille = modele.getGrille();
+		this.grille = Game.modele.getGrille();
 		this.grille.addObserver(this);
 		this.listeDesGraphiques = new DeGraphique[grille.getDimension()][grille.getDimension()];
 		init();
@@ -60,19 +57,7 @@ public class GrillePanel extends JPanel implements Observer {
 			current.setBackground(Color.red);
 		}else{
 			current.setBackground(Color.gray);
-		}
-		
-//		for(int i=0; i<grille.getDimension(); i++){
-//			for(int j=0; j<grille.getDimension(); j++){
-//				final DeGraphique current = this.listeDesGraphiques[i][j];
-//				if(current.getDe().isDejaVisite()){
-//					current.setBackground(Color.red);
-//				}else{
-//					current.setBackground(Color.gray);
-//				}
-//			}
-//		}
-		
+		}	
 	}	
 	
 	

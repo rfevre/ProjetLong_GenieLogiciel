@@ -8,31 +8,27 @@ import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import boggle.autre.BDD;
-import boggle.gui.core.Fenetre;
 import boggle.jeu.Joueur;
 
 public class EcranScores extends Ecran {
 
-	private Fenetre fenetre;
 	private static final long serialVersionUID = 1L;
 	private static EcranScores instance;
 	
 	
-	public static Ecran getInstance(Fenetre fenetre) {
+	public static Ecran getInstance() {
 		if(instance == null){
-			instance = new EcranScores(fenetre);
+			instance = new EcranScores();
 		}
 		return instance;
 	}
 	
-	private EcranScores(Fenetre fenetre) {
-		this.fenetre = fenetre;
+	private EcranScores() {
 		this.setBackground(Color.BLACK);
 		System.out.println("ECRAN SCORE");
 		init();

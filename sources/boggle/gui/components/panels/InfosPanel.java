@@ -17,6 +17,11 @@ public class InfosPanel extends JPanel {
 	
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Constructeur
 	 * 
 	 */

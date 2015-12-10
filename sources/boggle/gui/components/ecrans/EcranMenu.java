@@ -12,24 +12,21 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import boggle.gui.core.Fenetre;
 import boggle.gui.core.Game;
 
 public class EcranMenu extends Ecran {
 
-	private Fenetre fenetre;
 	private static final long serialVersionUID = 1L;
 	private static EcranMenu instance;
 	
-	public static Ecran getInstance(Fenetre fenetre) {
+	public static Ecran getInstance() {
 		if(instance == null){
-			instance = new EcranMenu(fenetre);
+			instance = new EcranMenu();
 		}
 		return instance;
 	}
 		
-	private EcranMenu(Fenetre fenetre) {
-		this.fenetre = fenetre;
+	private EcranMenu() {
 		this.setBackground(Color.black);
 		System.out.println("ECRAN MENU");
 		init();
@@ -96,7 +93,7 @@ public class EcranMenu extends Ecran {
 		public void mouseClicked(MouseEvent e) {
 			Game.ECRAN_EN_COURS = TypeEcrans.JEU;
 			if(1 == ((MenuBtn) e.getSource()).getId() ){
-				fenetre.updateEcranEnCours();
+				Game.goToEcran(TypeEcrans.SELECTION_JOUEURS);
 				
 			}
 			System.out.println("click");

@@ -9,9 +9,10 @@ public class Game implements Runnable  {
 
 	public static final int WIDTH  = 1100;
 	public static final int HEIGHT = WIDTH * 3 / 4 ;
+	public static final Partie modele = new Partie();
 	
-	private Partie	 modele;
-	private Fenetre  fenetre;
+	public static final Fenetre  fenetre = new Fenetre("BOGGLE", WIDTH, HEIGHT);
+	
 	private boolean  jeuEnCours;
 	private Thread   thread;
 
@@ -28,17 +29,14 @@ public class Game implements Runnable  {
 	}
 	
 	private Game(){
-		this.fenetre = new Fenetre("BOGGLE", WIDTH, HEIGHT);
-		this.modele  = new Partie();
 		this.jeuEnCours = false;
+		goToEcran(ECRAN_EN_COURS);
 	}
 	
 	// GET-SET ////////////////////////////////////////////////////////////////
 	
 	public boolean isJeuEnCours() { return jeuEnCours; }
-	public Partie getModele() { return modele; }  
 	
-	public void setModele(Partie modele) { this.modele = modele; }
 	public void setJeuEnCours(boolean jeuEnCours) { this.jeuEnCours = jeuEnCours; }
 	
 	// PUBLIC METHODS /////////////////////////////////////////////////////////
@@ -57,16 +55,17 @@ public class Game implements Runnable  {
 		} catch (Exception e) { System.out.println(e.getMessage());	}
 	}
 	
-	public void goToEcran(TypeEcrans ecran){
+	public static void goToEcran(TypeEcrans ecran){
 		ECRAN_EN_COURS = ecran;
-		this.fenetre.updateEcranEnCours();
+		fenetre.updateEcranEnCours();
 	}
 	
 	// PRIVATE METHODS /////////////////////////////////////////////////////////////
 
 	@Override
 	public void run() {
-		this.fenetre.updateEcranEnCours();
+		//fenetre.updateEcranEnCours();
+		System.out.println("RUN");
 	}
 
 	// MAIN ///////////////////////////////////////////////////////////////////
