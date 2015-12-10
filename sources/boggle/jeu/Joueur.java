@@ -11,9 +11,20 @@ public class Joueur implements Comparable<Joueur> {
 	private String nom;
 	private int score;
 	private List<String> listeMots;
+	private boolean entrainDeJouer; 
 	
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	
+	public boolean isEntrainDeJouer() {
+		return entrainDeJouer;
+	}
+
+
+	public void setEntrainDeJouer(boolean entrainDeJouer) {
+		this.entrainDeJouer = entrainDeJouer;
+	}
+
+
 	public Joueur(String nom){
 		this.nom = nom;
 		this.score = 0;

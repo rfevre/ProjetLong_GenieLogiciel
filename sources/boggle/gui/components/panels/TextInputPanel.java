@@ -110,7 +110,9 @@ public class TextInputPanel extends JPanel implements Observer {
 			
 			else if(button.getId() == 3) // BOuton Terminer
 			{
-				Game.modele.setClicTerminer(true);
+				System.out.println(Game.modele);
+				System.out.println("Joueur en cour : "+Game.modele.getJoueurEnCours());
+				Game.modele.getJoueurEnCours().setEntrainDeJouer(false);
 			}
 				
 			
