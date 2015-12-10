@@ -33,6 +33,16 @@ public class GrillePanel extends JPanel implements Observer {
 	}
 	
 	
+	public DeGraphique[][] getListeDesGraphiques() {
+		return listeDesGraphiques;
+	}
+
+
+	public void setListeDesGraphiques(DeGraphique[][] listeDesGraphiques) {
+		this.listeDesGraphiques = listeDesGraphiques;
+	}
+
+
 	public void init(){
 		this.setLayout(new GridBagLayout());
 		JPanel jp = new JPanel(new GridLayout(grille.getDimension(), grille.getDimension(), 10, 10));
@@ -51,13 +61,20 @@ public class GrillePanel extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		De _de = (De) arg;
-		final DeGraphique current = this.listeDesGraphiques[_de.getX()][_de.getY()];
-		if(current.getDe().isDejaVisite()){
-			current.setBackground(Color.red);
-		}else{
-			current.setBackground(Color.gray);
-		}	
+		System.out.println(o.getClass());
+		GrilleLettres g = (GrilleLettres) o ;
+		for(int i=0; i<grille.getDimension(); i++){
+			for(int j=0; j<grille.getDimension(); j++){
+				DeGraphique current = this.listeDesGraphiques[i][j];
+				if(current.getDe().isDejaVisite()){
+					current.setBackground(Color.red);
+				}else{
+					current.setBackground(Color.gray);
+				}
+			}
+		}
+		
+			
 	}	
 	
 	

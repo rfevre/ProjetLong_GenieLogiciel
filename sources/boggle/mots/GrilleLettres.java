@@ -62,7 +62,7 @@ public class GrilleLettres extends Observable {
 	
 	/**
 	 * Permet de mettre à jour la liste des dés sélectionnés
-	 * @param de
+	 * @param de a ajouter
 	 */
 	public void updateListeDesSelectionnes(De de){
 		
@@ -83,6 +83,16 @@ public class GrilleLettres extends Observable {
 		this.setChanged();
 		this.notifyObservers(de);
 	}
+	
+	public void updateStatutListeDes(List<De> liste){
+		for(De d : liste){
+			d.setDejaVisite(true);
+		}
+		this.setChanged();
+		this.notifyObservers();
+		
+	}
+	
 	
 	
 	/** Permet de recuperer un de avec ses coord x, y*/
@@ -274,6 +284,10 @@ public class GrilleLettres extends Observable {
     
     
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
+    // TODO trouver tous les mots.
+    //void getTousLesMots(){
+
+    
     
     ///////////////////////////////////////////////////////////////////////////
     

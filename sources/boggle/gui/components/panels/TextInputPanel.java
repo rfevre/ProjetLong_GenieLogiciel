@@ -1,19 +1,26 @@
 package boggle.gui.components.panels;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
+import javax.swing.text.Position;
 
 import boggle.gui.components.ecrans.TypeEcrans;
 import boggle.gui.components.elements.CustomButton;
@@ -50,7 +57,7 @@ public class TextInputPanel extends JPanel implements Observer {
 		gbc.insets = new Insets(10, 0, 10, 0);
 		gbc.ipadx = 0;
 		champSaisie.setPreferredSize(new Dimension(350, 31));
-		
+		champSaisie.setDocument(new JTextFiledFormat(16));
 		gbc.gridx = 1; gbc.gridy = 0;
 		gbc.gridwidth = 5;
 		this.add(champSaisie, gbc);
@@ -65,14 +72,16 @@ public class TextInputPanel extends JPanel implements Observer {
 		gbc.insets = new Insets(0, 100, 0, 0);
 		this.add(terminer, gbc);
 		
+		//DocumentFilter filter = new UppercaseDocumentFilter();
+		
 
 	}
 	
+	
+	
+	
 	private class Button extends CustomButton{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		public Button(int id, String libelle, int alignement, int w, int h) {
@@ -120,4 +129,42 @@ public class TextInputPanel extends JPanel implements Observer {
 		this.champSaisie.setText(unMot.toString());
 		
 	}
+	
+	private List<List<De>> selection = new ArrayList<>();
+	private class JTextFiledFormat extends PlainDocument {
+		private static final long serialVersionUID = 1L;
+		private int limit;
+		public JTextFiledFormat(int limit){
+			this.limit = limit;
+			
+		}
+
+
+		@Override
+		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+			if(str == null) return;
+			System.out.println("|" +str + "|");
+			str = str.toUpperCase();
+			if ((getLength() + str.length()) <= limit && grille.estUneLettreValide(str)) {
+				super.insertString(offs, str, a);
+				List<De> liste = grille.getListeDesFromLettre(str);
+				if(liste.size() == 1){
+					grille.getListeDeSelectionnes().add(liste.get(0));
+					update(grille,null);
+					return;
+				}else{
+					grille.updateStatutListeDes(liste);
+					
+				}
+			}
+		}
+
+		
+		
+		
+		
+		
+	}
+	
+	
 }
