@@ -8,17 +8,7 @@ import javax.swing.JProgressBar;
 
 
 public class InfosPanel extends JPanel {
-
-	/** Joueur présent dans la partie 
-	 * 
-	 *  Comment on récupère le joueur qui est en train de joué ?
-	 * **/
-
 	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -29,20 +19,14 @@ public class InfosPanel extends JPanel {
 		this.setPreferredSize(new Dimension(1200, 100));
 		this.setBackground(Color.PINK);
 		init();
-		
 	}
 	
-	public void init() {
-		
-	
-		
-		// Elements présents dans le PanelInfos
-		JLabel nomEtScore, btnRetour;
+	public void init() {// Elements présents dans le PanelInfos
+		JLabel nomEtScore;
 		JProgressBar chrono  = new JProgressBar();
 		
 		// Nom et score
 		nomEtScore = new JLabel("toto");
-		
 		
 		// Chronomètre
 		final int MIN = 0;
@@ -51,14 +35,7 @@ public class InfosPanel extends JPanel {
 		chrono.setMinimum(MAX);
 		
 		
-		// Bouton retour
-		btnRetour = new JLabel("Retour");
-		
-		
 		this.add(nomEtScore);
 		this.add(chrono);
-		this.add(btnRetour);
 	}
-	
-	
 }

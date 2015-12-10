@@ -16,10 +16,11 @@ public class EcranJeu extends Ecran{
 	
 	
 	public static Ecran getInstance() {
-		if(instance == null){
-			instance = new EcranJeu();
-		}
-		return instance;
+//		if(instance == null){
+//			instance = new EcranJeu();
+//		}
+//		return instance;
+		return new EcranJeu();
 	}
 	
 	private EcranJeu() {

@@ -51,6 +51,13 @@ public class Partie {
 	}
 	
 	/**
+	 * Méthode qui 'vide' la liste de joueurs en créant une nouvelle instance
+	 */
+	public void resetListeJoueurs(){
+		this.listeJoueurs = new ArrayList<Joueur>();
+	}
+	
+	/**
 	 * Supprime un joueur à la liste de joueurs
 	 * @param joueur
 	 */

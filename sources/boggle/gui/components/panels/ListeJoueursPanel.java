@@ -18,7 +18,7 @@ public class ListeJoueursPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTable table ;
+	private JTable table;
 	private JTableModel<Joueur> tableModel ;
 	private static Dimension dimension = new Dimension(200,800);
 	
@@ -32,6 +32,7 @@ public class ListeJoueursPanel extends JPanel {
 		tableModel = new JTableModel<Joueur>("Joueurs");
 		
 		//exemple d'insertion dans le model
+		System.out.println("---> " + Game.modele.getListeJoueurs());
 		tableModel.setData(Game.modele.getListeJoueurs());
 		tableModel.fireTableStructureChanged();
 		table = new JTable(tableModel) ;
