@@ -3,7 +3,10 @@ package boggle.gui.components.panels;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -11,8 +14,9 @@ import javax.swing.JTable;
 
 import boggle.autre.JTableModel;
 import boggle.gui.core.Game;
+import boggle.jeu.Joueur;
 
-public class ListeMotsPanel extends JPanel {
+public class ListeMotsPanel extends JPanel implements Observer{
 
 	private JTable table ;
 	private JTableModel<String> tableModel;
@@ -21,7 +25,11 @@ public class ListeMotsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public ListeMotsPanel(){
-
+		if(Game.modele.getJoueurEnCours()!=null){
+			Game.modele.getJoueurEnCours().addObserver(this);
+			
+		}
+		
 		this.setPreferredSize(dimension);
 		this.setBackground(Color.RED);
 
@@ -29,7 +37,6 @@ public class ListeMotsPanel extends JPanel {
 
 		// on cree la table a partir d'un modele de table
 		tableModel = new JTableModel<String>("Mots Ajoutés");
-	
 		
 		if(Game.modele.getJoueurEnCours()!=null){
 			tableModel.setData(Game.modele.getJoueurEnCours().getListeMots());
@@ -45,13 +52,11 @@ public class ListeMotsPanel extends JPanel {
 
 		this.add(scrollPane);
 		
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
 		
-		/*try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		test.add("toto");*/
+		
 	}
 }

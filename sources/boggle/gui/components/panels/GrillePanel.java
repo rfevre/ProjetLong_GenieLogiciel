@@ -29,7 +29,7 @@ public class GrillePanel extends JPanel implements Observer {
 		this.grille.addObserver(this);
 		this.listeDesGraphiques = new DeGraphique[grille.getDimension()][grille.getDimension()];
 		init();
-		
+		this.grille.resetDejaVisite();
 	}
 	
 	

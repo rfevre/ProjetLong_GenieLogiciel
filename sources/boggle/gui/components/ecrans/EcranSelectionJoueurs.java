@@ -98,8 +98,6 @@ public class EcranSelectionJoueurs extends Ecran {
 	 * Méthode qui verifie la liste des joueurs
 	 */
 	private void verifierListeJoueurs(){
-		//this.listeAvatars = new Avatar[5];
-		//Game.modele.resetListeJoueurs();
 		for(Avatar avatar : listeAvatars){
 			if(avatar.isActif()){
 				if(avatar.getNom().isEmpty()){
