@@ -31,7 +31,7 @@ public class Partie {
 	public GrilleLettres getGrille() { return grille; }  
 	public List<Joueur> getListeJoueurs() { return listeJoueurs; }  
 	public int getNbTours() { return nbTours; }  
-	public Joueur getJoueurEnCours() { return joueurEnCours; }
+	public Joueur getJoueurEnCours() { return joueurEnCours; }   
 	
 	public void setListeJoueurs(List<Joueur> listeJoueurs) { this.listeJoueurs = listeJoueurs; }  
 	public void setArbre(ArbreLexical arbre) { this.arbre = arbre; }  
@@ -69,19 +69,19 @@ public class Partie {
 	}
 
 	
-	//TODO : rajouter condition d'arret de la partie ( chrono, score et nombre de tours)
+	
 	public void lancerPartie(){
 		System.out.println(this);
 		for(Joueur joueur : Game.modele.getListeJoueurs()){
 			joueur.setEntrainDeJouer(true);
 			this.joueurEnCours=joueur;
 			while(this.joueurEnCours.isEntrainDeJouer()){
-				System.out.println(joueurEnCours+" est entrain de jouer");
+				//System.out.println(joueurEnCours+" est entrain de jouer --> " + joueurEnCours.getListeMots());
 			}
 			Game.modele.calculerScore(joueur);
 			Game.modele.joueurEnCours.resetListeMots();
 		}
-				
+			
 	}
 	
 	public void lancerPartieConsole(){

@@ -65,19 +65,20 @@ public class GrilleLettres extends Observable {
 	 * @param de a ajouter
 	 */
 	public void updateListeDesSelectionnes(De de){
-		
-		if(listeDeSelectionnes.isEmpty()){
-			de.setDejaVisite(true);
-			listeDeSelectionnes.add(de);
-		
-		}else{
-			if(de.isDejaVisite() && de.equals(listeDeSelectionnes.getLast())){
-				listeDeSelectionnes.removeLast();
-				de.setDejaVisite(false);
-			}
-			else if(!de.isDejaVisite() && getListeDesAdjacents(listeDeSelectionnes.getLast()).contains(de)){
+		if(de!=null){
+			if(listeDeSelectionnes.isEmpty()){
 				de.setDejaVisite(true);
 				listeDeSelectionnes.add(de);
+
+			}else{
+				if(de.isDejaVisite() && de.equals(listeDeSelectionnes.getLast())){
+					listeDeSelectionnes.removeLast();
+					de.setDejaVisite(false);
+				}
+				else if(!de.isDejaVisite() && getListeDesAdjacents(listeDeSelectionnes.getLast()).contains(de)){
+					de.setDejaVisite(true);
+					listeDeSelectionnes.add(de);
+				}
 			}
 		}
 		this.setChanged();

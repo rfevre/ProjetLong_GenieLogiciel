@@ -3,8 +3,9 @@ package boggle.jeu;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
 
-public class Joueur implements Comparable<Joueur> {
+public class Joueur extends Observable implements Comparable<Joueur> {
 	
 	// Attributs 
 	
@@ -15,16 +16,6 @@ public class Joueur implements Comparable<Joueur> {
 	
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	
-	public boolean isEntrainDeJouer() {
-		return entrainDeJouer;
-	}
-
-
-	public void setEntrainDeJouer(boolean entrainDeJouer) {
-		this.entrainDeJouer = entrainDeJouer;
-	}
-
-
 	public Joueur(String nom){
 		this.nom = nom;
 		this.score = 0;
@@ -33,11 +24,14 @@ public class Joueur implements Comparable<Joueur> {
 	
 	
 	// GET-SET ////////////////////////////////////////////////////////////////
-	
+
+
+	public boolean isEntrainDeJouer() { return entrainDeJouer; }
 	public String getNom() { return nom; }  
 	public List<String> getListeMots() { Collections.sort(this.listeMots); return listeMots; }  
 	public int getScore() { return score; }
 	
+	public void setEntrainDeJouer(boolean entrainDeJouer) { this.entrainDeJouer = entrainDeJouer; }
 	public void setNom(String nom) { this.nom = nom; }  
 	public void setScore(int score) { this.score = score; }  
 	public void setListeMots(List<String> listeMots) { this.listeMots = listeMots; }
@@ -52,7 +46,11 @@ public class Joueur implements Comparable<Joueur> {
 	
 	/** Permet d'ajouter un mot a liste */
 	public void ajouterUnMot(String mot){ 
-		if(!listeMots.contains(mot)){ listeMots.add(mot);}
+		if(!listeMots.contains(mot)){ 
+			listeMots.add(mot);
+			this.setChanged();
+			this.notifyObservers();
+		}
 	}
 	
 	/** Permet de vider la liste des mots du joueur. */

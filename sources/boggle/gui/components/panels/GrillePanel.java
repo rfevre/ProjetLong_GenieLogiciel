@@ -101,19 +101,6 @@ public class GrillePanel extends JPanel implements Observer {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-
-			
-//			if(etat){
-//				this.setBackground(Color.RED);
-//			}else{
-//				this.setBackground(Color.GRAY);
-//			}
-//			
-//			if(de.isDejaVisite()){
-//				this.setBackground(Color.RED);
-//			}
-//			
-			//System.out.println("Vous avez cliqué sur " + .getChaineFaceVisible());
 		}
 
 		@Override

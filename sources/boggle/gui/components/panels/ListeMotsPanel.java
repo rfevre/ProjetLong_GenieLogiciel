@@ -3,8 +3,6 @@ package boggle.gui.components.panels;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,9 +12,8 @@ import javax.swing.JTable;
 
 import boggle.autre.JTableModel;
 import boggle.gui.core.Game;
-import boggle.jeu.Joueur;
 
-public class ListeMotsPanel extends JPanel implements Observer{
+public class ListeMotsPanel extends JPanel implements Observer {
 
 	private JTable table ;
 	private JTableModel<String> tableModel;
@@ -55,8 +52,10 @@ public class ListeMotsPanel extends JPanel implements Observer{
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
-		
-		
+	public void update(Observable o , Object arg) {
+		//GrilleLettres grille = (GrilleLettres)o;
+		System.out.println("JOueur en cours :"+Game.modele.getJoueurEnCours()+ " Liste : "+Game.modele.getJoueurEnCours().getListeMots());
+		tableModel.setData(Game.modele.getJoueurEnCours().getListeMots());
+		tableModel.fireTableDataChanged();
 	}
 }

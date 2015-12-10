@@ -6,7 +6,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-
+/** 
+ * TODO Nom du joueur en cours, son score
+ *  
+ * @author elmassam
+ *
+ */
 public class InfosPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;

@@ -25,6 +25,7 @@ import javax.swing.text.Position;
 import boggle.gui.components.ecrans.TypeEcrans;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
+import boggle.jeu.Joueur;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
 
@@ -74,7 +75,7 @@ public class TextInputPanel extends JPanel implements Observer {
 		
 		//DocumentFilter filter = new UppercaseDocumentFilter();
 		
-
+		this.champSaisie.setText("");
 	}
 	
 	
@@ -83,6 +84,7 @@ public class TextInputPanel extends JPanel implements Observer {
 	private class Button extends CustomButton{
 
 		private static final long serialVersionUID = 1L;
+		private String motSaisie;
 
 		public Button(int id, String libelle, int alignement, int w, int h) {
 			super(id, libelle, alignement, w, h);
@@ -99,19 +101,23 @@ public class TextInputPanel extends JPanel implements Observer {
 			}
 			else if(button.getId() == 2) // Bouton Ajouter
 			{
-				Deque<De> liste = grille.getListeDeSelectionnes();
-				String chaine = "";
-				for(De lettre : liste){
-					chaine+= lettre.getChaineFaceVisible();
-				}
-				Game.modele.getJoueurEnCours().ajouterUnMot(chaine);
-				System.out.println(Game.modele.getJoueurEnCours().getListeMots());
+				// On récupère le contenu du champ saisie
+				motSaisie = champSaisie.getText();
+				
+				// On récupère le joueur en cours
+				Joueur joueurEnCours = Game.modele.getJoueurEnCours();
+				
+				// On ajoute au joueur en cours, le mot saisie
+				joueurEnCours.ajouterUnMot(motSaisie);
+				
+				// On remet les cases en gris
+				grille.resetDejaVisite();
+				grille.updateListeDesSelectionnes(null);
+				grille.getListeDeSelectionnes().clear();
+				champSaisie.setText("");
 			}
-			
 			else if(button.getId() == 3) // BOuton Terminer
 			{
-				System.out.println(Game.modele);
-				System.out.println("Joueur en cour : "+Game.modele.getJoueurEnCours());
 				Game.modele.getJoueurEnCours().setEntrainDeJouer(false);
 			}
 				
@@ -130,23 +136,13 @@ public class TextInputPanel extends JPanel implements Observer {
 		//De de = (De) arg;
 		//this.champSaisie.setText(this.champSaisie.getText()+de.getChaineFaceVisible());
 		GrilleLettres g = (GrilleLettres) o;
-		System.out.println("GRILLE : " + g);
+		//System.out.println("GRILLE : " + g);
 		StringBuilder unMot = new StringBuilder();
 		
 		for(De s : g.getListeDeSelectionnes()){
 			unMot.append(s.getChaineFaceVisible());
 		}
 		this.champSaisie.setText(unMot.toString());
-		
-		
-		
-		
-//	GrilleLettres g = (GrilleLettres) o;
-//		StringBuilder unMot = new StringBuilder();
-//		for(De s : g.getListeDeSelectionnes()){
-//			unMot.append(s.getChaineFaceVisible());
-//		}
-//		this.champSaisie.setText(unMot.toString());
 		
 	}
 	
@@ -155,7 +151,7 @@ public class TextInputPanel extends JPanel implements Observer {
 		private int limit;
 		public JTextFiledFormat(int limit){
 			this.limit = limit;
-			grille.getGrille();
+			
 		}
 
 
@@ -172,17 +168,10 @@ public class TextInputPanel extends JPanel implements Observer {
 						}
 						
 					}else{
-						
 						super.insertString(offs, str, a);
 					}
 			}
 		}
-
-		
-		
-		
-		
-		
 	}
 	
 	
