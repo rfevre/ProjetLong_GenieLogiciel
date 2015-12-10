@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import boggle.autre.Utils;
 import boggle.mots.ArbreLexical;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
@@ -16,6 +19,9 @@ import boggle.mots.GrilleLettres;
 public class IAPresqueRandom extends Joueur {
 
 	private ArbreLexical arbre;
+
+    private static Pattern pattern;
+    private static Matcher matcher;
 	
 	public IAPresqueRandom(String nom){
 		super(nom);
@@ -66,26 +72,36 @@ public class IAPresqueRandom extends Joueur {
 				deAdj = false;
 			}
 			else 
-			{
+			{	//on ajoute le dé	
 				unDeAdj.setDejaVisite(true);
 				listeRetourner.add(unDeAdj);
 				i++;
-				
+				//on construit la chaine grâce à la face visible de tous les dés de la liste
 				String chaine = "";
 				for(De lettre : listeRetourner){
 					chaine+= lettre.getChaineFaceVisible();
 				}
+				//on créer la liste avec tous les mots commencent par la chaine (précédement créer), dans l'arbre (le dico)
 				List<String> liste = new ArrayList<>();
 				arbre.motsCommencantPar(chaine, liste);
 				
-				System.out.println(chaine);
+				/*System.out.println(chaine);
 				System.out.println(arbre.contient(chaine));
-				System.out.println(liste);
+				System.out.println(liste);*/
 				
-				if(listeRetourner.size()>=3 && liste.contains(chaine)){
+				//on utilise un Regex pour matcher dans cette liste si la chaine est présente
+				pattern = Pattern.compile(chaine+"*");
+		        matcher = pattern.matcher(liste.toString());
+		        
+		        //on ajoute si le mot est > 3 et qu'il est contenu dans l'arbre
+		        if(listeRetourner.size()>=3 && arbre.contient(chaine)){
 					return listeRetourner;
 				}
-				else if(listeRetourner.size()>=3 ){
+		        else if(matcher.find()) {
+			        //si on match, on continue sur le même dé, donc on fait rien
+		        }
+				else {
+					//sinon on retire un dè, pour passer sur un autre dé adjacent au dè précédent
 					listeRetourner.remove(unDeAdj);
 					i--;
 				}
@@ -102,7 +118,6 @@ public class IAPresqueRandom extends Joueur {
 	 * @return de ou null
 	 */
 	public De unDeAdjacentValide(List<De> liste){
-		
 		// On mélange aléatoirement la liste
 		Collections.shuffle(liste);
 		
@@ -118,13 +133,16 @@ public class IAPresqueRandom extends Joueur {
 		GrilleLettres grilleTest = new GrilleLettres(4, "config/des-4x4.csv");
 		System.out.println(grilleTest.toString());
 		IAPresqueRandom j = new IAPresqueRandom("J");
+		j.setArbre(ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire")));
 		List<De> liste = j.choisirUnMot(grilleTest);
 		for (De de : liste) {
-			//System.out.println(de.getX()+" - "+de.getY());
 			System.out.println(de.toString());
 		}
-		
-		
+		System.out.println();
+		liste = j.choisirUnMot(grilleTest);
+		for (De de : liste) {
+			System.out.println(de.toString());
+		}
 	}
 	
 }
