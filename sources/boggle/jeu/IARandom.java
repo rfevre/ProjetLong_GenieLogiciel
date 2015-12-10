@@ -16,19 +16,19 @@ public class IARandom extends Joueur {
 	}
 	
 	/**
-	 * Méthode qui choisit aléatoirement un mot 
+	 * MÃ©thode qui choisit alÃ©atoirement un mot 
 	 * @return Retourne un liste de De (qui forme un mot )
 	 */
 	public List<De> choisirUnMot(GrilleLettres grille){
 		
 		List<De> listeRetourner = new ArrayList<De>();
 		
-		// On sélectionne un nombre aléatoire de 3(inclus) à 17(exclus)
+		// On sÃ©lectionne un nombre alÃ©atoire de 3(inclus) Ã  17(exclus)
 		Random rand = new Random();
 		int nbAlea = rand.nextInt(14) + 3;
 		System.out.println(nbAlea);
-		// On sélectionne un De de depart de façon aléatoire de la grille
-		// Mettre setDejaVisite() à true && ajouter ce De à la liste
+		// On sÃ©lectionne un De de depart de faÃ§on alÃ©atoire de la grille
+		// Mettre setDejaVisite() Ã  true && ajouter ce De Ã  la liste
 		int x, y;
 		x = rand.nextInt(4);
 		y = rand.nextInt(4);
@@ -42,16 +42,16 @@ public class IARandom extends Joueur {
 		
 		while (listeRetourner.size() < nbAlea && deAdj == true ){
 			
-			// On récupère le dé mis dans la liste précedemment
+			// On rÃ©cupÃ¨re le dÃ© mis dans la liste prÃ©cedemment
 			De leDe = listeRetourner.get(i-1);
 			
-			// On récupère ces dés adjacents
+			// On rÃ©cupÃ¨re ces dÃ©s adjacents
 			List<De> listeAdjacents = grille.getListeDesAdjacents(leDe);
 			
-			// Parmis ces dés adjacents on récupère un dé valide
+			// Parmis ces dÃ©s adjacents on rÃ©cupÃ¨re un dÃ© valide
 			De unDeAdj = unDeAdjacentValide(listeAdjacents);
 			
-			// Si le unDeAdj retourne null, donc il n'y a aucun dé adjacent valide
+			// Si le unDeAdj retourne null, donc il n'y a aucun dÃ© adjacent valide
 			if(unDeAdj == null)
 			{
 				deAdj = false;
@@ -68,14 +68,14 @@ public class IARandom extends Joueur {
 	}
 	
 	/**
-	 * Cette méthode retourne un Dé valide présent dans la liste
-	 * Si aucun dé n'est valide ( attribut dejaVisité à true ), on retourne null
+	 * Cette mÃ©thode retourne un DÃ©valide prÃ©sent dans la liste
+	 * Si aucun dÃ© n'est valide ( attribut dejaVisitÃ© Ã  true ), on retourne null
 	 * @param liste
 	 * @return de ou null
 	 */
 	public De unDeAdjacentValide(List<De> liste){
 		
-		// On mélange aléatoirement la liste
+		// On mÃ©lange alÃ©atoirement la liste
 		Collections.shuffle(liste);
 		
 		for (De de : liste) {

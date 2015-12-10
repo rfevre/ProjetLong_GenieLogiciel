@@ -52,7 +52,6 @@ public class GrillePanel extends JPanel implements Observer {
 				DeGraphique current = new DeGraphique(grille.getDe(i, j));
 				this.listeDesGraphiques[i][j] = current;
 				jp.add(current);
-				
 			}
 		}
 		this.add(jp);
@@ -73,8 +72,6 @@ public class GrillePanel extends JPanel implements Observer {
 				}
 			}
 		}
-		
-			
 	}	
 	
 	

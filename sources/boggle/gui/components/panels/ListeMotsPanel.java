@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import boggle.autre.JTableModel;
+import boggle.gui.core.Game;
 
 public class ListeMotsPanel extends JPanel {
 
@@ -28,19 +29,11 @@ public class ListeMotsPanel extends JPanel {
 
 		// on cree la table a partir d'un modele de table
 		tableModel = new JTableModel<String>("Mots Ajoutés");
+	
 		
-		//exemple d'insertion dans le model
-		List<String> test = tableModel.getData();
-		
-		
-		
-		
-		test.add("ouech");
-		test.add("ouech");
-		test.add("canne");
-		test.add("a");
-		test.add("peche");
-		tableModel.setData(test);
+		if(Game.modele.getJoueurEnCours()!=null){
+			tableModel.setData(Game.modele.getJoueurEnCours().getListeMots());
+		}
 		
 
 		tableModel.fireTableStructureChanged();

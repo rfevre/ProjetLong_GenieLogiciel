@@ -70,7 +70,7 @@ public class EcranSelectionJoueurs extends Ecran {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 1; gbc.weighty = 1;
 		gbc.anchor = GridBagConstraints.CENTER;
-		this.listeAvatars = new Avatar[5];
+		
 		for(int i=0; i<5; i++){
 			final Avatar current = new Avatar();
 			avatarsPanel.add(current);
