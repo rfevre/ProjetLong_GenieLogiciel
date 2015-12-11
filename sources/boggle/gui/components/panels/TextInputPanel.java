@@ -6,8 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,17 +13,14 @@ import java.util.Observer;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
 import javax.swing.text.PlainDocument;
-import javax.swing.text.Position;
-
 import boggle.gui.components.ecrans.TypeEcrans;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
+import boggle.mots.ArbreLexical;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
 
@@ -40,9 +35,11 @@ public class TextInputPanel extends JPanel implements Observer {
 	private Button terminer;
 	private Button retour;
 	private GrilleLettres grille;
+	private ArbreLexical arbreDebutsMots;
 	
 	public TextInputPanel(){
 		this.grille = Game.modele.getGrille();
+		//this.arbreDebutsMots = ArbreLexical.creerArbreDepuisUneListe(this.grille.get);
 		this.grille.addObserver(this);
 		//this.setPreferredSize(new Dimension(1200, 100));
 		//this.setBackground(Color.GRAY);
@@ -50,8 +47,15 @@ public class TextInputPanel extends JPanel implements Observer {
 		this.retour = new Button(1, "Retour", SwingConstants.CENTER, 150, 40);
 		this.ajouter = new Button(2, "Ajouter", SwingConstants.CENTER, 150, 30);
 		this.terminer = new Button(3, "Terminer", SwingConstants.CENTER, 150, 40);
+		init();		
+		this.champSaisie.setText("");
 		
 		
+		
+	}
+	
+	
+	private void init(){
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		gbc.anchor = GridBagConstraints.EAST;
@@ -72,11 +76,8 @@ public class TextInputPanel extends JPanel implements Observer {
 		gbc.gridwidth = 4;
 		gbc.insets = new Insets(0, 100, 0, 0);
 		this.add(terminer, gbc);
-		
-		//DocumentFilter filter = new UppercaseDocumentFilter();
-		
-		this.champSaisie.setText("");
 	}
+	
 	
 	
 	
@@ -115,9 +116,8 @@ public class TextInputPanel extends JPanel implements Observer {
 				grille.updateListeDesSelectionnes(null);
 				grille.getListeDeSelectionnes().clear();
 				champSaisie.setText("");
-			}
-			else if(button.getId() == 3) // BOuton Terminer
-			{
+			}else if(button.getId() == 3){ 
+				// BOuton Terminer
 				Game.modele.getJoueurEnCours().setEntrainDeJouer(false);
 			}
 				
@@ -165,6 +165,13 @@ public class TextInputPanel extends JPanel implements Observer {
 					if(str.length() == 1){
 						if(grille.estUneLettreValide(str)) {
 							super.insertString(offs, str, a);
+							List<De> lsDe = Game.modele.getGrille().getListeDesFromLettre(str); 
+							for(De d : lsDe){
+								Game.modele.getGrille().updateListeDesSelectionnes(d);
+							}
+							//ArbreLexical t = arbreDebutsMots.getArbreFromString(champSaisie.getText());
+							//t.afficherArbre(0);
+							
 						}
 						
 					}else{

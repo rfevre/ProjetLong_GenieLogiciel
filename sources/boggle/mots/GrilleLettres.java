@@ -7,10 +7,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
 
 import boggle.autre.Utils;
 
@@ -286,20 +289,196 @@ public class GrilleLettres extends Observable {
     
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
     // TODO trouver tous les mots.
-    //void getTousLesMots(){
+//    public String getTousLesMots(De de, String str){
+//    	//str += de.getChaineFaceVisible();
+//    	//System.out.println(de);
+//    	for(De d : getListeDesAdjacents(de)){
+//    		if(!d.isDejaVisite()){
+//    			
+//    			d.setDejaVisite(true);
+//    			str += getTousLesMots(d, d.getChaineFaceVisible());
+//    			d.setDejaVisite(false);
+//    			
+//    		}else
+//    			continue;
+//    		
+//    	}
+//    	return str+"\n";
+//    }
 
+    
+    
+//    public ArbreLexical genererArbreDebutsMots(){
+//    	ArbreLexical arbre = new ArbreLexical();
+//    	
+//    	for (int i = 0; i < dimension; i++) {
+//    		for (int j = 0; j < dimension; j++) {
+//    			De premierDe = this.getDe(i, j);
+//    			trouverTout(premierDe.getChaineFaceVisible(), premierDe, arbre);
+//    			resetDejaVisite();
+//    		}
+//    	}
+//    	return arbre;
+//    }
+//    
+//
+//    private void trouverTout(String motEnCours, De deEnCours, ArbreLexical arbre) {
+//    	if(motEnCours.length()>8) return;
+//    	deEnCours.setDejaVisite(true);
+//    	//if(motEnCours.length()==16)
+//    	//System.out.println(motEnCours);
+//    	if(estUnMotValide(deEnCours, motEnCours)){
+//    		//System.out.println(motEnCours);
+//    		arbre.ajouter(motEnCours);
+//    	}
+//    	List<De> desAdjacents = getListeDesAdjacents(deEnCours);
+//    	for(De de : desAdjacents){
+//    		if(de.isDejaVisite()) continue;
+//    		de.setDejaVisite(true);
+//    		trouverTout(motEnCours+de.getChaineFaceVisible(), de, arbre);
+//    		de.setDejaVisite(false);
+//    	}
+//    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    void recupererTousLesMots(De de, String str, List<String> motsTrouves, List<De> dejaVisite){
+    	//if(str.length()<3 && str.length()>10) return;
+    	// Mark current cell as visited and append current character
+    	de.setDejaVisite(true);
+    	str += de.getChaineFaceVisible();
+    	//System.out.println(str);
+    	if(!dejaVisite.contains(de)){
+    		motsTrouves.add(str);
+    		
+    	}
+    		
+
+		// Traverse 8 adjacent cells of boggle[i][j]
+    		for(De autre : getListeDesAdjacents(de)){
+    			if (!autre.isDejaVisite()){
+    				recupererTousLesMots(autre, str, motsTrouves, dejaVisite);
+    			}
+    			
+    		}
+
+    	// Erase current character from string and mark visited
+    	// of current cell as false
+    	str = str.substring(1);
+    	de.setDejaVisite(false);
+    }
+
+    //Prints all words present in dictionary.
+    public List<String> getTousLesMotsQuiCommencentPar(String s){
+    	// Mark all characters as not visited
+    	List<String> motsTrouves = new ArrayList<String>();
+    	// Initialize current string
+    	// Consider every character and look for all words
+// starting with this character
+    	for (int i = 0; i < dimension; i++) {
+    		for (int j = 0; j < dimension; j++) {
+    			final De premierDe = getDe(i, j);
+    			final List<De> dejaVisite = new ArrayList<>();
+    			dejaVisite.add(premierDe);
+    			recupererTousLesMots(premierDe, "", motsTrouves, dejaVisite);
+    			resetDejaVisite();
+    		}
+    	}
+    	
+    	//arbre.afficherArbre(0);
+    	return motsTrouves;
+    	
+    }
+    
+    
+    
+    
+    public List<String> getTousLesMotsQuiCommencentPar(De premierDe){
+    	// Mark all characters as not visited
+    	List<String> motsTrouves = new ArrayList<String>();
+    	final List<De> dejaVisite = new ArrayList<>();
+    	dejaVisite.add(premierDe);
+    	recupererTousLesMots(premierDe, "", motsTrouves, dejaVisite);
+    	resetDejaVisite();
+    	
+    	//arbre.afficherArbre(0);
+    	return motsTrouves;
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     ///////////////////////////////////////////////////////////////////////////
     
    
-    public static void main(String[] args) {
-    	GrilleLettres g = new GrilleLettres();
-    	//g.initGrilleDepuisChaine("ABCD EFGH IJKL MNOP");
-    	System.out.println(g);
-    	
-    	
-    	
+
+	public static void main(String[] args) {
+//    	GrilleLettres g = new GrilleLettres();
+//    	//g.initGrilleDepuisChaine("ABCD EFGH IJKL MNOP");
+//    	System.out.println(g);
+//    	 Set<String> ls = g.getTousLesMots();;
+//    	System.out.println(ls.size());
+//    	ArbreLexical arbre = ArbreLexical.creerArbreDepuisUneListe(ls);
+//    	arbre.afficherArbre(0);
+		
+		GrilleLettres g = new GrilleLettres();
+		g.initGrilleDepuisChaine("ABCD EFGH IJKL MNOP");
+		//g.initGrilleDepuisChaine("AAAA BBBB CCCC DDDD");
+		//g.initGrilleDepuisChaine("ABCD ABCD ABCD ABCD");
+		System.out.println(g);
+		//System.out.println(g.estUnMotValide(g.getDe(0, 0), "A"));
+		
+//		
+		List<String> ls = g.getTousLesMotsQuiCommencentPar(g.getDe(0, 0));
+		System.out.println(ls.size());
+		//System.out.println(ls);
+		ArbreLexical arbre = ArbreLexical.creerArbreDepuisUneListe(ls);
+		//arbre.afficherArbre(0);
+//		
+
     	
     	
 //    	GrilleLettres grilleTest = new GrilleLettres(4, "config/des-4x4.csv");
