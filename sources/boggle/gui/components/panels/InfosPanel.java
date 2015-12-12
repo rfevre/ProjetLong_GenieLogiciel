@@ -1,5 +1,6 @@
 package boggle.gui.components.panels;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
@@ -26,21 +27,26 @@ public class InfosPanel extends JPanel {
 		init();
 	}
 	
-	public void init() {// Elements présents dans le PanelInfos
-		JLabel nomEtScore;
-		JProgressBar chrono  = new JProgressBar();
+	public void init() {
 		
-		// Nom et score
-		nomEtScore = new JLabel("toto");
+		this.setLayout(new BorderLayout());
 		
-		// Chronomètre
-		final int MIN = 0;
-		final int MAX = 100;
-		chrono.setMinimum(MIN);
-		chrono.setMinimum(MAX);
+		JLabel joueurEnCours = new JLabel("Mustapa");
+		//joueurEnCours.setPreferredSize(new Dimension(600,20));
+		this.add(joueurEnCours, BorderLayout.AFTER_LAST_LINE );
 		
+//		JLabel scoreJoueur = new JLabel("200");
+//		scoreJoueur.setPreferredSize(new Dimension(200,100));
+//		this.add(scoreJoueur, BorderLayout.LINE_START );
+//		
+//		JProgressBar chrono  = new JProgressBar();
+//		this.add(chrono);
+//		
+//		// Chronomètre
+//		final int MIN = 0;
+//		final int MAX = 100;
+//		chrono.setMinimum(MIN);
+//		chrono.setMinimum(MAX);
 		
-		this.add(nomEtScore);
-		this.add(chrono);
 	}
 }
