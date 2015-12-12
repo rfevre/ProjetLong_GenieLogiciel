@@ -7,7 +7,7 @@ import boggle.jeu.Partie;
 
 public class Game implements Runnable  {
 
-	public static final int WIDTH  = 1100;
+	public static final int WIDTH  = 1000;
 	public static final int HEIGHT = WIDTH * 3 / 4 ;
 	public static final Partie modele = new Partie();
 	

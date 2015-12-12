@@ -128,7 +128,7 @@ public class TextInputPanel extends JPanel implements Observer {
 		
 		// On remet les cases en gris
 		grille.resetDejaVisite();
-		grille.setListeDeSelectionnes(new LinkedList<>());
+		grille.setListeDeSelectionnes(new LinkedList<De>());
 		//grille.getListeDeSelectionnes().clear();
 		champSaisie.setText("");
 		

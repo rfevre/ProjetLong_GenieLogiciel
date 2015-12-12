@@ -14,12 +14,14 @@ public class Partie {
 	private List<Joueur> listeJoueurs;
 	private GrilleLettres grille; 
 	private int nbTours;
+	private int scoreMax;
 	private ArbreLexical arbre;
 	private Joueur joueurEnCours;
 	
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	public Partie(){
-		this.nbTours = 1;
+		this.nbTours = 2; //Par défaut 2 tours max
+		this.scoreMax = 3;
 		this.grille  = new GrilleLettres();
 		this.arbre   = ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire"));
 		this.listeJoueurs = new ArrayList<Joueur>();
@@ -32,8 +34,11 @@ public class Partie {
 	public GrilleLettres getGrille() { return grille; }  
 	public List<Joueur> getListeJoueurs() { return listeJoueurs; }  
 	public int getNbTours() { return nbTours; }  
-	public Joueur getJoueurEnCours() { return joueurEnCours; }   
-	
+	public Joueur getJoueurEnCours() { return joueurEnCours; } 
+	public int getScoreMax() {return scoreMax; }
+
+
+	public void setScoreMax(int scoreMax) { this.scoreMax = scoreMax; }
 	public void setListeJoueurs(List<Joueur> listeJoueurs) { this.listeJoueurs = listeJoueurs; }  
 	public void setArbre(ArbreLexical arbre) { this.arbre = arbre; }  
 	public void setGrille(GrilleLettres grille) { this.grille = grille; }  
@@ -70,19 +75,23 @@ public class Partie {
 	}
 
 	
-	
+	// TODO : voir pour le score max
 	public void lancerPartie(){
+		int cptTours = 0; //compteur du nombre de tour
 		System.out.println(this);
-		Iterator<Joueur> it = Game.modele.getListeJoueurs().iterator();
-		while(it.hasNext()){
-			Joueur joueur = it.next();
-			joueur.setEntrainDeJouer(true);
-			this.joueurEnCours=joueur;
-			while(this.joueurEnCours.isEntrainDeJouer()){
-				//System.out.println(joueurEnCours+" est entrain de jouer --> " + joueurEnCours.getListeMots());
+		while(cptTours < Game.modele.getNbTours()){
+			Iterator<Joueur> it = Game.modele.getListeJoueurs().iterator();
+			while(it.hasNext()){
+				Joueur joueur = it.next();
+				joueur.setEntrainDeJouer(true);
+				this.joueurEnCours=joueur;
+				while(this.joueurEnCours.isEntrainDeJouer()){
+					System.out.println(joueurEnCours+" est entrain de jouer --> " + joueurEnCours.getListeMots());
+				}
+				this.calculerScore(this.joueurEnCours);
+				this.joueurEnCours.resetListeMots();
 			}
-			Game.modele.calculerScore(joueur);
-			Game.modele.joueurEnCours.resetListeMots();
+			cptTours++;
 		}
 			
 	}
