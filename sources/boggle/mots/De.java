@@ -49,7 +49,7 @@ public class De {
     
 	public String toString() {
 		if(dejaVisite){
-			return "*"+getChaineFaceVisible();
+			return "*"+getChaineFaceVisible() + "("+x+","+y+")";
 		}
 		return " "+getChaineFaceVisible(); 
 	}

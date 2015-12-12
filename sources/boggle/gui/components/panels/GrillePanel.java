@@ -60,8 +60,9 @@ public class GrillePanel extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println(o.getClass());
-		GrilleLettres g = (GrilleLettres) o ;
+		
+		System.out.println("__________________________________________________ MESSAGE " +TextInputPanel.sourceMessage + " >>>> GRILLE PANEL" + arg );
+		System.out.println(grille);
 		for(int i=0; i<grille.getDimension(); i++){
 			for(int j=0; j<grille.getDimension(); j++){
 				DeGraphique current = this.listeDesGraphiques[i][j];
@@ -72,6 +73,8 @@ public class GrillePanel extends JPanel implements Observer {
 				}
 			}
 		}
+		
+		
 	}	
 	
 	
@@ -115,11 +118,13 @@ public class GrillePanel extends JPanel implements Observer {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			// Click sur un De Graphique
 			DeGraphique current = (DeGraphique) e.getSource();
 			De de = current.getDe();
-			grille.updateListeDesSelectionnes(de);
+			System.out.println("---> Click sur De Graphique " + de + "("+de.getX()+","+de.getY()+")" );
+			TextInputPanel.sourceMessage = "click";
+			grille.addDeToListeDesSelectionnes(de);
 			
-			System.out.println(grille.getListeDeSelectionnes());
 		}
 
 		@Override

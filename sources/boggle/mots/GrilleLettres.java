@@ -7,15 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Set;
+import java.util.Stack;
 
 import boggle.autre.Utils;
+import boggle.gui.components.panels.TextInputPanel;
 
 public class GrilleLettres extends Observable {
     
@@ -48,7 +47,12 @@ public class GrilleLettres extends Observable {
     public void setGrille(De[][] grille) { this.grille = grille; }
         
     public Deque<De> getListeDeSelectionnes() { return listeDeSelectionnes; }  
-    public void setListeDeSelectionnes(Deque<De> listeDeSelectionnes) { this.listeDeSelectionnes = listeDeSelectionnes; }
+    public void setListeDeSelectionnes(Deque<De> listeDeSelectionnes) { 
+    	this.listeDeSelectionnes = listeDeSelectionnes;
+    	
+		this.setChanged();
+		this.notifyObservers();
+	}
 
 	public String toString() {
     	final StringBuilder res = new StringBuilder();
@@ -67,7 +71,7 @@ public class GrilleLettres extends Observable {
 	 * Permet de mettre à jour la liste des dés sélectionnés
 	 * @param de a ajouter
 	 */
-	public void updateListeDesSelectionnes(De de){
+	public void addDeToListeDesSelectionnes(De de){
 		if(de!=null){
 			if(listeDeSelectionnes.isEmpty()){
 				de.setDejaVisite(true);
@@ -84,18 +88,20 @@ public class GrilleLettres extends Observable {
 				}
 			}
 		}
+		//TextInputPanel.sourceMessage = "click";
 		this.setChanged();
 		this.notifyObservers(de);
 	}
-	
-	public void updateStatutListeDes(List<De> liste){
-		for(De d : liste){
-			d.setDejaVisite(true);
+
+	public void removeLastDesSelectionnes(){
+		if(!this.listeDeSelectionnes.isEmpty() && "clavier".equals(TextInputPanel.sourceMessage)){
+			De de = this.listeDeSelectionnes.removeLast();
+			de.setDejaVisite(false);
+			this.setChanged();
+			this.notifyObservers(de);
 		}
-		this.setChanged();
-		this.notifyObservers();
-		
 	}
+	
 	
 	
 	
@@ -156,16 +162,21 @@ public class GrilleLettres extends Observable {
      * @return vrai si lettre est dans la grille, sinon false.
      */
     public boolean estUneLettreValide(String lettre){
-    	boolean isValide = false;
     	for (int i = 0; i < dimension; i++) {
     		for (int j = 0; j < dimension; j++) {
-    			if(lettre.equals(grille[i][j].getChaineFaceVisible())){
-    				isValide = true;
-    				break;
+    			final De de = getDe(i, j);
+    			final boolean memeLettre = lettre.equals(de.getChaineFaceVisible());
+    			
+    			if(memeLettre){
+//    				if(this.listeDeSelectionnes.size()>0){
+//    					final De dernierDe = listeDeSelectionnes.getLast();
+//    					return lettreExisteDansLesDesAdjacents(dernierDe, lettre);
+//    				}
+    				return true;
     			}
     		}
     	}
-    	return isValide;
+    	return false;
     }
     
     /**
@@ -200,7 +211,7 @@ public class GrilleLettres extends Observable {
     public boolean estUnMotValide(De de, String mot){
     	de.setDejaVisite(true);
     	//System.out.print (de + "("+de.getX() + ","+de.getY()+") »» ");
-    	if(mot.length() == 0) return true;
+    	if(mot.isEmpty()) return true;
     	final List<De> desAdjacents = getListeDesAdjacents(de);
     	final String lettre = ""+mot.charAt(0);
     	final List<De> nextDeList = getListeDesFromLettre(lettre, desAdjacents);
@@ -255,6 +266,16 @@ public class GrilleLettres extends Observable {
     	return tmp;
     }
     
+    
+    public boolean lettreExisteDansLesDesAdjacents(De de, String lettre){
+    	if(de == null) return false;
+    	List<De> listeDesAdjacents = getListeDesAdjacents(de);
+    	List<De> listeDesLettre = getListeDesFromLettre(lettre, listeDesAdjacents);
+    	return listeDesLettre.size() != 0;
+    }
+    
+    
+    
     /** Permet de reinistialiser les des visites. */
     public void resetDejaVisite(){
     	for (int i = 0; i < dimension; i++) {
@@ -288,57 +309,30 @@ public class GrilleLettres extends Observable {
     
     
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
-    // TODO trouver tous les mots.
-//    public String getTousLesMots(De de, String str){
-//    	//str += de.getChaineFaceVisible();
-//    	//System.out.println(de);
-//    	for(De d : getListeDesAdjacents(de)){
-//    		if(!d.isDejaVisite()){
-//    			
-//    			d.setDejaVisite(true);
-//    			str += getTousLesMots(d, d.getChaineFaceVisible());
-//    			d.setDejaVisite(false);
-//    			
-//    		}else
-//    			continue;
-//    		
-//    	}
-//    	return str+"\n";
-//    }
 
     
-    
-//    public ArbreLexical genererArbreDebutsMots(){
-//    	ArbreLexical arbre = new ArbreLexical();
-//    	
-//    	for (int i = 0; i < dimension; i++) {
-//    		for (int j = 0; j < dimension; j++) {
-//    			De premierDe = this.getDe(i, j);
-//    			trouverTout(premierDe.getChaineFaceVisible(), premierDe, arbre);
-//    			resetDejaVisite();
-//    		}
-//    	}
-//    	return arbre;
-//    }
-//    
-//
-//    private void trouverTout(String motEnCours, De deEnCours, ArbreLexical arbre) {
-//    	if(motEnCours.length()>8) return;
-//    	deEnCours.setDejaVisite(true);
-//    	//if(motEnCours.length()==16)
-//    	//System.out.println(motEnCours);
-//    	if(estUnMotValide(deEnCours, motEnCours)){
-//    		//System.out.println(motEnCours);
-//    		arbre.ajouter(motEnCours);
-//    	}
-//    	List<De> desAdjacents = getListeDesAdjacents(deEnCours);
-//    	for(De de : desAdjacents){
-//    		if(de.isDejaVisite()) continue;
-//    		de.setDejaVisite(true);
-//    		trouverTout(motEnCours+de.getChaineFaceVisible(), de, arbre);
-//    		de.setDejaVisite(false);
-//    	}
-//    }
+    public List<De> getListeDeSelectionTemp(String str, Stack<De> resultat){
+    	if(str.isEmpty()) return resultat;
+    	String lettre = ""+str.charAt(0);
+    	List<De> listeDeLettre = getListeDesFromLettre(lettre);
+    	
+   		for(De currentDe : listeDeLettre){
+   			if(resultat.size()>1 && !getListeDesAdjacents(resultat.lastElement()).contains(currentDe)) continue;
+   			resultat.push(currentDe);
+   			if(estUnMotValide(currentDe, str.substring(1), resultat)){
+   					//resultat.add(currentDe);
+    				getListeDeSelectionTemp(str.substring(1), resultat);
+   			}else{
+   				//resultat.pop();
+   			}
+    			
+   		}
+   		
+    	
+    	
+		return resultat;
+    	
+    }
     
     
     
@@ -346,101 +340,96 @@ public class GrilleLettres extends Observable {
     
     
     
-    
-    
-    
-    void recupererTousLesMots(De de, String str, List<String> motsTrouves, List<De> dejaVisite){
-    	//if(str.length()<3 && str.length()>10) return;
-    	// Mark current cell as visited and append current character
+    public boolean estUnMotValide(De de, String mot, Stack<De> resultat){
     	de.setDejaVisite(true);
-    	str += de.getChaineFaceVisible();
-    	//System.out.println(str);
-    	if(!dejaVisite.contains(de)){
-    		motsTrouves.add(str);
-    		
-    	}
-    		
-
-		// Traverse 8 adjacent cells of boggle[i][j]
-    		for(De autre : getListeDesAdjacents(de)){
-    			if (!autre.isDejaVisite()){
-    				recupererTousLesMots(autre, str, motsTrouves, dejaVisite);
+    	//System.out.println(mot + " : " + de + " Deja Visite : " + de.isDejaVisite());
+    	//resultat.push(de);
+    	//System.out.print (de + "("+de.getX() + ","+de.getY()+") »» ");
+    	if(mot.length() == 0) return true;
+    	final List<De> desAdjacents = getListeDesAdjacents(de);
+    	final String lettre = ""+mot.charAt(0);
+    	final List<De> nextDeList = getListeDesFromLettre(lettre, desAdjacents);
+    	for(De d : nextDeList){
+    		if(!d.isDejaVisite()){
+    			//System.out.println(de + "("+de.getX() + ","+de.getY()+")");
+    			d.setDejaVisite(true);
+    			resultat.push(d);
+    			if(estUnMotValide(d, mot.substring(1), resultat) ){
+    				return true;
+    			}else{
+    				if(!resultat.empty())resultat.pop();
+    				d.setDejaVisite(false);
     			}
     			
     		}
-
-    	// Erase current character from string and mark visited
-    	// of current cell as false
-    	str = str.substring(1);
-    	de.setDejaVisite(false);
+    	}
+    	if(!resultat.empty())resultat.pop();
+    	return false;
     }
-
-    //Prints all words present in dictionary.
-    public List<String> getTousLesMotsQuiCommencentPar(String s){
-    	// Mark all characters as not visited
-    	List<String> motsTrouves = new ArrayList<String>();
-    	// Initialize current string
-    	// Consider every character and look for all words
-// starting with this character
-    	for (int i = 0; i < dimension; i++) {
-    		for (int j = 0; j < dimension; j++) {
-    			final De premierDe = getDe(i, j);
-    			final List<De> dejaVisite = new ArrayList<>();
-    			dejaVisite.add(premierDe);
-    			recupererTousLesMots(premierDe, "", motsTrouves, dejaVisite);
-    			resetDejaVisite();
-    		}
+    
+    
+    
+    
+    
+    
+    
+    
+    private boolean findWordInBoard(String word, De de, Stack<De> resultat) {
+    	String ltr = ""+word.charAt(0);
+    	if(!ltr.equals(de.getChaineFaceVisible())) return false;
+    	de.setDejaVisite(true);
+    	resultat.push(de);
+    	System.out.println("-----------> "+ de);
+		if(word.length()==1) return ltr.equals(de.getChaineFaceVisible());
+		for(De adj : getListeDesAdjacents(de)){
+			if(!adj.isDejaVisite()){
+					if ((""+word.charAt(1)).equals(adj.getChaineFaceVisible())) {
+						adj.setDejaVisite(true);
+						if((findWordInBoard(word.substring(1), adj, resultat))){
+							
+							return true;
+						}
+							
+					}else{
+						//if(!resultat.empty()) resultat.pop();
+						adj.setDejaVisite(false);
+					} 
+			}
+		}
+		
+		if(!resultat.empty()) resultat.pop();
+		de.setDejaVisite(false);
+		return false;
+	}
+    
+    
+    
+    
+    
+    
+    public boolean estUnMotValideBis(String mot, Stack<De> resultat){
+    	if(mot==null || mot.isEmpty()) return false;
+    	if(mot.length() == 1){
+    		boolean estDansLaGrille = estUneLettreValide(mot);
+    		if(estDansLaGrille) resultat.push(getListeDesFromLettre(mot).get(0));
+    		return estDansLaGrille;
     	}
     	
-    	//arbre.afficherArbre(0);
-    	return motsTrouves;
+    	final String premiereLettre = ""+mot.charAt(0);	
+    	final List<De> listeDesLettre = getListeDesFromLettre(premiereLettre);
     	
+    	for(De d : listeDesLettre){
+    		//resultat.push(d);
+    		if(findWordInBoard(mot, d, resultat )){
+    			//d.setDejaVisite(true);
+    			return true;
+    		}
+    		//resultat.pop();
+    		d.setDejaVisite(false);
+    	}
+    	
+    	return false;  	
     }
-    
-    
-    
-    
-    public List<String> getTousLesMotsQuiCommencentPar(De premierDe){
-    	// Mark all characters as not visited
-    	List<String> motsTrouves = new ArrayList<String>();
-    	final List<De> dejaVisite = new ArrayList<>();
-    	dejaVisite.add(premierDe);
-    	recupererTousLesMots(premierDe, "", motsTrouves, dejaVisite);
-    	resetDejaVisite();
-    	
-    	//arbre.afficherArbre(0);
-    	return motsTrouves;
-    	
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -465,19 +454,22 @@ public class GrilleLettres extends Observable {
 //    	arbre.afficherArbre(0);
 		
 		GrilleLettres g = new GrilleLettres();
-		g.initGrilleDepuisChaine("ABCD EFGH IJKL MNOP");
-		//g.initGrilleDepuisChaine("AAAA BBBB CCCC DDDD");
+		//g.initGrilleDepuisChaine("ABCD EAGH IJKL MNOP");
+		g.initGrilleDepuisChaine("TSET LSNA ANVA FUIE");
 		//g.initGrilleDepuisChaine("ABCD ABCD ABCD ABCD");
 		System.out.println(g);
+		De de = g.getDe(0, 0);
+		System.out.println(g.lettreExisteDansLesDesAdjacents(de, "K"));
 		//System.out.println(g.estUnMotValide(g.getDe(0, 0), "A"));
 		
-//		
-		List<String> ls = g.getTousLesMotsQuiCommencentPar(g.getDe(0, 0));
-		System.out.println(ls.size());
-		//System.out.println(ls);
-		ArbreLexical arbre = ArbreLexical.creerArbreDepuisUneListe(ls);
-		//arbre.afficherArbre(0);
-//		
+
+		Stack<De> res = new Stack<>();
+		//System.out.println(">>> " + g.findWordInBoard("IVAE", g.getDe(3,2)));
+		//System.out.println(">>> " + g.estUnMotValideBis("SENVA", res));
+		//System.out.println(res);
+//		List<De> ls = g.getListeDeSelectionTemp("FUN", res);
+//		System.out.println(ls.size());
+//		System.out.println(ls);
 
     	
     	

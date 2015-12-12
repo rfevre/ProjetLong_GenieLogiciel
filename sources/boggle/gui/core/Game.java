@@ -7,7 +7,7 @@ import boggle.jeu.Partie;
 
 public class Game implements Runnable  {
 
-	public static final int WIDTH  = 1050;
+	public static final int WIDTH  = 1100;
 	public static final int HEIGHT = WIDTH * 3 / 4 ;
 	public static final Partie modele = new Partie();
 	
@@ -16,7 +16,7 @@ public class Game implements Runnable  {
 	private boolean  jeuEnCours;
 	private Thread   thread;
 
-	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.SELECTION_JOUEURS; 
+	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.MENU; 
 	private static Game instance; 
 	
 	// CONSTRUCTORS ///////////////////////////////////////////////////////////

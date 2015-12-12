@@ -1,6 +1,7 @@
 package boggle.jeu;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -72,7 +73,9 @@ public class Partie {
 	
 	public void lancerPartie(){
 		System.out.println(this);
-		for(Joueur joueur : Game.modele.getListeJoueurs()){
+		Iterator<Joueur> it = Game.modele.getListeJoueurs().iterator();
+		while(it.hasNext()){
+			Joueur joueur = it.next();
 			joueur.setEntrainDeJouer(true);
 			this.joueurEnCours=joueur;
 			while(this.joueurEnCours.isEntrainDeJouer()){
@@ -110,7 +113,7 @@ public class Partie {
 		}while(!"".equals(rep));
 		System.out.println("Mots entres  : " + joueur.getListeMots());
 		System.out.println("Mots valides : " + this.getArbre().sontDansLeDictionnaire(joueur.getListeMots()));
-		this.calculerScore(joueur);
+		//this.calculerScore(joueur);
 		joueur.resetListeMots();
 		System.out.println(joueur);
 		sc.close();
@@ -150,14 +153,14 @@ public class Partie {
 	
 
 
-	public static void main(String[] args) {
-		Partie p = new Partie();
-		GrilleLettres g = new GrilleLettres(4);
-		g.initGrilleDepuisChaine("PAGE LESO TELE EILP");
-		//System.out.println(g);
-		p.setGrille(g);
-		p.lancerPartieConsole();
-
-	}
+//	public static void main(String[] args) {
+//		Partie p = new Partie();
+//		GrilleLettres g = new GrilleLettres(4);
+//		g.initGrilleDepuisChaine("PAGE LESO TELE EILP");
+//		//System.out.println(g);
+//		p.setGrille(g);
+//		p.lancerPartieConsole();
+//
+//	}
 	
 }
