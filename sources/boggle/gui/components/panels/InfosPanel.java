@@ -3,9 +3,15 @@ package boggle.gui.components.panels;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+
+import boggle.gui.core.Game;
+import boggle.jeu.Joueur;
 
 /** 
  * TODO Nom du joueur en cours, son score
@@ -15,6 +21,12 @@ import javax.swing.JProgressBar;
  */
 public class InfosPanel extends JPanel {
 	
+	private JLabel joueurLabel;
+	private JProgressBar chrono;
+	private Joueur joueurEnCours;
+	private final int MIN = 0;
+	private final int MAX = 100;
+	
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -22,31 +34,27 @@ public class InfosPanel extends JPanel {
 	 * 
 	 */
 	public InfosPanel(){
-		this.setPreferredSize(new Dimension(1200, 100));
-		this.setBackground(Color.PINK);
+		this.joueurEnCours = Game.modele.getJoueurEnCours();
+		this.joueurLabel = new JLabel("Joueur en cours : "+this.joueurEnCours.getNom());
+		this.chrono = new JProgressBar(this.MIN, this.MAX);
+		this.setPreferredSize(new Dimension(1200,70));
 		init();
 	}
 	
 	public void init() {
 		
-		this.setLayout(new BorderLayout());
 		
-		JLabel joueurEnCours = new JLabel("Mustapa");
-		//joueurEnCours.setPreferredSize(new Dimension(600,20));
-		this.add(joueurEnCours, BorderLayout.AFTER_LAST_LINE );
+		// Label nom joueur en cours
+		joueurLabel.setPreferredSize(new Dimension(200,60));
+		joueurLabel.setHorizontalAlignment(JLabel.CENTER);
+		joueurLabel.setVerticalAlignment(JLabel.CENTER);
+		this.add(joueurLabel,BorderLayout.CENTER);
 		
-//		JLabel scoreJoueur = new JLabel("200");
-//		scoreJoueur.setPreferredSize(new Dimension(200,100));
-//		this.add(scoreJoueur, BorderLayout.LINE_START );
-//		
-//		JProgressBar chrono  = new JProgressBar();
-//		this.add(chrono);
-//		
-//		// Chronomètre
-//		final int MIN = 0;
-//		final int MAX = 100;
-//		chrono.setMinimum(MIN);
-//		chrono.setMinimum(MAX);
+		// Label chronometre
+		chrono.setPreferredSize(new Dimension(200,20));
+		joueurLabel.setHorizontalAlignment(JLabel.CENTER);
+		joueurLabel.setVerticalAlignment(JLabel.CENTER);
+		this.add(chrono, BorderLayout.SOUTH);
 		
 	}
 }
