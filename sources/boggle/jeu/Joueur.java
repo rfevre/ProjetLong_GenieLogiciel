@@ -48,9 +48,9 @@ public class Joueur extends Observable implements Comparable<Joueur> {
 	public void ajouterUnMot(String mot){ 
 		if(!listeMots.contains(mot)){ 
 			listeMots.add(mot);
-			this.setChanged();
-			this.notifyObservers();
 		}
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	/** Permet de vider la liste des mots du joueur. */

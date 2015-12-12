@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import boggle.autre.Utils;
 
@@ -171,6 +172,22 @@ public class ArbreLexical {
 
 		return arbre;
 	}
+	
+	
+
+	public static ArbreLexical creerArbreDepuisUneListe(List<String> set) {
+		ArbreLexical arbre = new ArbreLexical();
+		for(String s : set){
+			arbre.ajouter(s);
+			
+		}
+			
+		return arbre;
+	}
+	
+	
+	
+	
 	
 	
 	/** Affiche le contenu de l'arbre */

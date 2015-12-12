@@ -22,10 +22,10 @@ public class ListeMotsPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 
 	public ListeMotsPanel(){
-		if(Game.modele.getJoueurEnCours()!=null){
-			Game.modele.getJoueurEnCours().addObserver(this);
+		
+		Game.modele.getJoueurEnCours().addObserver(this);
 			
-		}
+		
 		
 		this.setPreferredSize(dimension);
 		this.setBackground(Color.RED);
@@ -53,6 +53,7 @@ public class ListeMotsPanel extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o , Object arg) {
+		System.out.println("------------------------------------------");
 		//GrilleLettres grille = (GrilleLettres)o;
 		System.out.println("JOueur en cours :"+Game.modele.getJoueurEnCours()+ " Liste : "+Game.modele.getJoueurEnCours().getListeMots());
 		tableModel.setData(Game.modele.getJoueurEnCours().getListeMots());

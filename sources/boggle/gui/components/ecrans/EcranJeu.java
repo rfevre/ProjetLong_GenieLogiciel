@@ -22,6 +22,7 @@ public class EcranJeu extends Ecran implements Runnable {
 	}
 	
 	private EcranJeu() {
+		Game.modele.setJoueurEnCours(Game.modele.getListeJoueurs().get(0));
 		this.setBackground(Color.BLUE);
 		System.out.println("ECRAN JEU");
 		init();
