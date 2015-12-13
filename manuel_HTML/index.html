@@ -58,8 +58,15 @@
                     <li>
                         <a href="#Ajouts">Ajouts introduits</a>
                     </li>
-                    <li>
-                        <a href="#IHM">Interface graphique</a>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">Interface graphique<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#Menu">Menu</a></li>
+                            <li><a href="#LancerPartie">Lancer partie</a></li>
+                            <li><a href="#JouerPartie">Jouer partie</a></li>
+                            <li><a href="#Options">Options</a></li>
+                            <li><a href="#Top10">Top 10</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="#Contact">Contact</a>
@@ -124,31 +131,61 @@
                 </ul>
             </div>
 
-            <div class="col-lg-12" id="IHM">
+            <div class="col-lg-12" id="Menu">
                 <h2>Description de l’interface graphique</h2>
-                <h3>Lancer une partie :</h3>
-                <p>TODO : insérer capture d'écran</p>
-                <p>Le lancement du jeu est prévu pour être simple et pratique pour l'utilisateur, voici comment il se déroule :</p>
-                <ul>
-                    <li>Lancement de l'éxecutable</li>
-                    <li>Clic sur le bouton "JOUER"</li>
-                    <li>Un clic droit sur l'un des carrés pour ajouter (ou supprimer) un joueur</li>
-                    <li>Un clic gauche pour switch entre un joueur contrôlé par un humain et un joueur contrôlé par l'ordinateur</li>
-                    <li>Rentrer le noms des joueurs dans les champs de saisie</li>
-                    <li>Clic sur le bouton "CONTINUER"</li>
-                    <li>Puis la partie se lance...</li>
-                </ul>
-                <h3>Jouer :</h3>
-                <p>TODO : insérer capture d'écran</p>
-                <p>Une partie se déroule comme suit :</p>
-                <ul>
-                    <li>Le joueur à qui le nom est afficher en haut de l'écran rentre un mot (soit au clavier, soit à la souris)</li>
-                    <li>Il appuie sur le bouton "Ajouter"</li>
-                    <li>Quand il n'arrive plus à trouver de mots dans la grille, il appuie sur le bouton "Terminer" </li>
-                    <li>Son tour est fini, il peut voir son score sur la gauche, et le numéro de la manche est afficher en haut</li>
-                </ul>
-                <h3>Modifier les options :</h3>
-                <p>TODO : insérer capture d'écran</p>
+                    <h3><i>Menu de l'application :</i></h3>
+                    <p>TODO : insérer capture d'écran</p>
+
+                    <h3 id="LancerPartie"><i>Lancer une partie :</i></h3>
+                    <p>TODO : insérer capture d'écran</p>
+                    <p>Le lancement du jeu est prévu pour être simple et pratique pour l'utilisateur, voici comment il se déroule :</p>
+                    <ul>
+                        <li>Dans le menu, on clic sur le bouton "JOUER"</li>
+                        <li>Un clic droit sur l'un des carrés pour ajouter (ou supprimer) un joueur</li>
+                        <li>Un clic gauche pour switch entre un joueur contrôlé par un humain et un joueur contrôlé par l'ordinateur</li>
+                        <li>Rentrer le noms des joueurs dans les champs de saisie</li>
+                        <li>Clic sur le bouton "CONTINUER"</li>
+                        <li>Puis la partie se lance...</li>
+                    </ul>
+
+                    <h3 id="JouerPartie"><i>Jouer une partie:</i></h3>
+                    <p>TODO : insérer capture d'écran</p>
+                    <p>Une partie se déroule comme suit :</p>
+                    <ul>
+                        <li>Le joueur à qui le nom est afficher en haut de l'écran rentre un mot (soit au clavier, soit à la souris)</li>
+                        <li>Il appuie sur le bouton "Ajouter"</li>
+                        <li>Quand il n'arrive plus à trouver de mots dans la grille, il appuie sur le bouton "Terminer" </li>
+                        <li>Son tour est fini, il peut voir son score sur la gauche, et le numéro de la manche est afficher en haut</li>
+                    </ul>
+
+                    <h3 id="Options"><i>Modifier les options :</i></h3>
+                    <p>TODO : insérer capture d'écran</p>
+                    <p>Comment modifier les options:</p>
+                    <ul>
+                        <li>Dans le menu, on clic sur le bouton "OPTIONS"</li>
+                        <li>Ici on peut modifier :</li>
+                        <ul>
+                            <li>Le dictionnaire utilisé (fichier avec 1 mot par ligne)</li>
+                            <li>Le score à atteindre</li>
+                            <li>Le nombre de tours maximum</li>
+                            <li>Le temps de jeu par joueur</li>
+                            <li>La taille de la grille</li>
+                        </ul>
+                    </ul>
+
+                    <h3 id="Top10"><i>Afficher le top 10 des meilleurs scores :</i></h3>
+                    <p>TODO : insérer capture d'écran</p>
+                    <p>Accéder au tableau des scores:</p>
+                    <ul>
+                        <li>Dans le menu, on clic sur le bouton "SCORES"</li>
+                        <li>Ici on retrouve :</li>
+                        <ul>
+                            <li>A gauche, le numéro de la place du joueur dans le classement</li>
+                            <li>Au centre, le nom du joueur</li>
+                            <li>A droite, son score</li>
+                        </ul>
+                    </ul>
+
             </div>
 
             <div class="col-lg-12" id="Contact">
