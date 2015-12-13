@@ -92,9 +92,25 @@ public class EcranMenu extends Ecran {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Game.ECRAN_EN_COURS = TypeEcrans.JEU;
-			if(1 == ((MenuBtn) e.getSource()).getId() ){
+//			if(1 == ((MenuBtn) e.getSource()).getId() ){
+//				Game.goToEcran(TypeEcrans.SELECTION_JOUEURS);
+//				
+//			}
+			switch (((MenuBtn) e.getSource()).getId()) {
+			case 1:
 				Game.goToEcran(TypeEcrans.SELECTION_JOUEURS);
+				break;
+			case 2:
+				Game.goToEcran(TypeEcrans.OPTIONS);
+				break;
+			case 3:
+				Game.goToEcran(TypeEcrans.SCORES);
+			case 4:
+				Game.goToEcran(TypeEcrans.SCORES);
+			case 5:
 				
+			default:
+				break;
 			}
 			System.out.println("click");
 		}
