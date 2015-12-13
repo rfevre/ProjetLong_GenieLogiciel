@@ -45,8 +45,7 @@ public class EcranMenu extends Ecran {
 		JLabel btnJouer 	= new MenuBtn("JOUER", 1);
 		JLabel btnOptions 	= new MenuBtn("OPTIONS", 2);
 		JLabel btnScores 	= new MenuBtn("SCORES", 3);
-		JLabel btnAide 		= new MenuBtn("AIDE", 4);
-		JLabel btnQuitter 	= new MenuBtn("QUITTER", 5);
+		JLabel btnQuitter 	= new MenuBtn("QUITTER", 4);
 		
 		this.add(Box.createGlue(), gbc);
 		
@@ -59,10 +58,8 @@ public class EcranMenu extends Ecran {
 		this.add(btnOptions, gbc);
 		gbc.gridy = 3;
 		this.add(btnScores, gbc);
-		gbc.gridy = 4;
-		this.add(btnAide, gbc);
 		
-		gbc.gridy = 5;
+		gbc.gridy = 4;
 		this.add(btnQuitter, gbc);
 		
 		
@@ -106,10 +103,8 @@ public class EcranMenu extends Ecran {
 			case 3:
 				Game.goToEcran(TypeEcrans.SCORES);
 				break;
+				
 			case 4:
-				Game.goToEcran(TypeEcrans.SCORES);
-				break;
-			case 5:
 				Game.quitter();
 				break;	
 			default:
