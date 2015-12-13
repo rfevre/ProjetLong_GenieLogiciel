@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,11 +15,14 @@ import javax.swing.SwingConstants;
 
 import boggle.autre.BDD;
 import boggle.jeu.Joueur;
+import boggle.gui.components.elements.CustomButton;
+import boggle.gui.core.Game;
 
 public class EcranScores extends Ecran {
 
 	private static final long serialVersionUID = 1L;
 	private static EcranScores instance;
+	private Button btnRetour;
 	
 	
 	public static Ecran getInstance() {
@@ -30,6 +34,7 @@ public class EcranScores extends Ecran {
 	
 	private EcranScores() {
 		this.setBackground(Color.BLACK);
+		this.btnRetour=new Button(1, "RETOUR", SwingConstants.CENTER, 120, 50);
 		System.out.println("ECRAN SCORE");
 		init();
 	}
@@ -69,6 +74,9 @@ public class EcranScores extends Ecran {
 		
 		gbc.gridy = 1;
 		this.add(scorePanel, gbc);
+		
+		gbc.gridy = 2;
+		this.add(btnRetour, gbc);
 	}
 	
 	
@@ -86,4 +94,38 @@ public class EcranScores extends Ecran {
 		}
 	}
 
+	/**
+	 * Classe interne Button
+	 *
+	 */
+	private class Button extends CustomButton{
+
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Constructeur de la classe intern bouton
+		 * @param id : correspond à l'id du boutton
+		 * @param libelle :  correspond à libelle du bouton
+		 * @param alignement : correspond à l'alignement du bouton
+		 * @param w : correspond à la largeur du bouton
+		 * @param h : correspond à la hauteur du bouton
+		 */
+		public Button(int id, String libelle, int alignement, int w, int h) {
+			super(id, libelle, alignement, w, h);
+			setBackground(Color.GRAY);
+		}
+
+		@Override
+		/**
+		 * Classe qui correspond à l'évenement : 'pression sur la souris'
+		 */
+		public void mousePressed(MouseEvent e) {
+
+			Button button = (Button)e.getSource();
+			if(button.getId() == 1) // Bouton retour
+			{ 
+				Game.goToEcran(TypeEcrans.MENU);
+			}
+		}
+	}
 }
