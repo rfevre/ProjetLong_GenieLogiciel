@@ -46,6 +46,10 @@ public class Game {
 		fenetre.updateEcranEnCours();
 	}
 	
+	public static void quitter(){
+		System.exit(0);
+	}
+	
 
 
 	// MAIN ///////////////////////////////////////////////////////////////////

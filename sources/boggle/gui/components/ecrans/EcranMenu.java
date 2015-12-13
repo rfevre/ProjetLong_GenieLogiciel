@@ -105,10 +105,13 @@ public class EcranMenu extends Ecran {
 				break;
 			case 3:
 				Game.goToEcran(TypeEcrans.SCORES);
+				break;
 			case 4:
 				Game.goToEcran(TypeEcrans.SCORES);
+				break;
 			case 5:
-				
+				Game.quitter();
+				break;	
 			default:
 				break;
 			}
