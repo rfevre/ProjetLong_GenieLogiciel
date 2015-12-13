@@ -104,7 +104,7 @@ public class EcranSelectionJoueurs extends Ecran {
 					avatar.nom.requestFocus();	
 				}else{
 					Joueur joueur = avatar.getJoueurInstance();
-					System.out.println(joueur);
+					//System.out.println(joueur);
 					Game.modele.ajouterJoueur(joueur);
 					Game.goToEcran(TypeEcrans.JEU);
 				}				
@@ -153,7 +153,7 @@ public class EcranSelectionJoueurs extends Ecran {
 			if(button.getId() == 1){
 				// Click sur continuer
 				Game.modele.resetListeJoueurs();
-				System.out.println("Appuie sur continuer");
+				//System.out.println("Appuie sur continuer");
 				verifierListeJoueurs();
 				
 			}else if(button.getId() == 2){
@@ -241,11 +241,11 @@ public class EcranSelectionJoueurs extends Ecran {
 			((DefaultEditor) typeIA.getEditor()).getTextField().setEditable(false);
 			
 			gbc.gridy = 0; 
-			this.add(typeIA, gbc);
-			gbc.gridy = 1; 
 			this.add(photo, gbc);
-			gbc.gridy = 2; 
+			gbc.gridy = 1; 
 			this.add(nom, gbc);
+			gbc.gridy = 2; 
+			this.add(typeIA, gbc);
 			
 			this.addMouseListener(this);
 			photo.setBackground(Color.BLUE);
@@ -264,9 +264,11 @@ public class EcranSelectionJoueurs extends Ecran {
 				this.nom.setEnabled(true);
 				if(estHumain){
 					typeIA.setEnabled(false);
+					typeIA.setVisible(false);
 					photo.setBackground(Color.ORANGE);
 					
 				} else {
+					typeIA.setVisible(true);
 					typeIA.setEnabled(true);
 					photo.setBackground(Color.CYAN);
 				}
@@ -274,6 +276,7 @@ public class EcranSelectionJoueurs extends Ecran {
 				photo.setBackground(Color.GRAY);
 				nom.setEnabled(false);
 				typeIA.setEnabled(false);
+				typeIA.setVisible(false);
 			}
 			photo.setText("Actif : " + actif + (estHumain ? " Humain" : " Robot"));
 		}
@@ -299,7 +302,7 @@ public class EcranSelectionJoueurs extends Ecran {
 			}else if(SwingUtilities.isRightMouseButton(e)){
 				actif=!actif;
 			}
-			System.out.println(estHumain + " " + actif);
+			//System.out.println(estHumain + " " + actif);
 			updateAvatar();
 		}
 

@@ -214,6 +214,30 @@ public class ArbreLexical {
 		return tmp;
 	}
 	
+	
+	public int getPointMot(String mot){
+		String points = Utils.getConfigProperty("points");
+		String[] pts = points.split(",");
+		int[] intPts = new int[pts.length];
+		for(int i=0; i<intPts.length; i++){
+			intPts[i] = Integer.parseInt(pts[i]);
+		}
+			
+		if (this.contient(mot)){
+				switch(mot.length()){
+				case 3:
+				case 4: return intPts[0];
+				case 5: return 3;//intPts[1];
+				case 6: return intPts[2];
+				case 7: return intPts[4];
+				default:return intPts[5];
+				}
+		}
+		return 0;
+		
+	}
+	
+	
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
 
 	

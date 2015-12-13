@@ -30,6 +30,7 @@ public class GrillePanel extends JPanel implements Observer {
 		this.listeDesGraphiques = new DeGraphique[grille.getDimension()][grille.getDimension()];
 		init();
 		this.grille.resetDejaVisite();
+		
 	}
 	
 	
@@ -40,6 +41,16 @@ public class GrillePanel extends JPanel implements Observer {
 
 	public void setListeDesGraphiques(DeGraphique[][] listeDesGraphiques) {
 		this.listeDesGraphiques = listeDesGraphiques;
+	}
+
+
+	public GrilleLettres getGrille() {
+		return grille;
+	}
+
+
+	public void setGrille(GrilleLettres grille) {
+		this.grille = grille;
 	}
 
 
@@ -60,20 +71,22 @@ public class GrillePanel extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		
-		System.out.println("__________________________________________________ MESSAGE " +TextInputPanel.sourceMessage + " >>>> GRILLE PANEL" + arg );
-		System.out.println(grille);
-		for(int i=0; i<grille.getDimension(); i++){
-			for(int j=0; j<grille.getDimension(); j++){
-				DeGraphique current = this.listeDesGraphiques[i][j];
-				if(current.getDe().isDejaVisite()){
-					current.setBackground(Color.red);
-				}else{
-					current.setBackground(Color.gray);
+
+			for(int i=0; i<grille.getDimension(); i++){
+				for(int j=0; j<grille.getDimension(); j++){
+					DeGraphique current = this.listeDesGraphiques[i][j];
+					if(current.getDe().isDejaVisite()){
+						current.setBackground(Color.red);
+					}else{
+						current.setBackground(Color.gray);
+					}
 				}
-			}
+		
+			
+			
 		}
 		
+
 		
 	}	
 	
@@ -121,7 +134,7 @@ public class GrillePanel extends JPanel implements Observer {
 			// Click sur un De Graphique
 			DeGraphique current = (DeGraphique) e.getSource();
 			De de = current.getDe();
-			System.out.println("---> Click sur De Graphique " + de + "("+de.getX()+","+de.getY()+")" );
+			//System.out.println("---> Click sur De Graphique " + de + "("+de.getX()+","+de.getY()+")" );
 			TextInputPanel.sourceMessage = "click";
 			grille.addDeToListeDesSelectionnes(de);
 			
@@ -134,17 +147,4 @@ public class GrillePanel extends JPanel implements Observer {
 		}
 		
 	}
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
 }

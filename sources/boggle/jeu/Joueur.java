@@ -13,7 +13,6 @@ public class Joueur extends Observable implements Comparable<Joueur> {
 	private int score;
 	private List<String> listeMots;
 	private boolean entrainDeJouer; 
-	
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	
 	public Joueur(String nom){
@@ -28,12 +27,22 @@ public class Joueur extends Observable implements Comparable<Joueur> {
 
 	public boolean isEntrainDeJouer() { return entrainDeJouer; }
 	public String getNom() { return nom; }  
-	public List<String> getListeMots() { Collections.sort(this.listeMots); return listeMots; }  
+	public List<String> getListeMots() { 
+		//Collections.sort(this.listeMots); 
+		return listeMots;
+	}  
 	public int getScore() { return score; }
 	
-	public void setEntrainDeJouer(boolean entrainDeJouer) { this.entrainDeJouer = entrainDeJouer; }
+	public void setEntrainDeJouer(boolean entrainDeJouer) { 
+		this.entrainDeJouer = entrainDeJouer;
+		this.setChanged();
+		this.notifyObservers();
+	}
 	public void setNom(String nom) { this.nom = nom; }  
-	public void setScore(int score) { this.score = score; }  
+	public void setScore(int score) { 
+		this.score = score;
+
+	}  
 	public void setListeMots(List<String> listeMots) { this.listeMots = listeMots; }
 	
 	public String toString(){ return nom+ " : " +score + " pts."; }
@@ -42,7 +51,10 @@ public class Joueur extends Observable implements Comparable<Joueur> {
 	// PUBLIC METHODS /////////////////////////////////////////////////////////
 	
 	/** Ajout du score un nombre au score. */
-	public void ajoutScore(int score){ this.score+=score; }
+	public void ajoutScore(int score){ 
+		this.score+=score;
+
+	}
 	
 	/** Permet d'ajouter un mot a liste */
 	public void ajouterUnMot(String mot){ 
@@ -54,7 +66,11 @@ public class Joueur extends Observable implements Comparable<Joueur> {
 	}
 	
 	/** Permet de vider la liste des mots du joueur. */
-	public void resetListeMots(){ this.setListeMots(new ArrayList<String>()); }
+	public void resetListeMots(){ 
+		this.setListeMots(new ArrayList<String>());
+		this.setChanged();
+		this.notifyObservers();	
+	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -66,9 +82,18 @@ public class Joueur extends Observable implements Comparable<Joueur> {
 	public int compareTo(Joueur autre) {
 		return this.score-autre.getScore();
 	}
+
+
+
+	public void jouer() {
+		//System.out.println(nom + " EST ENTRAIN DE JOUEUR !!!");
+	}
 	
-	
-	
-	
+
+
+	public void arreterDeJoueur(){
+			System.out.println(nom + " a dit STOP");
+			this.entrainDeJouer = false;
+	}
 	
 }

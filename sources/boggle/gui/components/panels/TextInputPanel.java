@@ -19,6 +19,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import boggle.autre.Utils;
 import boggle.gui.components.ecrans.TypeEcrans;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
@@ -40,22 +41,24 @@ public class TextInputPanel extends JPanel implements Observer {
 	private Button retour;
 	private GrilleLettres grille;
 	private Stack<De> temp = new Stack<>();
+	
 	public TextInputPanel(){
 		this.champSaisie = new JTextField();
 		this.retour = new Button(1, "Retour", SwingConstants.CENTER, 150, 40);
 		this.ajouter = new Button(2, "Ajouter", SwingConstants.CENTER, 150, 30);
 		this.terminer = new Button(3, "Terminer", SwingConstants.CENTER, 150, 40);
-		init();		
+		initLayout();		
 		this.champSaisie.setText("");
 		
 		this.grille = Game.modele.getGrille();
+	
 		this.grille.addObserver(this);
 		
 		
 	}
 	
 	
-	private void init(){
+	private void initLayout(){
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		gbc.anchor = GridBagConstraints.EAST;
@@ -104,7 +107,7 @@ public class TextInputPanel extends JPanel implements Observer {
 				executerAjouter(motSaisie);
 			}else if(button.getId() == 3){ 
 				// BOuton Terminer
-				Game.modele.getJoueurEnCours().setEntrainDeJouer(false);
+				executerTerminer();
 			}
 				
 			
@@ -115,6 +118,16 @@ public class TextInputPanel extends JPanel implements Observer {
 		
 		
 	}
+	
+	private void executerTerminer(){
+		System.out.println("BTN TERMINER");
+		Game.modele.getJoueurEnCours().setEntrainDeJouer(false);
+		//GrilleLettres g = new GrilleLettres();
+		Game.modele.setGrille(new GrilleLettres());
+		this.grille = Game.modele.getGrille();
+		this.grille.addObserver(this);
+	}
+	
 	
 	/** Instructions a executer apres appuie sur btn ajouter */
 	private void executerAjouter(String motSaisie){
@@ -128,7 +141,7 @@ public class TextInputPanel extends JPanel implements Observer {
 		
 		// On remet les cases en gris
 		grille.resetDejaVisite();
-		grille.setListeDeSelectionnes(new LinkedList<De>());
+		grille.setListeDeSelectionnes(new LinkedList<>());
 		//grille.getListeDeSelectionnes().clear();
 		champSaisie.setText("");
 		
@@ -140,7 +153,7 @@ public class TextInputPanel extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MESSAGE " + sourceMessage + " >>>>> TEXT INPUT" );
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MESSAGE " + sourceMessage + " >>>>> TEXT INPUT" );
 		
 		if("click".equals(sourceMessage)){
 			GrilleLettres g = (GrilleLettres) o;
@@ -149,13 +162,13 @@ public class TextInputPanel extends JPanel implements Observer {
 			for(De s : g.getListeDeSelectionnes()){
 				unMot.append(s.getChaineFaceVisible());
 			}
-			System.out.println("ajout de |" +unMot+ "| dans l'input.");
+			//System.out.println("ajout de |" +unMot+ "| dans l'input.");
 			this.champSaisie.setText(unMot.toString());
 			
 		}else{
-			System.out.println("Rien a faire");
+			//System.out.println("Rien a faire");
 		}
-		System.out.println("FIN TEXT INPUT UPDATE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		//System.out.println("FIN TEXT INPUT UPDATE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		
 		
 		
@@ -176,12 +189,13 @@ public class TextInputPanel extends JPanel implements Observer {
 		@Override
 		protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
 			super.insertUpdate(chng, attr);
-			System.out.println("++++ UN INSERT UPDATE ++++ SOURCE EN COURS : " + sourceMessage);
+			//System.out.println("++++ UN INSERT UPDATE ++++ SOURCE EN COURS : " + sourceMessage);
 			if("clavier".equals(sourceMessage)){
 				sourceMessage = "clavier";
 				Game.modele.getGrille().resetDejaVisite();
 				temp = new Stack<>();
-				System.out.println(champSaisie.getText() + "-------> " +  grille.estUnMotValideBis(champSaisie.getText(), temp) + " ::: " + temp );
+				//System.out.println(champSaisie.getText() + "-------> " +  grille.estUnMotValideBis(champSaisie.getText(), temp) + " ::: " + temp );
+				grille.estUnMotValideBis(champSaisie.getText(), temp);
 				Deque<De> ls = new LinkedList<>(temp);
 				for(De de : ls){
 					de.setDejaVisite(true);
@@ -198,7 +212,7 @@ public class TextInputPanel extends JPanel implements Observer {
 
 		@Override
 		protected void removeUpdate(DefaultDocumentEvent chng) {
-			System.out.println("suppresseion : " + chng.getLength());
+			//System.out.println("suppresseion : " + chng.getLength());
 			super.removeUpdate(chng);
 			grille.removeLastDesSelectionnes();
 		}
@@ -210,15 +224,15 @@ public class TextInputPanel extends JPanel implements Observer {
 		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
 			if(str == null) return;
 			str = str.toUpperCase();
-			System.out.println("\tInsertion de |"+str+"|");
+			//System.out.println("\tInsertion de |"+str+"|");
 			if ((getLength() + str.length()) <= limit){ 
 					if(str.length() == 1){
-						System.out.println("******************************************************************");
+						//System.out.println("******************************************************************");
 						if(grille.estUneLettreValide(str)) {
 							super.insertString(offs, str, a);
 							
 							sourceMessage = "clavier";
-							System.out.println("CECI EST UN CLAVIER");
+							//System.out.println("CECI EST UN CLAVIER");
 
 							
 						}

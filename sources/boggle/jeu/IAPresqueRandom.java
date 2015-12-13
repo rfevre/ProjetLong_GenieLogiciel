@@ -10,7 +10,6 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import boggle.autre.Utils;
 import boggle.mots.ArbreLexical;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;

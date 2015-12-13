@@ -1,101 +1,97 @@
 package boggle.jeu;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
 import boggle.autre.Utils;
+import boggle.gui.components.ecrans.TypeEcrans;
 import boggle.gui.core.Game;
 import boggle.mots.ArbreLexical;
 import boggle.mots.GrilleLettres;
 
-public class Partie {
+public class Partie extends Observable implements Observer, Runnable {
 	private List<Joueur> listeJoueurs;
 	private GrilleLettres grille; 
-	private int nbTours;
-	private int scoreMax;
+	private int nbTours, numTour;
 	private ArbreLexical arbre;
 	private Joueur joueurEnCours;
-	
+	private Thread thread;
+
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	public Partie(){
-		this.nbTours = 2; //Par défaut 2 tours max
-		this.scoreMax = 3;
+		this.nbTours = 3;
 		this.grille  = new GrilleLettres();
+		//this.grille.initGrilleDepuisChaine("JOUR PAPA MAMA ZOZN");
 		this.arbre   = ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire"));
 		this.listeJoueurs = new ArrayList<Joueur>();
 	}
-	
-	
+
+
 	// GET-SET ////////////////////////////////////////////////////////////////
-	
+
 	public ArbreLexical getArbre() { return arbre; }  
 	public GrilleLettres getGrille() { return grille; }  
-	public List<Joueur> getListeJoueurs() { return listeJoueurs; }  
+	public List<Joueur> getListeJoueurs() { return listeJoueurs;}  
 	public int getNbTours() { return nbTours; }  
-	public Joueur getJoueurEnCours() { return joueurEnCours; } 
-	public int getScoreMax() {return scoreMax; }
+	public Joueur getJoueurEnCours() { return joueurEnCours; }   
+	public int getNumTour() { return numTour; }   
 
-
-	public void setScoreMax(int scoreMax) { this.scoreMax = scoreMax; }
+	public void setNumTour(int numTour) { this.numTour = numTour; }
 	public void setListeJoueurs(List<Joueur> listeJoueurs) { this.listeJoueurs = listeJoueurs; }  
 	public void setArbre(ArbreLexical arbre) { this.arbre = arbre; }  
-	public void setGrille(GrilleLettres grille) { this.grille = grille; }  
+	public void setGrille(GrilleLettres grille) { 
+		this.grille = grille;
+		this.setChanged();
+		this.notifyObservers("grille");
+	}  
+
 	public void setNbTours(int nbTours) { this.nbTours = nbTours; }
-	public void setJoueurEnCours(Joueur joueurEnCours) { this.joueurEnCours = joueurEnCours; }
-	
+	public void setJoueurEnCours(Joueur joueurEnCours) { 
+		//calculerScore(this.joueurEnCours);
+		this.joueurEnCours = joueurEnCours;
+		this.joueurEnCours.setEntrainDeJouer(true);
+		this.setChanged();
+		this.notifyObservers();
+	}
+
 	// PUBLIC METHODS /////////////////////////////////////////////////////////
-	
+
 	/**
 	 * Ajoute un joueur à la liste de joueurs
 	 * @param joueur
 	 */
-	public void ajouterJoueur(Joueur joueur){
+	public synchronized void ajouterJoueur(Joueur joueur){
 		if(!this.listeJoueurs.contains(joueur)){
+			joueur.addObserver(this);
 			this.listeJoueurs.add(joueur);
 		}
 	}
-	
+
 	/**
 	 * Méthode qui 'vide' la liste de joueurs en créant une nouvelle instance
 	 */
 	public void resetListeJoueurs(){
 		this.listeJoueurs = new ArrayList<Joueur>();
 	}
-	
+
 	/**
 	 * Supprime un joueur à la liste de joueurs
 	 * @param joueur
 	 */
 	public void supprimerJoueur(Joueur joueur){
 		if(this.listeJoueurs.contains(joueur)){
+			joueur.deleteObserver(this);
 			this.listeJoueurs.remove(joueur);
 		}
 	}
 
-	
-	// TODO : voir pour le score max
-	public void lancerPartie(){
-		int cptTours = 0; //compteur du nombre de tour
-		System.out.println(this);
-		while(cptTours < Game.modele.getNbTours()){
-			Iterator<Joueur> it = Game.modele.getListeJoueurs().iterator();
-			while(it.hasNext()){
-				Joueur joueur = it.next();
-				joueur.setEntrainDeJouer(true);
-				this.joueurEnCours=joueur;
-				while(this.joueurEnCours.isEntrainDeJouer()){
-					System.out.println(joueurEnCours+" est entrain de jouer --> " + joueurEnCours.getListeMots());
-				}
-				this.calculerScore(this.joueurEnCours);
-				this.joueurEnCours.resetListeMots();
-			}
-			cptTours++;
-		}
-			
-	}
-	
+
+
+
 	public void lancerPartieConsole(){
 		final Scanner sc = new Scanner(System.in);
 		// nom du joueur
@@ -127,49 +123,86 @@ public class Partie {
 		System.out.println(joueur);
 		sc.close();
 	}
-	
+
 	/**Permet de calculer le score du d'un joueur a partir des mots presents dans sa liste	 */
-	public void calculerScore(Joueur joueur){
+	public synchronized void calculerScore(Joueur joueur){
+		System.out.println("Calcul de score de : " + joueur);
+		if(joueur == null) return;
+		joueur.setScore(0);
+
 		String points = Utils.getConfigProperty("points");
 		String[] pts = points.split(",");
 		int[] intPts = new int[pts.length];
 		for(int i=0; i<intPts.length; i++){
 			intPts[i] = Integer.parseInt(pts[i]);
 		}
-		
-		for(String mot : joueur.getListeMots()){
-			if (arbre.contient(mot)){
-				switch(mot.length()){
-				case 3:
-				case 4: joueur.ajoutScore(intPts[0]); break;
-				case 5: joueur.ajoutScore(intPts[1]); break;
-				case 6: joueur.ajoutScore(intPts[2]); break;
-				case 7: joueur.ajoutScore(intPts[4]); break;
-				default:joueur.ajoutScore(intPts[5]); break;
+
+
+		for(int i=0; i<joueur.getListeMots().size(); i++){
+			String mot = joueur.getListeMots().get(i);
+			int gain = arbre.getPointMot(mot);
+			System.out.println(mot +" rapporte " + gain);
+			joueur.ajoutScore(gain);
+		}
+//		this.setChanged();
+//		this.notifyObservers();
+
+	}
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("********* UPDATE PARTIE ************* " + o.getClass());
+		Joueur j = (Joueur) o;
+		calculerScore(j);
+		this.setChanged();
+		this.notifyObservers();
+
+	}
+
+
+	@Override
+	public void run() {
+		System.out.println("________________________________________________________________ DEBUT DE LA PARTIE ____");	
+		for(int tour=1; tour<=nbTours; tour++){
+			this.setNumTour(tour);
+			for(int i=0; i<getListeJoueurs().size(); i++){
+
+				Joueur joueur = getListeJoueurs().get(i);
+				this.setJoueurEnCours(joueur);
+				while(joueur.isEntrainDeJouer()){	
+					joueur.jouer();
 				}
+
+				//calculerScore(joueur);
+				joueur.arreterDeJoueur();
 			}
 		}
+		finDeLaPartie();
 	}
-	
-	
-	
 
-	
+
+	public synchronized void lancerLaPartie(){
+		this.thread = new Thread(this);
+		this.thread.start();
+	}
+
+	public synchronized void finDeLaPartie(){
+		try {
+			System.out.println("__________________________________________________________________ FIN DE LA PARTIE ____");			
+			Game.goToEcran(TypeEcrans.MENU);
+			this.thread.join();
+		} catch (Exception e) { System.out.println(e.getMessage());	}
+	}
+
+
+
+
+
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
-	
-	
-	
 
 
-//	public static void main(String[] args) {
-//		Partie p = new Partie();
-//		GrilleLettres g = new GrilleLettres(4);
-//		g.initGrilleDepuisChaine("PAGE LESO TELE EILP");
-//		//System.out.println(g);
-//		p.setGrille(g);
-//		p.lancerPartieConsole();
-//
-//	}
-	
+
+
 }

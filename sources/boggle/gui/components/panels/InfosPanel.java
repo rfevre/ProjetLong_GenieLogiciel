@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+
+import boggle.gui.core.Game;
 
 /** 
  * TODO Nom du joueur en cours, son score
@@ -15,14 +19,20 @@ import javax.swing.JProgressBar;
  * @author elmassam
  *
  */
-public class InfosPanel extends JPanel {
+public class InfosPanel extends JPanel implements Observer {
 	
 	private static final long serialVersionUID = 1L;
 
+	private JLabel numTour, nomJoueurEnCours, scoreJoueurEnCours;
+	private JProgressBar chrono; 
+	
 	public InfosPanel(){
 		
 		this.setBackground(Color.PINK);
 		init();
+		
+		Game.modele.addObserver(this);
+		
 	}
 	
 	public void init() {
@@ -31,10 +41,10 @@ public class InfosPanel extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 
-		JLabel numTour = new JLabel("<html><h3>Manche N° </h3></html>");
-		JLabel nomJoueurEnCours = new JLabel("<html>Mustapa</h3></html>");
-		JLabel scoreJoueurEnCours = new JLabel("<html>105000000</h3></html>");
-		JProgressBar chrono  = new JProgressBar(0,100);
+		numTour = new JLabel("<html><h2>Manche N° " +Game.modele.getNumTour() + "/" + Game.modele.getNbTours()+ "</h2></html>");
+		nomJoueurEnCours = new JLabel("<html><h2>" +Game.modele.getJoueurEnCours().getNom()+ "</h2></html>");
+		scoreJoueurEnCours = new JLabel("<html><h2>" +Game.modele.getJoueurEnCours().getScore()+ " points.</h2></html>");
+		chrono  = new JProgressBar(0,100);
 		
 		//numTour.setPreferredSize(new Dimension(1200, 50));
 		chrono.setValue(60);
@@ -63,5 +73,12 @@ public class InfosPanel extends JPanel {
 		this.add(chrono, gbc);
 		
 		
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		this.numTour.setText("<html><h2>Manche N° " +Game.modele.getNumTour() + " / " + Game.modele.getNbTours()+ "</h2></html>");
+		this.nomJoueurEnCours.setText("<html><h2>" +Game.modele.getJoueurEnCours().getNom()+ "</h2></html>");
+		this.scoreJoueurEnCours.setText("<html><h2>" +Game.modele.getJoueurEnCours().getScore()+ "</h2></html>");
 	}
 }

@@ -26,6 +26,8 @@ public class GrilleLettres extends Observable {
     public GrilleLettres(){
     	this(4,	Utils.DOSSIER_CONFIG + Utils.getConfigProperty("des"));
     	this.setListeDeSelectionnes(new LinkedList<De>());
+    	this.setChanged();
+    	this.notifyObservers();
     }
     
     public GrilleLettres(int dimension){
@@ -44,7 +46,11 @@ public class GrilleLettres extends Observable {
     public De[][] getGrille() { return grille; }
     
     public void setDimension(int dimension) { this.dimension = dimension; }
-    public void setGrille(De[][] grille) { this.grille = grille; }
+    public void setGrille(De[][] grille) { 
+    	this.grille = grille;
+    	this.setChanged();
+		this.notifyObservers();
+    }
         
     public Deque<De> getListeDeSelectionnes() { return listeDeSelectionnes; }  
     public void setListeDeSelectionnes(Deque<De> listeDeSelectionnes) { 
@@ -122,6 +128,8 @@ public class GrilleLettres extends Observable {
 				k++;
 			}
 		}
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
     /** Permet d'initialiser la grille depuis un fichier */
@@ -150,7 +158,8 @@ public class GrilleLettres extends Observable {
 	    		nbDes--;
 	    	}
 	    	br.close();
-
+			this.setChanged();
+			this.notifyObservers();
 		} catch (FileNotFoundException e) {	System.err.println("Erreur : " + e.getMessage());
 		} catch (IOException e) { System.err.println("Erreur : " + e.getMessage());
 		} catch (Exception e) { System.err.println("Erreur : " + e.getMessage()); }        

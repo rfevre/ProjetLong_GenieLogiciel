@@ -3,6 +3,11 @@ package boggle.gui.components.panels;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -12,7 +17,7 @@ import boggle.autre.JTableModel;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
 
-public class ListeJoueursPanel extends JPanel {
+public class ListeJoueursPanel extends JPanel implements Observer {
 	
 	/**
 	 * 
@@ -23,6 +28,9 @@ public class ListeJoueursPanel extends JPanel {
 	private static Dimension dimension = new Dimension(200,800);
 	
 	public ListeJoueursPanel(){
+		
+		Game.modele.addObserver(this);
+		
 		this.setPreferredSize(dimension);
 		this.setBackground(Color.GREEN);
 
@@ -32,7 +40,6 @@ public class ListeJoueursPanel extends JPanel {
 		tableModel = new JTableModel<Joueur>("Joueurs");
 		
 		//exemple d'insertion dans le model
-		System.out.println("---> " + Game.modele.getListeJoueurs());
 		tableModel.setData(Game.modele.getListeJoueurs());
 		tableModel.fireTableStructureChanged();
 		table = new JTable(tableModel) ;
@@ -45,6 +52,22 @@ public class ListeJoueursPanel extends JPanel {
 	}
 	
 	
+	@Override
+	public void update(Observable o , Object arg) {
+		//Game.modele.calculerScore(joueur);
+		List<Joueur> liste = new ArrayList<>(Game.modele.getListeJoueurs());
+		Collections.sort(liste);
+		Collections.reverse(liste);
+		System.out.println(Game.modele.getListeJoueurs() + " ||||| " + liste);
+		//System.out.println("ListeMotPanel : Joueur en cours :"+joueur+ " Liste : "+joueur.getListeMots());
+		tableModel.setData(liste);
+		tableModel.fireTableDataChanged();
+		
+		System.out.println("LISTE JOUEURS : " + Game.modele.getListeJoueurs());
+	}
 	
+	
+	
+
 
 }
