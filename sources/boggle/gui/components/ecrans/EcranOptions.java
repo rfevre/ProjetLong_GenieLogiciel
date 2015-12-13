@@ -131,7 +131,7 @@ public class EcranOptions extends Ecran {
 		this.btnRetour.setBackground(Color.RED);
 		this.add(btnRetour, gbc);
 		
-		gbc.gridx = 5; //gbc.gridy=5;
+		gbc.gridx = 5²; //gbc.gridy=5;
 		gbc.insets = new Insets(100,100,10,100);
 		this.btnValider.setBackground(Color.RED);
 		this.add(btnValider, gbc);
