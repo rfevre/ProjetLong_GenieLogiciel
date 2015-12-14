@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import boggle.autre.Couleurs;
 import boggle.gui.core.Game;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
@@ -28,7 +29,7 @@ public class GrillePanel extends JPanel implements Observer {
 		this.grille = Game.modele.getGrille();
 		this.grille.addObserver(this);
 		this.listeDesGraphiques = new DeGraphique[grille.getDimension()][grille.getDimension()];
-		init();
+		initLayout();
 		this.grille.resetDejaVisite();
 		
 	}
@@ -54,7 +55,8 @@ public class GrillePanel extends JPanel implements Observer {
 	}
 
 
-	public void init(){
+	public void initLayout(){
+		//this.setBackground(Couleurs.DARK_BLUE);
 		this.setLayout(new GridBagLayout());
 		JPanel jp = new JPanel(new GridLayout(grille.getDimension(), grille.getDimension(), 10, 10));
 		jp.setPreferredSize(new Dimension(500, 500));
@@ -70,7 +72,7 @@ public class GrillePanel extends JPanel implements Observer {
 	
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public synchronized void update(Observable o, Object arg) {
 
 			for(int i=0; i<grille.getDimension(); i++){
 				for(int j=0; j<grille.getDimension(); j++){

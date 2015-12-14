@@ -25,13 +25,13 @@ public class ListeJoueursPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private JTableModel<Joueur> tableModel ;
-	private static Dimension dimension = new Dimension(200,800);
+	private static Dimension dimension = new Dimension(200,560);
 	
 	public ListeJoueursPanel(){
 		
 		Game.modele.addObserver(this);
 		
-		this.setPreferredSize(dimension);
+		//this.setPreferredSize(dimension);
 		this.setBackground(Color.GREEN);
 
 		this.setLayout(new FlowLayout()) ;
@@ -58,7 +58,6 @@ public class ListeJoueursPanel extends JPanel implements Observer {
 		List<Joueur> liste = new ArrayList<>(Game.modele.getListeJoueurs());
 		Collections.sort(liste);
 		Collections.reverse(liste);
-		System.out.println(Game.modele.getListeJoueurs() + " ||||| " + liste);
 		//System.out.println("ListeMotPanel : Joueur en cours :"+joueur+ " Liste : "+joueur.getListeMots());
 		tableModel.setData(liste);
 		tableModel.fireTableDataChanged();

@@ -225,9 +225,12 @@ public class ArbreLexical {
 			
 		if (this.contient(mot)){
 				switch(mot.length()){
+				case 0: 
+				case 1: 
+				case 2: return 0;
 				case 3:
 				case 4: return intPts[0];
-				case 5: return 3;//intPts[1];
+				case 5: return intPts[1];
 				case 6: return intPts[2];
 				case 7: return intPts[4];
 				default:return intPts[5];

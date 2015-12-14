@@ -11,7 +11,7 @@ public class Game {
 
 	public static final int WIDTH  = 1100;
 	public static final int HEIGHT = WIDTH * 3 / 4 ;
-	public static final Partie modele = new Partie();
+	public static Partie modele = new Partie();
 	
 	private static final Fenetre  fenetre = new Fenetre("BOGGLE", WIDTH, HEIGHT);
 	
@@ -25,12 +25,21 @@ public class Game {
 		if(instance == null){
 			instance = new Game();
 		}
-		return instance;
+		return new Game();
 	}
 	
 	private Game(){
 		goToEcran(ECRAN_EN_COURS);
 	}
+	
+	
+	public static void resetPartie(){
+		System.out.println("Avant " + modele);
+		//modele.getThread().interrupt();
+		//modele = new Partie();
+		System.out.println("Apres " + modele);
+	}
+	
 	
 	// GET-SET ////////////////////////////////////////////////////////////////
 	
@@ -50,7 +59,6 @@ public class Game {
 		System.exit(0);
 	}
 	
-
 
 	// MAIN ///////////////////////////////////////////////////////////////////
 	
