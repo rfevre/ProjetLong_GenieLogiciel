@@ -7,10 +7,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -49,17 +51,17 @@ public class EcranOptions extends Ecran {
 	 */
 	private EcranOptions() {
 		this.dictionnaire = new JTextField();
-		this.score = new JTextField();
-		this.nbTours = new JTextField();
-		this.tempsJeu = new JTextField();
+		this.score = new JTextField("20");
+		this.nbTours = new JTextField("3");
+		this.tempsJeu = new JTextField("200");
 		
 		this.listeTailleGrille = new String[]{"4x4","5x5"};
 		this.tailleGrille = new JComboBox(listeTailleGrille);
 		
 		this.dicoLabel = new JLabel("<html><h2> Choix du dictionnaire </html></h2>");
-		this.scoreLabel = new JLabel("<html><h2> Score Ã  atteindre </html></h2>");
+		this.scoreLabel = new JLabel("<html><h2> Score à  atteindre </html></h2>");
 		this.nbToursLabel = new JLabel("<html><h2> Nombre de tours maximum </html></h2>");
-		this.tempsJeuLabel = new JLabel("<html><h2> Temps de jeu par joueur </html></h2>");
+		this.tempsJeuLabel = new JLabel("<html><h2> Temps d'une manche (en sec)</html></h2>");
 		this.tailleGrilleLabel = new JLabel("<html><h2> Taille de la grille </html></h2>");
 		
 		this.btnBrowse = new Button(1, "BROWSE", SwingConstants.CENTER, 100,30);
@@ -176,13 +178,70 @@ public class EcranOptions extends Ecran {
 			}
 			else if(button.getId() == 3) // Bouton valider
 			{  
-				
+				verifOptions();
 				// Modif Ã  faire en fonction des choix de l'utilisateur
 			}
 				
 			
 		}
 		
+		
+	}
+	
+	private void verifOptions(){
+		boolean changement = false;
+		
+		//Vérification du champ nbTours
+		if (Pattern.matches("[0-9]*",nbTours.getText())){
+			if (Integer.parseInt(nbTours.getText())>0 && Integer.parseInt(nbTours.getText())<20){
+				Game.modele.setNbTours(Integer.parseInt(nbTours.getText()));
+				changement = true;
+			}
+			else{
+				changement = false;
+			}
+		}
+		else{
+			changement = false;
+		}
+		
+		//Vérification du champ tempsJeu
+		if (Pattern.matches("[0-9]*",tempsJeu.getText())){
+			if (Integer.parseInt(tempsJeu.getText())>0 && Integer.parseInt(tempsJeu.getText())<600){
+				Game.modele.setDurreeManche(Integer.parseInt(tempsJeu.getText()));
+				changement = true;
+			}
+			else{
+				changement = false;
+			}
+		}
+		else{
+			changement = false;
+		}
+		
+		//Vérification du champ score 
+		//TODO : faire un setScore
+		if (Pattern.matches("[0-9]*",score.getText())){ // true)
+			if (Integer.parseInt(score.getText())>0 && Integer.parseInt(score.getText())<1000){
+				//Game.modele.setScoreMax(Integer.parseInt(score.getText()));
+				changement = true;
+			}
+			else{
+				changement = false;
+			}
+		}
+		else{
+			changement = false;
+		}
+		
+		//On vérifie si tout à bien étais pris en compte
+		if (changement){
+			JOptionPane.showMessageDialog(null, "Changements pris en compte." );
+			Game.goToEcran(TypeEcrans.MENU);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Changements non pris en compte." );
+		}
 		
 	}
 	
