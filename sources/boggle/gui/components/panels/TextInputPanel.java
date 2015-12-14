@@ -43,6 +43,7 @@ public class TextInputPanel extends JPanel implements Observer {
 	private Stack<De> temp = new Stack<>();
 	
 	public TextInputPanel(){
+		
 		this.champSaisie = new JTextField();
 		this.retour = new Button(1, "Retour", SwingConstants.CENTER, 150, 40);
 		this.ajouter = new Button(2, "Ajouter", SwingConstants.CENTER, 150, 30);
@@ -158,7 +159,6 @@ public class TextInputPanel extends JPanel implements Observer {
 		if("click".equals(sourceMessage)){
 			GrilleLettres g = (GrilleLettres) o;
 			StringBuilder unMot = new StringBuilder();
-			
 			for(De s : g.getListeDeSelectionnes()){
 				unMot.append(s.getChaineFaceVisible());
 			}

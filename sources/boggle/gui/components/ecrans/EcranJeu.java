@@ -2,6 +2,8 @@ package boggle.gui.components.ecrans;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,15 +30,55 @@ public class EcranJeu extends Ecran implements Observer  {
 		Game.modele.addObserver(this);
 		this.setBackground(Color.BLUE);
 		System.out.println("ECRAN JEU");
-		init();
+		initLayout();
 		
 		//new Thread(Game.modele).start();;
 		Game.modele.lancerLaPartie();
 		
 	}
 
+//	@Override
+//	public void initLayout() {
+//		this.setLayout(new GridBagLayout());
+//
+//		GridBagConstraints gbc = new GridBagConstraints();
+//		
+//		// Liste des joueurs
+//		ListeJoueursPanel listeJoueursPenel = new ListeJoueursPanel();
+//		InfosPanel 		infosPanel 		= new InfosPanel();
+//		ListeMotsPanel 	listeMotsPanel 	= new ListeMotsPanel();
+//		TextInputPanel 	textInputPanel 	= new TextInputPanel();
+//		grilleGraphique = new GrillePanel();
+//		
+//		// Liste des mots
+//		// grille
+//		
+//		gbc.weightx = 1; gbc.weighty = 0.5;
+//		gbc.fill = GridBagConstraints.BOTH;
+//		gbc.gridx=0; gbc.gridy =0; gbc.gridwidth = 4; gbc.gridheight = 1;
+//		this.add(infosPanel, gbc);
+//		
+//		gbc.weightx = 0.2;
+//		gbc.gridx=0; gbc.gridy =1; gbc.gridwidth = 1; gbc.gridheight = 3; gbc.weighty = 2;
+//		this.add(listeJoueursPenel, gbc);
+//		
+//		gbc.weightx = 0.6;
+//		gbc.gridx=1; gbc.gridwidth = 2; gbc.gridwidth = 1; gbc.gridheight = 3; gbc.weighty = 2;
+//		this.add(grilleGraphique, gbc);
+//		
+//		gbc.weightx = 0.2;
+//		gbc.gridx=3; gbc.gridwidth = 1; gbc.gridwidth = 1; gbc.gridheight = 3; gbc.weighty = 2;
+//		this.add(listeMotsPanel, gbc);
+//		
+//		gbc.weightx = 1;
+//		gbc.gridx=0; gbc.gridy =4; gbc.gridwidth = 4; gbc.gridheight = 1; gbc.weighty = 0.5;
+//		this.add(textInputPanel, gbc);
+//		//this.lancerPartie();
+//	}
+	
+	
 	@Override
-	public void init() {
+	public void initLayout() {
 		
 		
 		this.setLayout(new BorderLayout());
@@ -63,6 +105,7 @@ public class EcranJeu extends Ecran implements Observer  {
 		//this.lancerPartie();
 	}
 
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		if("grille".equals(arg)){

@@ -10,7 +10,6 @@ import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-
 import boggle.gui.core.Game;
 
 /** 
@@ -25,9 +24,10 @@ public class InfosPanel extends JPanel implements Observer {
 
 	private JLabel numTour, nomJoueurEnCours, scoreJoueurEnCours;
 	private JProgressBar chrono; 
+	private double dureeMax;
 	
 	public InfosPanel(){
-		
+		this.dureeMax = Game.modele.getDurreeManche();
 		this.setBackground(Color.PINK);
 		init();
 		
@@ -44,7 +44,7 @@ public class InfosPanel extends JPanel implements Observer {
 		numTour = new JLabel("<html><h2>Manche N° " +Game.modele.getNumTour() + "/" + Game.modele.getNbTours()+ "</h2></html>");
 		nomJoueurEnCours = new JLabel("<html><h2>" +Game.modele.getJoueurEnCours().getNom()+ "</h2></html>");
 		scoreJoueurEnCours = new JLabel("<html><h2>" +Game.modele.getJoueurEnCours().getScore()+ " points.</h2></html>");
-		chrono  = new JProgressBar(0,100);
+		chrono  = new JProgressBar(0, 100);
 		
 		//numTour.setPreferredSize(new Dimension(1200, 50));
 		chrono.setValue(60);
@@ -73,6 +73,16 @@ public class InfosPanel extends JPanel implements Observer {
 		this.add(chrono, gbc);
 		
 		
+//		chrono.setString("(°L°)");
+//		chrono.setBackground(Color.GREEN);
+//		chrono.setForeground(Color.WHITE);
+//		chrono.setPreferredSize(new Dimension(this.getWidth(), 11));
+//		chrono.setBorderPainted(false);
+//		chrono.setStringPainted(true);
+//		
+//		UIManager.put("ProgressBar.selectionForeground", Color.red);
+//		UIManager.put("ProgressBar.selectionBackground", Color.darkGray);
+//		chrono.updateUI();
 	}
 
 	@Override
@@ -80,5 +90,7 @@ public class InfosPanel extends JPanel implements Observer {
 		this.numTour.setText("<html><h2>Manche N° " +Game.modele.getNumTour() + " / " + Game.modele.getNbTours()+ "</h2></html>");
 		this.nomJoueurEnCours.setText("<html><h2>" +Game.modele.getJoueurEnCours().getNom()+ "</h2></html>");
 		this.scoreJoueurEnCours.setText("<html><h2>" +Game.modele.getJoueurEnCours().getScore()+ "</h2></html>");
+		chrono.setValue((int) ((Game.modele.getDurreeManche()/dureeMax)*100));
+		chrono.setString(""+Game.modele.getDurreeManche() + " minutes." );
 	}
 }

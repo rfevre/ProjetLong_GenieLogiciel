@@ -12,7 +12,7 @@ public abstract class Ecran extends JPanel implements MouseListener {
 	
 	public Ecran(){}
 	
-	public abstract void init();
+	public abstract void initLayout();
 	
 	
 	@Override

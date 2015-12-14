@@ -87,7 +87,7 @@ public class EcranMenu extends Ecran {
 
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mousePressed(MouseEvent e) {
 			Game.ECRAN_EN_COURS = TypeEcrans.JEU;
 //			if(1 == ((MenuBtn) e.getSource()).getId() ){
 //				Game.goToEcran(TypeEcrans.SELECTION_JOUEURS);
@@ -126,7 +126,7 @@ public class EcranMenu extends Ecran {
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
+		public void mouseClicked(MouseEvent e) {
 			this.setBackground(Color.DARK_GRAY);
 			
 		}
@@ -135,6 +135,13 @@ public class EcranMenu extends Ecran {
 		public void mouseReleased(MouseEvent e) {
 			this.setBackground(Color.WHITE);
 		}
+		
+	}
+
+
+	@Override
+	public void initLayout() {
+		// TODO Auto-generated method stub
 		
 	}
 	

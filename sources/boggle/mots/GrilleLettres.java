@@ -11,6 +11,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 import java.util.Stack;
 
 import boggle.autre.Utils;
@@ -77,7 +78,7 @@ public class GrilleLettres extends Observable {
 	 * Permet de mettre à jour la liste des dés sélectionnés
 	 * @param de a ajouter
 	 */
-	public void addDeToListeDesSelectionnes(De de){
+	public synchronized void addDeToListeDesSelectionnes(De de){
 		if(de!=null){
 			if(listeDeSelectionnes.isEmpty()){
 				de.setDejaVisite(true);
@@ -314,6 +315,23 @@ public class GrilleLettres extends Observable {
     	return desAdjacents;
     }
     
+    
+    
+    
+    public List<De> getListeDeAdjacentsNonVisites(De centre){
+    	List<De> tmp = new ArrayList<>();
+    	
+    	for(De de : getListeDesAdjacents(centre)){
+    		if(!de.isDejaVisite()) tmp.add(de);
+    	}
+    	
+    	return tmp;
+    }
+    
+
+    public De getRandomDeFromList(List<De> liste){
+    	return liste.get(new Random().nextInt(liste.size()));
+    }
     
     
     

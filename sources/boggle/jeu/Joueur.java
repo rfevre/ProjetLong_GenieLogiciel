@@ -5,14 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
-public class Joueur extends Observable implements Comparable<Joueur> {
+public class Joueur extends Observable implements Comparable<Joueur>, CommentJouer {
 	
 	// Attributs 
 	
-	private String nom;
-	private int score;
-	private List<String> listeMots;
-	private boolean entrainDeJouer; 
+	protected String nom;
+	protected int score;
+	protected List<String> listeMots;
+	protected boolean entrainDeJouer; 
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	
 	public Joueur(String nom){
@@ -85,13 +85,13 @@ public class Joueur extends Observable implements Comparable<Joueur> {
 
 
 
-	public void jouer() {
+	public synchronized void jouer() {
 		//System.out.println(nom + " EST ENTRAIN DE JOUEUR !!!");
 	}
 	
 
 
-	public void arreterDeJoueur(){
+	public synchronized void arreterDeJoueur(){
 			System.out.println(nom + " a dit STOP");
 			this.entrainDeJouer = false;
 	}

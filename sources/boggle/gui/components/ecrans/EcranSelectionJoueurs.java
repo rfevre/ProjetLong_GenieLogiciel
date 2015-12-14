@@ -21,6 +21,7 @@ import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
 import boggle.jeu.JoueurFactory;
+import boggle.jeu.Partie;
 import boggle.jeu.TypeJoueur;
 public class EcranSelectionJoueurs extends Ecran {
 
@@ -32,12 +33,12 @@ public class EcranSelectionJoueurs extends Ecran {
 		if(instance == null){
 			instance = new EcranSelectionJoueurs();
 		}
-		return instance;
+		return new EcranSelectionJoueurs();
 	}
 		
 	private EcranSelectionJoueurs() {
 		System.out.println("ECRAN SELECTION");
-		init();
+		initLayout();
 	}
 	
 	/**
@@ -54,7 +55,8 @@ public class EcranSelectionJoueurs extends Ecran {
 	}
 	
 	@Override
-	public void init() {
+	public void initLayout() {
+		System.out.println("ECRAN SELECTION : " + Game.modele.getListeJoueurs());
 		GridBagConstraints gbc = new GridBagConstraints();
 		GridBagConstraints gbc2 = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
@@ -105,6 +107,7 @@ public class EcranSelectionJoueurs extends Ecran {
 				}else{
 					Joueur joueur = avatar.getJoueurInstance();
 					//System.out.println(joueur);
+					//Game.modele = new Partie();
 					Game.modele.ajouterJoueur(joueur);
 					Game.goToEcran(TypeEcrans.JEU);
 				}				

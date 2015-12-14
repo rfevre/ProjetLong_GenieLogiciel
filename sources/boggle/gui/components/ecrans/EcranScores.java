@@ -14,9 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import boggle.autre.BDD;
-import boggle.jeu.Joueur;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
+import boggle.jeu.Joueur;
 
 public class EcranScores extends Ecran {
 
@@ -36,18 +36,18 @@ public class EcranScores extends Ecran {
 		this.setBackground(Color.BLACK);
 		this.btnRetour=new Button(1, "RETOUR", SwingConstants.CENTER, 120, 50);
 		System.out.println("ECRAN SCORE");
-		init();
+		initLayout();
 	}
 	
 	
 	@Override
-	public void init() {
+	public void initLayout() {
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		
 		JPanel scorePanel = new JPanel();
 		scorePanel.setLayout(new GridLayout(0,3));
-		// On récupère le top10
+		// On rÃ©cupÃ¨re le top10
 		List<Joueur> joueurs = null;
 		try{
 			BDD bdd = new BDD();
@@ -98,17 +98,17 @@ public class EcranScores extends Ecran {
 	 * Classe interne Button
 	 *
 	 */
-	private class Button extends CustomButton{
+	private class Button extends CustomButton {
 
 		private static final long serialVersionUID = 1L;
 
 		/**
 		 * Constructeur de la classe intern bouton
-		 * @param id : correspond à l'id du boutton
-		 * @param libelle :  correspond à libelle du bouton
-		 * @param alignement : correspond à l'alignement du bouton
-		 * @param w : correspond à la largeur du bouton
-		 * @param h : correspond à la hauteur du bouton
+		 * @param id : correspond Ã  l'id du boutton
+		 * @param libelle :  correspond Ã  libelle du bouton
+		 * @param alignement : correspond Ã  l'alignement du bouton
+		 * @param w : correspond Ã  la largeur du bouton
+		 * @param h : correspond Ã  la hauteur du bouton
 		 */
 		public Button(int id, String libelle, int alignement, int w, int h) {
 			super(id, libelle, alignement, w, h);
@@ -117,7 +117,7 @@ public class EcranScores extends Ecran {
 
 		@Override
 		/**
-		 * Classe qui correspond à l'évenement : 'pression sur la souris'
+		 * Classe qui correspond Ã  l'Ã©venement : 'pression sur la souris'
 		 */
 		public void mousePressed(MouseEvent e) {
 
