@@ -20,3 +20,4 @@
 - [ ] Faire un readme pour la compilation et l'execution du programme
 - [ ] Ajouter captures d'écrans sur le manuel utilisateur HTML
 - [ ] Régler probleme temps, déroule trop vite quand multijoueur
+- [ ] POurvoir changer taille grille
