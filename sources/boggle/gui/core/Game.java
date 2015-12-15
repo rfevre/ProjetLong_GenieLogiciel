@@ -9,14 +9,14 @@ import boggle.jeu.Partie;
 
 public class Game {
 
-	public static final int WIDTH  = 1100;
-	public static final int HEIGHT = WIDTH * 3 / 4 ;
+	public static final int WIDTH  = 1200;
+	public static final int HEIGHT = 825 ;
 	public static Partie modele = new Partie();
 	
 	private static final Fenetre  fenetre = new Fenetre("BOGGLE", WIDTH, HEIGHT);
 	
 
-	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.SELECTION_JOUEURS; 
+	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.MENU; 
 	private static Game instance; 
 	
 	// CONSTRUCTORS ///////////////////////////////////////////////////////////

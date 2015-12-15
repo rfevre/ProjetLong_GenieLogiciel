@@ -1,7 +1,9 @@
 package boggle.gui.components.ecrans;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,9 +11,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import boggle.autre.Couleurs;
+import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 
 public class EcranMenu extends Ecran {
@@ -27,31 +32,37 @@ public class EcranMenu extends Ecran {
 	}
 		
 	private EcranMenu() {
-		this.setBackground(Color.black);
+		this.setBackground(Couleurs.DARK_BLUE);
 		System.out.println("ECRAN MENU");
-		init();
+		initLayout();
 	}
 	
 	
+	private final ImageIcon MENU0 = new ImageIcon(getClass().getResource("/img/menu0.png"));
+	private final ImageIcon MENU1 = new ImageIcon(getClass().getResource("/img/menu1.png"));
+	private final ImageIcon MENU2 = new ImageIcon(getClass().getResource("/img/menu2.png"));
+	private final ImageIcon LOGO = new ImageIcon(getClass().getResource("/img/logo.png"));
 	
 	
-	public void init(){
+	public void initLayout(){
 		GridBagConstraints gbc = new GridBagConstraints();
-		
-		
 		
 		this.setLayout(new GridBagLayout());
 		
-		JLabel btnJouer 	= new MenuBtn("JOUER", 1);
-		JLabel btnOptions 	= new MenuBtn("OPTIONS", 2);
-		JLabel btnScores 	= new MenuBtn("SCORES", 3);
-		JLabel btnQuitter 	= new MenuBtn("QUITTER", 4);
+		JLabel logo 		= new JLabel("", SwingConstants.CENTER);
+		JLabel btnJouer 	= new MenuBtn("<html><h2>JOUER</h2></html>", 1);
+		JLabel btnOptions 	= new MenuBtn("<html><h2>OPTIONS</h2></html>", 2);
+		JLabel btnScores 	= new MenuBtn("<html><h2>SCORES</h2></html>", 3);
+		JLabel btnQuitter 	= new MenuBtn("<html><h2>QUITTER</h2></html>", 4);
 		
-		this.add(Box.createGlue(), gbc);
-		
+		//this.add(Box.createGlue(), gbc);
+		logo.setPreferredSize(new Dimension(500, 300));
+		logo.setIcon(LOGO);
+
+		gbc.gridy = 0;
+		this.add(logo, gbc);
 		gbc.insets = new Insets(0, 10, 10, 10);
-		gbc.gridwidth = 3;
-		gbc.weightx = 1;
+		
 		gbc.gridy = 1;
 		this.add(btnJouer, gbc);
 		gbc.gridy = 2;
@@ -66,89 +77,66 @@ public class EcranMenu extends Ecran {
 	}
 	
 	
-	private class MenuBtn extends JLabel implements MouseListener {
+	
+	private class MenuBtn extends CustomButton {
 		
-		private static final long serialVersionUID = 6833943045577353021L;
-		private int id;
+		private static final long serialVersionUID = 1L;
+
+
 		public MenuBtn(String libelle, int id){
-			super(libelle, SwingConstants.CENTER);
-			this.id = id;
-			this.setText("<html><h1>" +libelle+ "</h1></html>");
-			this.setOpaque(true);
-			this.setForeground(Color.WHITE);
-			this.setBackground(Color.GRAY);
-			this.setPreferredSize(new Dimension(200, 50));
-			this.addMouseListener(this);
+			super(id, libelle, SwingConstants.CENTER, 250, 50);
+			this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			
+			//this.setFont(new Font("Monospaced", Font.BOLD, 18));
+			this.setVerticalTextPosition(SwingConstants.CENTER);
+			this.setHorizontalTextPosition(SwingConstants.CENTER);
+			this.setForeground(Couleurs.SMOKE_WHITE);
+			this.setOpaque(false);
+			setIcon(MENU0);
 		}
-
-
-		public int getId() { return id; }    
-
 
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			Game.ECRAN_EN_COURS = TypeEcrans.JEU;
-//			if(1 == ((MenuBtn) e.getSource()).getId() ){
-//				Game.goToEcran(TypeEcrans.SELECTION_JOUEURS);
-//				
-//			}
+			this.setForeground(Couleurs.SMOKE_WHITE);
+			setIcon(MENU2);
 			switch (((MenuBtn) e.getSource()).getId()) {
-			case 1:
-				Game.goToEcran(TypeEcrans.SELECTION_JOUEURS);
-				break;
-			case 2:
-				Game.goToEcran(TypeEcrans.OPTIONS);
-				break;
-			case 3:
-				Game.goToEcran(TypeEcrans.SCORES);
-				break;
-				
-			case 4:
-				Game.quitter();
-				break;	
-			default:
-				break;
+			
+			case 1:		Game.goToEcran(TypeEcrans.SELECTION_JOUEURS);break;
+			case 2:		Game.goToEcran(TypeEcrans.OPTIONS); break;
+			case 3:		Game.goToEcran(TypeEcrans.SCORES); break;
+			case 4:		Game.quitter();	break;	
+			default:	break;
 			}
-			System.out.println("click");
 		}
+
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			this.setForeground(Color.GRAY);
-			this.setBackground(Color.WHITE);
+			setForeground(Couleurs.DARK_BLUE);
+			setIcon(MENU1);
 		}
+
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			this.setForeground(Color.WHITE);
-			this.setBackground(Color.GRAY);
+			this.setForeground(Couleurs.SMOKE_WHITE);
+			setIcon(MENU0);
 		}
 
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			this.setBackground(Color.DARK_GRAY);
-			
-		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			this.setBackground(Color.WHITE);
+			this.setForeground(Couleurs.SMOKE_WHITE);
+			setIcon(MENU0);
 		}
+
+		
 		
 	}
 
 
-	@Override
-	public void initLayout() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
-	
-	
+
 	
 	
 

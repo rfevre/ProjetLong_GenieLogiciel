@@ -24,7 +24,7 @@ public class Partie extends Observable implements Observer, Runnable {
 	private ArbreLexical arbre;
 	private Joueur joueurEnCours;
 	private Thread thread;
-	private int durreeManche = 500;
+	private int durreeManche = 180;
 
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	public Partie(){
@@ -225,6 +225,7 @@ public class Partie extends Observable implements Observer, Runnable {
 				}
 				
 				joueur.arreterDeJoueur();
+				//Game.modele.getGrille().resetDejaVisite();
 			}
 		}
 		finDeLaPartie();
@@ -241,8 +242,8 @@ public class Partie extends Observable implements Observer, Runnable {
 		try {
 			System.out.println("__________________________________________________________________ FIN DE LA PARTIE ____");	
 			t.stop();
-			JOptionPane.showMessageDialog(null, "Victoire de " + getGagnant().getNom() + " avec " + getGagnant().getScore() + " points." );
-			Game.goToEcran(TypeEcrans.MENU);
+			JOptionPane.showMessageDialog(null, "<html><h2>Victoire de " + getGagnant().getNom() + " avec " + getGagnant().getScore() + " points.</h2></html>" );
+			Game.goToEcran(TypeEcrans.SCORES);
 			this.thread.join();
 		} catch (Exception e) { System.out.println(e.getMessage());	}
 	}

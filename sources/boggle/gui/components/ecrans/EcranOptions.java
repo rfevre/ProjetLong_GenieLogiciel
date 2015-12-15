@@ -1,21 +1,21 @@
 package boggle.gui.components.ecrans;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import boggle.autre.Couleurs;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 
@@ -28,11 +28,10 @@ public class EcranOptions extends Ecran {
 	private JTextField dictionnaire, score, nbTours, tempsJeu;
 	
 	private String[] listeTailleGrille;
-	private JComboBox tailleGrille;
+	private JComboBox<String> tailleGrille;
 	
 	private JLabel dicoLabel, scoreLabel, nbToursLabel, tempsJeuLabel, tailleGrilleLabel;
 	private Button btnBrowse, btnRetour, btnValider;
-	
 	
 	
 	/**
@@ -56,17 +55,17 @@ public class EcranOptions extends Ecran {
 		this.tempsJeu = new JTextField("200");
 		
 		this.listeTailleGrille = new String[]{"4x4","5x5"};
-		this.tailleGrille = new JComboBox(listeTailleGrille);
+		this.tailleGrille = new JComboBox<>(listeTailleGrille);
 		
-		this.dicoLabel = new JLabel("<html><h2> Choix du dictionnaire </html></h2>");
-		this.scoreLabel = new JLabel("<html><h2> Score à  atteindre </html></h2>");
-		this.nbToursLabel = new JLabel("<html><h2> Nombre de tours maximum </html></h2>");
-		this.tempsJeuLabel = new JLabel("<html><h2> Temps d'une manche (en sec)</html></h2>");
-		this.tailleGrilleLabel = new JLabel("<html><h2> Taille de la grille </html></h2>");
+		this.dicoLabel = new JLabel(" Choix du dictionnaire ");
+		this.scoreLabel = new JLabel(" Score à  atteindre ");
+		this.nbToursLabel = new JLabel(" Nombre de tours maximum ");
+		this.tempsJeuLabel = new JLabel(" Durée d'une manche (en sec)");
+		this.tailleGrilleLabel = new JLabel(" Taille de la grille ");
 		
-		this.btnBrowse = new Button(1, "BROWSE", SwingConstants.CENTER, 100,30);
-		this.btnRetour = new Button(2, "RETOUR", SwingConstants.CENTER, 120, 50);
-		this.btnValider = new Button(3, "VALIDER", SwingConstants.CENTER, 120, 50);
+		this.btnBrowse = new Button(1, "PARCOURIR", SwingConstants.CENTER, 150,50);
+		this.btnRetour = new Button(2, "RETOUR", SwingConstants.CENTER, 150, 50);
+		this.btnValider = new Button(3, "VALIDER", SwingConstants.CENTER, 150, 50);
 		
 		initLayout();
 	}
@@ -77,64 +76,74 @@ public class EcranOptions extends Ecran {
 	@Override
 	public void initLayout() {
 		
+		dicoLabel.setForeground(Couleurs.SMOKE_WHITE);
+		scoreLabel.setForeground(Couleurs.SMOKE_WHITE);
+		nbToursLabel.setForeground(Couleurs.SMOKE_WHITE);
+		tempsJeuLabel.setForeground(Couleurs.SMOKE_WHITE);
+		tailleGrilleLabel.setForeground(Couleurs.SMOKE_WHITE);
+		
+		this.setBackground(Couleurs.DARK_BLUE);
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		// Marge interne
 		gbc.insets = new Insets(10,30,10,0);
-		gbc.anchor = GridBagConstraints.EAST;
-		
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridwidth = 1;
+		gbc.weightx = 1;
 		// PremiÃ¨re ligne
-		gbc.gridx=0; gbc.gridy = 0; // gridx et gridy sert Ã  la position
+		gbc.gridx=1; gbc.gridy = 0; // gridx et gridy sert Ã  la position
 		this.add(dicoLabel, gbc);
 		
-		gbc.gridx=1; //gbc.gridy = 0;
+		gbc.gridx=2; //gbc.gridy = 0;
 		dictionnaire.setPreferredSize(new Dimension(150, 30));
 		this.add(dictionnaire, gbc);
 		
-		gbc.gridx=2; //gbc.gridy=0;
+		gbc.gridx=3; //gbc.gridy=0;
 		this.add(btnBrowse, gbc);
 		
 		// DeuxiÃ¨me ligne
-		gbc.gridx=0; gbc.gridy = 1;
+		gbc.gridx=1; gbc.gridy = 1;
 		this.add(scoreLabel, gbc);
 		
-		gbc.gridx=1; //gbc.gridy = 1;
+		gbc.gridx=2; //gbc.gridy = 1;
 		score.setPreferredSize(new Dimension(150, 30));
 		this.add(score, gbc);
 		
 		
 		// TroisiÃ¨me ligne
-		gbc.gridx=0; gbc.gridy = 2;
+		gbc.gridx=1; gbc.gridy = 2;
 		this.add(nbToursLabel, gbc);
 		
-		gbc.gridx=1; //gbc.gridy = 2;
+		gbc.gridx=2; //gbc.gridy = 2;
 		nbTours.setPreferredSize(new Dimension(150, 30));
 		this.add(nbTours, gbc);
 				
 		// TroisiÃ¨me ligne
-		gbc.gridx=0; gbc.gridy = 3;
+		gbc.gridx=1; gbc.gridy = 3;
 		this.add(tempsJeuLabel, gbc);
 		
-		gbc.gridx=1; //gbc.gridy = 3;
+		gbc.gridx=2; //gbc.gridy = 3;
 		tempsJeu.setPreferredSize(new Dimension(150, 30));
 		this.add(tempsJeu, gbc);
 		
 		// QuatriÃ¨me ligne
-		gbc.gridx=0; gbc.gridy = 4;
+		gbc.gridx=1; gbc.gridy = 4;
 		this.add(tailleGrilleLabel, gbc);
 		
-		gbc.gridx=1; //gbc.gridy = 4;
+		gbc.gridx=2; //gbc.gridy = 4;
 		tailleGrille.setPreferredSize(new Dimension(150, 30));
 		this.add(tailleGrille, gbc);
 		
+		
 		// CinquiÃ¨me ligne
 		gbc.gridx =0; gbc.gridy=5;
-		gbc.insets = new Insets(100,0,10,100);
+		gbc.insets = new Insets(100,100,0,0);
 		this.btnRetour.setBackground(Color.RED);
 		this.add(btnRetour, gbc);
 		
 		gbc.gridx = 5; //gbc.gridy=5;
-		gbc.insets = new Insets(100,100,10,100);
+		gbc.insets = new Insets(100,0,0,100);
 		this.btnValider.setBackground(Color.RED);
 		this.add(btnValider, gbc);
 		
@@ -158,7 +167,12 @@ public class EcranOptions extends Ecran {
 		 */
 		public Button(int id, String libelle, int alignement, int w, int h) {
 			super(id, libelle, alignement, w, h);
-			setBackground(Color.GRAY);
+			this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			
+			this.setVerticalTextPosition(SwingConstants.CENTER);
+			this.setHorizontalTextPosition(SwingConstants.CENTER);
+			this.setForeground(Couleurs.SMOKE_WHITE);
+			this.setOpaque(false);
 		}
 		
 		@Override

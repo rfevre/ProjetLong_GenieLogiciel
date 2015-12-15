@@ -1,9 +1,7 @@
 package boggle.gui.components.panels;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,12 +9,15 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
+import boggle.autre.Couleurs;
 import boggle.autre.JTableModel;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
@@ -29,6 +30,8 @@ public class ListeMotsPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private Joueur joueur;
+	RenduCellule renduCell = new RenduCellule();
+	
 	public ListeMotsPanel(){
 		
 		Game.modele.addObserver(this);
@@ -36,25 +39,32 @@ public class ListeMotsPanel extends JPanel implements Observer {
 		this.joueur = Game.modele.getJoueurEnCours();
 		
 		//this.setPreferredSize(dimension);
-		this.setBackground(Color.RED);
+		this.setBackground(Couleurs.DARK_BLUE);
 
-		this.setLayout(new FlowLayout()) ;
+		//this.setLayout(new FlowLayout()) ;
 
 		// on cree la table a partir d'un modele de table
-		tableModel = new JTableModel<UnMot>("Mots Ajoutés");
+		tableModel = new JTableModel<UnMot>("<html><h3>MOTS AJOUTES</h3></html>");
 		
 		if(Game.modele.getJoueurEnCours()!=null){
 			tableModel.setData(getListeMots());
 		}
-		
-
 		tableModel.fireTableStructureChanged();
-		table = new JTable(tableModel) ;
 		
-		// et on la place dans un JScrollPane
-		JScrollPane scrollPane = new JScrollPane(table);
-		table.setPreferredScrollableViewportSize(dimension);
 
+		table = new JTable(tableModel) ;
+		table.setFillsViewportHeight(true);
+		table.setBackground(Couleurs.DARK_BLUE);
+		table.setPreferredScrollableViewportSize(dimension);
+		table.setGridColor(Couleurs.DARK_BLUE);
+		
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		
+		JTableHeader header = table.getTableHeader();
+		header.setBackground(Couleurs.CLOUD);
+		header.setForeground(Couleurs.DARK_BLUE);
+		
 		this.add(scrollPane);
 		
 	}
@@ -68,10 +78,10 @@ public class ListeMotsPanel extends JPanel implements Observer {
 		tableModel.fireTableDataChanged();
 		
 		
-		RenduCellule renduCell = new RenduCellule();
 		renduCell.setHorizontalAlignment( JLabel.CENTER );
 		table.getColumnModel().getColumn(0).setCellRenderer( renduCell ); 
-		table.getColumnModel().getColumn(0).setWidth(10);
+		//table.getColumnModel().getColumn(0).setWidth(10);
+		
 
 		
 	}
@@ -80,8 +90,9 @@ public class ListeMotsPanel extends JPanel implements Observer {
 	
 	private List<UnMot> getListeMots(){
 		ArrayList<UnMot> tmp = new ArrayList<UnMot>();
-		for(String s : Game.modele.getJoueurEnCours().getListeMots()){
-			tmp.add(new UnMot(s));
+		List<String> liste = Game.modele.getJoueurEnCours().getListeMots();
+		for (int i = 0; i < liste.size(); i++) {
+			tmp.add(new UnMot(liste.get(i)));
 		}
 		Collections.sort(tmp);
 		Collections.reverse(tmp);
@@ -103,17 +114,13 @@ public class ListeMotsPanel extends JPanel implements Observer {
 
 		@Override
 		public String toString() {
-			return  mot + " " +points + " \tpts.";
+			return "<html><table><tr><td width=\"200\">" +mot+ "</td><td width=\"50\" align=\"right\">" +points+ " point.</td></tr></table></html>";
 		}
-
+		
 		@Override
 		public int compareTo(UnMot autre) {
 			return points - autre.points;
 		}
-		
-		
-		
-		
 		
 	}
 	
@@ -125,16 +132,16 @@ public class ListeMotsPanel extends JPanel implements Observer {
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			//ModeleDeTable mod = (ModeleDeTable) table.getModel();
 
-			if( row==0 ){ 
-				c.setFont(new Font("default", Font.BOLD, 16));
-				c.setBackground(Color.GRAY);
-				c.setForeground(Color.white);		
+			c.setFont(new Font("default", Font.BOLD, 12));
+			if( row==0 ){
+				
+				c.setBackground(Couleurs.CARROT);
+				c.setForeground(Couleurs.SMOKE_WHITE);		
 			}
 			
 			else{            
-				c.setFont(new Font("default", Font.BOLD, 12));
-				c.setBackground(Color.white);
-				c.setForeground(Color.BLACK);		
+				c.setBackground(Couleurs.DARK_BLUE);
+				c.setForeground(Couleurs.SMOKE_WHITE);	
 			}
 
 			return c;

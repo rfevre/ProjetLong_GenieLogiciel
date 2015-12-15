@@ -1,13 +1,16 @@
 package boggle.gui.components.ecrans;
 
-import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -17,17 +20,21 @@ import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import boggle.autre.Couleurs;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
 import boggle.jeu.JoueurFactory;
-import boggle.jeu.Partie;
 import boggle.jeu.TypeJoueur;
 public class EcranSelectionJoueurs extends Ecran {
 
 	private static final long serialVersionUID = 1L;
 	private static EcranSelectionJoueurs instance;
 	private Avatar[] listeAvatars = new Avatar[5];
+	
+	private final ImageIcon USROFF = new ImageIcon(getClass().getResource("/img/usroff.png"));
+	private final ImageIcon USRH = new ImageIcon(getClass().getResource("/img/usrh.png"));
+	private final ImageIcon USRIA = new ImageIcon(getClass().getResource("/img/usria.png"));
 	
 	public static EcranSelectionJoueurs getInstance() {
 		if(instance == null){
@@ -56,44 +63,62 @@ public class EcranSelectionJoueurs extends Ecran {
 	
 	@Override
 	public void initLayout() {
-		System.out.println("ECRAN SELECTION : " + Game.modele.getListeJoueurs());
+		final JPanel avatarsPanel = new JPanel();
+		final JPanel btnsPanel = new JPanel();
+		final JPanel helpPanel = new JPanel();
+		
+		final Button btnContinuer = new Button(1, "CONTINUER");
+		final Button btnRetour = new Button(2, "RETOUR");
+		final JLabel aide1 = new JLabel("<html><small>CLIC <strong>DROIT</strong> POUR ACTIVER / DESACTIVER UN JOUEUR.</small></html>", SwingConstants.RIGHT);
+		final JLabel aide2 = new JLabel("<html><small>CLIC <strong>GAUCHE</strong> POUR CHANGER LE TYPE DE DU JOUEUR HUMAIN / IA</small></html>", SwingConstants.RIGHT);
+		
+		this.setLayout(new GridBagLayout());
+		this.setBackground(Couleurs.DARK_BLUE);
+		helpPanel.setBackground(Couleurs.DARK_BLUE);
+		
+		helpPanel.setLayout(new GridLayout(2, 1,20,5));
+		helpPanel.add(aide1);
+		helpPanel.add(aide2);
+		
+		aide1.setForeground(Couleurs.SILVER);
+		aide2.setForeground(Couleurs.SILVER);
+		avatarsPanel.setBackground(Couleurs.DARK_BLUE);
+		
+		
 		GridBagConstraints gbc = new GridBagConstraints();
 		GridBagConstraints gbc2 = new GridBagConstraints();
-		this.setLayout(new GridBagLayout());
 
-		final JPanel avatarsPanel = new JPanel();
-		final JPanel btnsAvatar = new JPanel();
-		final Button btnContinuer = new Button(1, "Continuer");
-		final Button btnRetour = new Button(2, "Retour");
-		
-		
-		
-		gbc.gridx = 0; gbc.gridy = 0;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 1; gbc.weighty = 1;
-		gbc.anchor = GridBagConstraints.CENTER;
 		
 		for(int i=0; i<5; i++){
 			final Avatar current = new Avatar();
 			avatarsPanel.add(current);
 			this.listeAvatars[i] = current;
 		}
-
+		
+		
 		gbc2.anchor = GridBagConstraints.FIRST_LINE_START;
-		gbc2.insets = new Insets(0, 150, 0, 150);
-		//gbc2.fill = GridBagConstraints.REMAINDER;
+		gbc2.insets = new Insets(0, 176, 0, 176);
 		gbc2.gridwidth = 1;
 		gbc2.weightx = 1;
-		btnsAvatar.setLayout(new GridBagLayout());
-		btnsAvatar.add(btnRetour, gbc2);
+		
+		btnsPanel.setBackground(Couleurs.DARK_BLUE);
+		btnsPanel.setLayout(new GridBagLayout());
+		btnsPanel.add(btnRetour, gbc2);
 		gbc2.anchor = GridBagConstraints.FIRST_LINE_END;
-		btnsAvatar.add(btnContinuer, gbc2);
+		btnsPanel.add(btnContinuer, gbc2);
+		
+		
+		gbc.insets = new Insets(20,10,0,40);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridy = 0;
+		this.add(helpPanel, gbc);
+		
+		gbc.insets = new Insets(0,0,0,0);
+		gbc.gridy = 1; gbc.weightx = 1; gbc.weighty = 1;
 		this.add(avatarsPanel, gbc);
 		
-		gbc.gridy = 1;
-		gbc.gridx = 0; 
-		this.add(btnsAvatar, gbc);
-
+		gbc.gridy = 2;
+		this.add(btnsPanel, gbc);
 	}
 	
 	/**
@@ -132,19 +157,17 @@ public class EcranSelectionJoueurs extends Ecran {
 		private static final long serialVersionUID = 1L;
 
 		public Button(int id, String libelle) {
-			super(id, libelle, SwingConstants.CENTER, 150, 40);
-			this.setBackground(Color.red);
+			super(id, libelle, SwingConstants.CENTER, 150, 50);
+			this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			
+			this.setFont(new Font("default", Font.BOLD, 12));
+			this.setVerticalTextPosition(SwingConstants.CENTER);
+			this.setHorizontalTextPosition(SwingConstants.CENTER);
+			this.setForeground(Couleurs.SMOKE_WHITE);
+			this.setOpaque(false);
 		}
 
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			super.mouseEntered(e);
-		}
 
-		@Override
-		public void mouseExited(MouseEvent e) {
-			super.mouseExited(e);
-		}
 
 		@Override
 		/**
@@ -236,10 +259,13 @@ public class EcranSelectionJoueurs extends Ecran {
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.insets = new Insets(5, 5, 5, 5);
 			gbc.fill = GridBagConstraints.HORIZONTAL;
-						
-			photo = new JLabel("Ma Photo");
+			
+			this.setBackground(Couleurs.SMOKE_WHITE);
+			photo = new JLabel();
 			photo.setPreferredSize(new Dimension(150, 150));
-			nom = new JTextField();
+			photo.setIcon(USROFF);
+			int rnd = (int) (Math.random()*100);
+			nom = new JTextField("SansNom"+rnd);
 			typeIA = new JSpinner(new SpinnerListModel(TypeJoueur.getListeIA()));
 			((DefaultEditor) typeIA.getEditor()).getTextField().setEditable(false);
 			
@@ -251,7 +277,6 @@ public class EcranSelectionJoueurs extends Ecran {
 			this.add(typeIA, gbc);
 			
 			this.addMouseListener(this);
-			photo.setBackground(Color.BLUE);
 			photo.setOpaque(true);
 			
 		}
@@ -267,19 +292,20 @@ public class EcranSelectionJoueurs extends Ecran {
 				this.nom.setEnabled(true);
 				if(estHumain){
 					typeIA.setEnabled(false);
-					typeIA.setVisible(false);
-					photo.setBackground(Color.ORANGE);
+					photo.setIcon(USRH);
+					//photo.setBackground(Color.ORANGE);
 					
 				} else {
-					typeIA.setVisible(true);
 					typeIA.setEnabled(true);
-					photo.setBackground(Color.CYAN);
+					photo.setIcon(USRIA);
+					//photo.setBackground(Color.CYAN);
 				}
 			} else {
-				photo.setBackground(Color.GRAY);
+				//photo.setBackground(Couleurs.DARK_BLUE);
 				nom.setEnabled(false);
 				typeIA.setEnabled(false);
-				typeIA.setVisible(false);
+				photo.setIcon(USROFF);
+				//typeIA.setVisible(false);
 			}
 			photo.setText("Actif : " + actif + (estHumain ? " Humain" : " Robot"));
 		}

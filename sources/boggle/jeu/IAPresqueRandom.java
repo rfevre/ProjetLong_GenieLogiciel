@@ -5,15 +5,9 @@ package boggle.jeu;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import boggle.autre.Utils;
 import boggle.gui.components.panels.TextInputPanel;
 import boggle.gui.core.Game;
 import boggle.mots.ArbreLexical;
@@ -24,9 +18,6 @@ import boggle.mots.GrilleLettres;
 public class IAPresqueRandom extends Joueur {
 
 	private ArbreLexical arbre;
-
-	private static Pattern pattern;
-	private static Matcher matcher;
 
 	public IAPresqueRandom(String nom){
 		super(nom);
@@ -62,8 +53,6 @@ public class IAPresqueRandom extends Joueur {
 		listeRetourner.add(de);
 
 
-
-
 		De lastDe = listeRetourner.get(listeRetourner.size()-1);
 
 		List<De> listeAdjacents = grille.getListeDesAdjacents(lastDe);
@@ -95,12 +84,6 @@ public class IAPresqueRandom extends Joueur {
 
 
 			}
-
-
-	
-
-
-
 		return listeRetourner;
 	}
 
@@ -141,12 +124,12 @@ public class IAPresqueRandom extends Joueur {
 				System.out.println(de.toString());
 				TextInputPanel.sourceMessage = "click";
 				Game.modele.getGrille().addDeToListeDesSelectionnes(de);
-				Thread.sleep(30);
+				Thread.sleep(50);
 			}
 			Game.modele.getJoueurEnCours().ajouterUnMot(str.toString());
 			Game.modele.getGrille().resetDejaVisite();
 			Game.modele.getGrille().setListeDeSelectionnes(new LinkedList<>());
-			Thread.sleep(100);
+			Thread.sleep(300);
 		} catch (InterruptedException e) { e.printStackTrace(); }
 	}
 
@@ -166,21 +149,21 @@ public class IAPresqueRandom extends Joueur {
 
 
 
-	public static void main(String[] args) {
-
-		GrilleLettres grilleTest = new GrilleLettres();
-		System.out.println(grilleTest.toString());
-		IAPresqueRandom j = new IAPresqueRandom("J");
-		j.setArbre(ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire")));
-		List<De> liste = j.choisirUnMot(grilleTest);
-		for (De de : liste) {
-			System.out.println(de.toString());
-		}
-		System.out.println();
-		liste = j.choisirUnMot(grilleTest);
-		for (De de : liste) {
-			System.out.println(de.toString());
-		}
-	}
+//	public static void main(String[] args) {
+//
+//		GrilleLettres grilleTest = new GrilleLettres();
+//		System.out.println(grilleTest.toString());
+//		IAPresqueRandom j = new IAPresqueRandom("J");
+//		j.setArbre(ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire")));
+//		List<De> liste = j.choisirUnMot(grilleTest);
+//		for (De de : liste) {
+//			System.out.println(de.toString());
+//		}
+//		System.out.println();
+//		liste = j.choisirUnMot(grilleTest);
+//		for (De de : liste) {
+//			System.out.println(de.toString());
+//		}
+//	}
 
 }

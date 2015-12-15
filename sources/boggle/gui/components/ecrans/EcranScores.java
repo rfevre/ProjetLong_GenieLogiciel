@@ -1,10 +1,13 @@
 package boggle.gui.components.ecrans;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import boggle.autre.BDD;
+import boggle.autre.Couleurs;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
@@ -33,8 +37,8 @@ public class EcranScores extends Ecran {
 	}
 	
 	private EcranScores() {
-		this.setBackground(Color.BLACK);
-		this.btnRetour=new Button(1, "RETOUR", SwingConstants.CENTER, 120, 50);
+		this.setBackground(Couleurs.DARK_BLUE);
+		this.btnRetour = new Button(1, "RETOUR");
 		System.out.println("ECRAN SCORE");
 		initLayout();
 	}
@@ -45,54 +49,51 @@ public class EcranScores extends Ecran {
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		
-		JPanel scorePanel = new JPanel();
-		scorePanel.setLayout(new GridLayout(0,3));
-		// On rÃ©cupÃ¨re le top10
+		this.setForeground(Couleurs.SMOKE_WHITE);
+		
+		JPanel panel = new JPanel();
+
+		JLabel titre = new JLabel("<html><h1>MEILLEURS SCORES</h1></html>", SwingConstants.CENTER);
+		titre.setForeground(Couleurs.SMOKE_WHITE);
+		gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 3;
+		this.add(titre, gbc);
+		
+		
 		List<Joueur> joueurs = null;
 		try{
 			BDD bdd = new BDD();
 			joueurs = bdd.getListScores();	
-		}
-		catch(SQLException e){e.getMessage();}
+		} catch(SQLException e){e.getMessage();}
 
-		// Layout
-		gbc.gridy = 0;
-		//Titre
-		JLabel titre = new ListScores("Meilleure scores",SwingConstants.CENTER,300);
-		this.add(titre,gbc);
+//		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(0, 10, 2, 10);
+//		gbc.gridy = 0;		
+//		gbc.gridwidth = 1; 
+//		
+//		gbc.weightx = 1;
+//		gbc.gridx=0;
 		
-		int i=1;
+		int i = 1;
 		for (Joueur j : joueurs) {
-			JLabel classement = new ListScores(String.valueOf(i), SwingConstants.CENTER, 20);
-			JLabel nomJoueur = new ListScores(j.getNom(), SwingConstants.LEFT,200);
-			JLabel scoreJoueur = new ListScores( String.valueOf(j.getScore()), SwingConstants.RIGHT,100 );
-			scorePanel.add(classement);
-			scorePanel.add(nomJoueur);
-			scorePanel.add(scoreJoueur);
+			
+			final String str = String.format("<html><table><tr><td align=\"left\" width=\"50\"><h3>%s</h3></td><td width=\"600\"><h3>%s</h3></td><td align=\"right\" width=\"150\"><h3>%s pts.</h3></td></tr></table></html>", i, j.getNom(), j.getScore());
+			
+			JLabel uneLigne = new JLabel(str);
+			
+			uneLigne.setForeground(Couleurs.SMOKE_WHITE);
+			gbc.gridy = i;
+			this.add(uneLigne, gbc);
+			
 			i++;
 		}
 		
-		gbc.gridy = 1;
-		this.add(scorePanel, gbc);
-		
-		gbc.gridy = 2;
+		gbc.gridwidth = 3;
+		gbc.weightx = 1; gbc.gridy = i;
+		gbc.gridx=0;
 		this.add(btnRetour, gbc);
 	}
 	
 	
-	private class ListScores extends JLabel{
-		
-		private static final long serialVersionUID = 1L;
-
-		public ListScores(String libelle,int alignement, int w){
-			super(libelle,alignement);
-			this.setText("<html><h3>" +libelle+ "</h3></html>");
-			this.setOpaque(true);
-			this.setForeground(Color.WHITE);
-			this.setBackground(Color.GRAY);
-			this.setPreferredSize(new Dimension(w, 40));
-		}
-	}
 
 	/**
 	 * Classe interne Button
@@ -102,28 +103,21 @@ public class EcranScores extends Ecran {
 
 		private static final long serialVersionUID = 1L;
 
-		/**
-		 * Constructeur de la classe intern bouton
-		 * @param id : correspond Ã  l'id du boutton
-		 * @param libelle :  correspond Ã  libelle du bouton
-		 * @param alignement : correspond Ã  l'alignement du bouton
-		 * @param w : correspond Ã  la largeur du bouton
-		 * @param h : correspond Ã  la hauteur du bouton
-		 */
-		public Button(int id, String libelle, int alignement, int w, int h) {
-			super(id, libelle, alignement, w, h);
-			setBackground(Color.GRAY);
+
+		public Button(int id, String libelle) {
+			super(id, libelle, SwingConstants.CENTER, 150, 50);
+			this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			
+			this.setVerticalTextPosition(SwingConstants.CENTER);
+			this.setHorizontalTextPosition(SwingConstants.CENTER);
+			this.setForeground(Couleurs.SMOKE_WHITE);
+			this.setOpaque(false);
 		}
 
-		@Override
-		/**
-		 * Classe qui correspond Ã  l'Ã©venement : 'pression sur la souris'
-		 */
+		
 		public void mousePressed(MouseEvent e) {
-
 			Button button = (Button)e.getSource();
-			if(button.getId() == 1) // Bouton retour
-			{ 
+			if(button.getId() == 1){ 
 				Game.goToEcran(TypeEcrans.MENU);
 			}
 		}
