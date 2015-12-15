@@ -102,10 +102,10 @@ public class EcranMenu extends Ecran {
 			setIcon(MENU2);
 			switch (((MenuBtn) e.getSource()).getId()) {
 			
-			case 1:		Game.goToEcran(TypeEcrans.SELECTION_JOUEURS);break;
-			case 2:		Game.goToEcran(TypeEcrans.OPTIONS); break;
-			case 3:		Game.goToEcran(TypeEcrans.SCORES); break;
-			case 4:		Game.quitter();	break;	
+			case 1:		Game.goToEcran(TypeEcrans.SELECTION_JOUEURS); setIcon(MENU0); break;
+			case 2:		Game.goToEcran(TypeEcrans.OPTIONS); setIcon(MENU0); break;
+			case 3:		Game.goToEcran(TypeEcrans.SCORES); setIcon(MENU0); break;
+			case 4:		Game.quitter();	setIcon(MENU0); break;	
 			default:	break;
 			}
 		}
