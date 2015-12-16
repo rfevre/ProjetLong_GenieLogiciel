@@ -5,6 +5,13 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+/**
+* Classe abstraite Ecran qui hérite de JPanel
+* @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+* @version 1.0
+*
+*
+*/
 public abstract class Ecran extends JPanel implements MouseListener {
 	
 	private static final long serialVersionUID = 1L;

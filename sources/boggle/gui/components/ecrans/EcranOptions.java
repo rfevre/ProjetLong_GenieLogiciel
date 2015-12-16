@@ -19,6 +19,13 @@ import boggle.autre.Couleurs;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 
+
+/**
+*  Classe qui correspond à l'EcranOptions
+* @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+* @version 1.0
+*
+*/
 public class EcranOptions extends Ecran {
 
 	
@@ -35,7 +42,7 @@ public class EcranOptions extends Ecran {
 	
 	
 	/**
-	 * Retourne l'attribut instance de la classe, qui correspond Ã  l'instance courante
+	 * Retourne l'attribut instance de la classe, qui correspond à l'instance courante
 	 * @return EcranOptions
 	 */
 	public static Ecran getInstance() {
@@ -71,7 +78,7 @@ public class EcranOptions extends Ecran {
 	}
 	
 	/**
-	 * MÃ©thode init() qui initialise l'EcranOptions en plaÃ§ant  les Ã©lÃ©ments
+	 * Méthode init() qui initialise l'EcranOptions en plaçant  les élé©ments
 	 */
 	@Override
 	public void initLayout() {
@@ -151,6 +158,8 @@ public class EcranOptions extends Ecran {
 	
 	/**
 	 * Classe interne Button
+	 * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+	 * @version 1.0
 	 *
 	 */
 	private class Button extends CustomButton{
@@ -177,7 +186,7 @@ public class EcranOptions extends Ecran {
 		
 		@Override
 		/**
-		 * Classe qui correspond Ã  l'Ã©venement : 'pression sur la souris'
+		 * Classe qui correspond à  l'évenement : 'pression sur la souris'
 		 */
 		public void mousePressed(MouseEvent e) {
 			
@@ -202,6 +211,11 @@ public class EcranOptions extends Ecran {
 		
 	}
 	
+	/**
+	*
+	* Méthode qui vérifie si les options ont été changées
+	*
+	*/
 	private void verifOptions(){
 		boolean changement = false;
 		

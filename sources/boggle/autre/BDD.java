@@ -9,13 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import boggle.jeu.Joueur;
-
+/**
+ * Classe BDD qui contient les outils pour manipuler la base de données
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class BDD {
 	private Connection connexion = null;
 	private PreparedStatement ps ;
 	
 	/**
-	 * Constructeur
+	 * Constructeur qui se connecte à la base de données
 	 */
 	public BDD(){
 		try
@@ -29,12 +34,9 @@ public class BDD {
 		    }
 	}
 	
-	
-	
-	
 	/**
 	 * Méthode qui ferme la connexion
-	 * @throws SQLException
+	 * @throws SQLException Si la connexion n'arrive pas à se fermer
 	 */
 	public void fermer() throws SQLException {
 		try 
@@ -50,7 +52,8 @@ public class BDD {
 	/**
 	 * Méthode qui ajoute dans la base de donnés un joueur ( et donc son score )
 	 * 
-	 * @param joueur
+	 * @param joueur Joueur qu'on doit insérer dans la base de données
+	 * @throws SQLException Si l'insertion dans la base de données à échouer
 	 */
 	public void ajouterUnScore(Joueur joueur) throws SQLException{
 		
@@ -68,10 +71,11 @@ public class BDD {
 	
 	/**
 	 * 
-	 * Méthode qui retourne une liste de String
+	 * Méthode qui retourne la liste de 10 premiers joueurs ( en fonction du score )
 	 * Cette  méthode sert faire le Top 10
 	 * 
-	 * @return Une liste contenant au maximum 10 String sous la forme 'nom score'
+	 * @throws SQLException Si la requete ne s'effectue pas
+	 * @return Une liste contenant au maximum les 10 premiers joueurs ayant les plus gros scores.
 	 */
 	public List<Joueur> getListScores() throws SQLException{
 		List<Joueur> liste = new ArrayList<Joueur>();
@@ -90,16 +94,5 @@ public class BDD {
 			}
 		} catch (SQLException e) {e.getMessage();}
 		return liste;
-	}
-	
-	public static void main(String[] args) throws SQLException {
-		
-		BDD con = new BDD();
-		System.out.println(" ************* TOP 10 ************");
-		List<Joueur> joueurs = con.getListScores();
-		for (Joueur j : joueurs) {
-			System.out.println(j.getNom()+ " "+String.valueOf(j.getScore()) );
-		}
-		con.fermer();
 	}
 }

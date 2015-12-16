@@ -2,12 +2,12 @@ package boggle.autre;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 /**
- * Classe utilitaire
+ * 	Classe utilitaire
+ * 	@author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ *  @version 1.0
  */
 public class Utils {
 	
@@ -17,8 +17,8 @@ public class Utils {
 
 	/**
 	 * Permet de recuperer une propriete depuis un fichier properties.
-	 * @param nomProp
-	 * @return valeur de la propriete.
+	 * @param nomProp		Nom de la propriété
+	 * @return String 		valeur de la propriete.
 	 */
 	public static String getConfigProperty(String nomProp){ 
 		final Properties prop = new Properties();
@@ -34,16 +34,13 @@ public class Utils {
 	}
 		
 
-	/** Permet de répéter une chaine */
+	/** 
+	 * Permet de répéter une chaine 
+	 * 
+	 * @param str 		Chaine à répeter
+	 * @param nb 		Nombre de répétition
+	 * @return String 	Chaine répété nb fois
+	 * */
 	public static String repeter(String str, int nb){ return new String(new char[nb]).replace("\0", str); }
-	
-	
-
-	
-	
-public static void main(String[] args) {
-	System.out.println(getConfigProperty("dictionnaire"));
-}
-	
-	
+		
 }

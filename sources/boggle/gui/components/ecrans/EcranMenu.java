@@ -19,18 +19,31 @@ import boggle.autre.Couleurs;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 
+/**
+*
+* Classe qui correspond à l'EcranMenu
+* @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+* @version 1.0
+*/
 public class EcranMenu extends Ecran {
 
 	private static final long serialVersionUID = 1L;
 	private static EcranMenu instance;
 	
+	/**
+	*
+	* Méthode singleton qui permet d'avoir un seul EcranMenu
+	*/
 	public static Ecran getInstance() {
 		if(instance == null){
 			instance = new EcranMenu();
 		}
 		return instance;
 	}
-		
+	
+	/**
+	* Constructeur
+	*/	
 	private EcranMenu() {
 		this.setBackground(Couleurs.DARK_BLUE);
 		System.out.println("ECRAN MENU");
@@ -43,7 +56,11 @@ public class EcranMenu extends Ecran {
 	private final ImageIcon MENU2 = new ImageIcon(getClass().getResource("/img/menu2.png"));
 	private final ImageIcon LOGO = new ImageIcon(getClass().getResource("/img/logo.png"));
 	
-	
+	/**
+	*
+	* Méthode qui initiliase l'EcranMenu en ajoutant les éléments
+	*
+	*/
 	public void initLayout(){
 		GridBagConstraints gbc = new GridBagConstraints();
 		
@@ -77,12 +94,20 @@ public class EcranMenu extends Ecran {
 	}
 	
 	
-	
+	/**
+	* Classe abstraite MenuBtn
+	* @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+	* @version 1.0
+	*/
 	private class MenuBtn extends CustomButton {
 		
 		private static final long serialVersionUID = 1L;
 
-
+		/**
+		* Constructeur
+		* @param libelle	Libelle du boutton
+		* @param id 		Id du boutton
+		*/
 		public MenuBtn(String libelle, int id){
 			super(id, libelle, SwingConstants.CENTER, 250, 50);
 			this.setCursor(new Cursor(Cursor.HAND_CURSOR));

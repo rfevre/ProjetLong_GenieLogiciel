@@ -14,6 +14,12 @@ import boggle.gui.components.panels.ListeMotsPanel;
 import boggle.gui.components.panels.TextInputPanel;
 import boggle.gui.core.Game;
 
+/**
+*
+* Classe qui correspond à l'EcranJeu
+* @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+* @version 1.0
+*/
 public class EcranJeu extends Ecran implements Observer  {
 	
 	private static final long serialVersionUID = 1L;
@@ -25,6 +31,9 @@ public class EcranJeu extends Ecran implements Observer  {
 		return new EcranJeu();
 	}
 	
+	/**
+	* Constructeur
+	*/
 	private EcranJeu() {
 		Game.modele.setJoueurEnCours(Game.modele.getListeJoueurs().get(0));
 		Game.modele.addObserver(this);
@@ -77,7 +86,11 @@ public class EcranJeu extends Ecran implements Observer  {
 //	}
 	
 	
-	@Override
+	/**
+	*
+	* Méthode qui initiliase l'EcranJeu en ajoutant les éléments
+	*
+	*/
 	public void initLayout() {
 		
 		
