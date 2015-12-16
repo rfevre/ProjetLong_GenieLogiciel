@@ -46,7 +46,7 @@ public class Joueur extends Observable implements Comparable<Joueur>, CommentJou
 	public void setListeMots(List<String> listeMots) { this.listeMots = listeMots; }
 	
 	public String toString(){ 
-		return "<html><table><tr><td width=\"200\">" +nom+ "</td><td width=\"50\" align=\"right\">" +score+ " point.</td></tr></table></html>";
+		return "<html><table><tr><td width=\"180\">" +nom+ "</td><td align=\"right\">" +score+ " point.</td></tr></table></html>";
 	}
 	
 	

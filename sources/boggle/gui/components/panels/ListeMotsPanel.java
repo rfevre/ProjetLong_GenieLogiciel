@@ -114,7 +114,7 @@ public class ListeMotsPanel extends JPanel implements Observer {
 
 		@Override
 		public String toString() {
-			return "<html><table><tr><td width=\"200\">" +mot+ "</td><td width=\"50\" align=\"right\">" +points+ " point.</td></tr></table></html>";
+			return "<html><table><tr><td width=\"200\">" +mot+ "</td><td align=\"right\">" +points+ " point.</td></tr></table></html>";
 		}
 		
 		@Override
@@ -134,7 +134,6 @@ public class ListeMotsPanel extends JPanel implements Observer {
 
 			c.setFont(new Font("default", Font.BOLD, 12));
 			if( row==0 ){
-				
 				c.setBackground(Couleurs.CARROT);
 				c.setForeground(Couleurs.SMOKE_WHITE);		
 			}
