@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import boggle.autre.Utils;
 
 /**
@@ -28,6 +26,10 @@ public class ArbreLexical {
 	
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	
+	/**
+	 * Initialise les paramètres d'ArbreLexical. 
+	 * 
+	 */
 	public ArbreLexical() {
 		this.estMot = false;
 		this.lettre = "";
@@ -174,23 +176,24 @@ public class ArbreLexical {
 	}
 	
 	
-
+	/**
+	 * Créer un arbre lexical depuis une liste envoyé en parametre.
+	 * @param set : liste avec lequel on va créer l'arbre.
+	 * @return Arbrelexical créer.
+	 */
 	public static ArbreLexical creerArbreDepuisUneListe(List<String> set) {
 		ArbreLexical arbre = new ArbreLexical();
 		for(String s : set){
 			arbre.ajouter(s);
 			
 		}
-			
 		return arbre;
 	}
 	
-	
-	
-	
-	
-	
-	/** Affiche le contenu de l'arbre */
+	/**
+	 * Affiche propremment l'arbre lexical (pour les test console)
+	 * @param k
+	 */
 	public void afficherArbre(int k){
 		System.out.println( Utils.repeter(" ║ ", k) + " ╠═ " +this );
 		for(int i=0; i< TAILLE_ALPHABET ; i++) {
@@ -201,7 +204,12 @@ public class ArbreLexical {
 		 }
 	}
 	
-	/** Permet de verifier que les mots qui sont dans la liste sont dans le dictionnaire */
+	/**
+	 * Permet de verifier que les mots qui sont dans la liste envoyé en parametre sont dans le dictionnaire,
+	 * si ils le sont, ont les ajoutes dans une liste que l'on retourne.
+	 * @param listeMots : liste à tester.
+	 * @return liste avec les mots qui sont dans le dictionnaire. 
+	 */
 	public List<String> sontDansLeDictionnaire(List<String> listeMots){
 		if(listeMots == null) return null;
 		final ArrayList<String> tmp = new ArrayList<String>();
@@ -212,9 +220,13 @@ public class ArbreLexical {
 			}
 		}
 		return tmp;
-	}
+	}	
 	
-	
+	/**
+	 * Permet de calculer le nombre de points que vaut un mot envoyé en parametre.
+	 * @param mot : le mot dont l'on veux la valeur en terme de score.
+	 * @return le score.
+	 */
 	public int getPointMot(String mot){
 		String points = Utils.getConfigProperty("points");
 		String[] pts = points.split(",");
@@ -246,11 +258,8 @@ public class ArbreLexical {
 	
 	
 	
-	
-	
 	///////////////////////////////////////////////////////////////////////////
 
 
-	
 
 }
