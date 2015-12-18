@@ -31,7 +31,6 @@ import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
-import javafx.scene.input.KeyCode;
 
 public class TextInputPanel extends JPanel implements Observer, KeyListener {
 	
@@ -209,7 +208,7 @@ public class TextInputPanel extends JPanel implements Observer, KeyListener {
 		
 		// On remet les cases en gris
 		grille.resetDejaVisite();
-		grille.setListeDeSelectionnes(new LinkedList<>());
+		grille.setListeDeSelectionnes(new LinkedList<De>());
 		//grille.getListeDeSelectionnes().clear();
 		champSaisie.setText("");
 		

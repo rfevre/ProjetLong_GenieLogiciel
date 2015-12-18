@@ -98,7 +98,7 @@ public class IARandom extends Joueur {
 			}
 			Game.modele.getJoueurEnCours().ajouterUnMot(str.toString());
 			Game.modele.getGrille().resetDejaVisite();
-			Game.modele.getGrille().setListeDeSelectionnes(new LinkedList<>());
+			Game.modele.getGrille().setListeDeSelectionnes(new LinkedList<De>());
 			try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
 	}
 
