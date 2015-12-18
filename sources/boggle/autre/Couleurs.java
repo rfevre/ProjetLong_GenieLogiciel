@@ -2,6 +2,12 @@ package boggle.autre;
 
 import java.awt.Color;
 
+/**
+ * Classe Couleurs qui contient toutes les couleurs de l'application
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class Couleurs {
 
 	public static final Color DARK_BLUE = new Color(41,42,48);

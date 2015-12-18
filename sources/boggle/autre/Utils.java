@@ -2,12 +2,13 @@ package boggle.autre;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 /**
- * Classe utilitaire
+ * Classe Utils qui contient des méthodes utilitaires
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
  */
 public class Utils {
 	
@@ -34,16 +35,12 @@ public class Utils {
 	}
 		
 
-	/** Permet de répéter une chaine */
+	/** 
+	 * Permet de répéter une chaine 
+	 * @param str		chaine à répéter
+	 * @param nb		nombre de répétition
+	 * @return String str répétée nb fois
+	 */
 	public static String repeter(String str, int nb){ return new String(new char[nb]).replace("\0", str); }
-	
-	
-
-	
-	
-public static void main(String[] args) {
-	System.out.println(getConfigProperty("dictionnaire"));
-}
-	
-	
+		
 }

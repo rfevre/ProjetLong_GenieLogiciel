@@ -1,6 +1,5 @@
 package boggle.autre;
 
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
 
 import boggle.jeu.Joueur;
 /**
@@ -28,7 +25,6 @@ public class BDD {
 	public BDD(){
 		try
 		    {   
-				//final URL bdd = getClass().getResource("/bdd/top10.db");
 				Class.forName("org.sqlite.JDBC");
 				connexion =  DriverManager.getConnection("jdbc:sqlite:top10.db");
 		    }
@@ -76,7 +72,7 @@ public class BDD {
 	/**
 	 * 
 	 * Méthode qui retourne la liste de 10 premiers joueurs ( en fonction du score )
-	 * Cette  méthode sert faire le Top 10
+	 * Cette  méthode sert à faire le Top 10
 	 * 
 	 * @throws SQLException Si la requete ne s'effectue pas
 	 * @return Une liste contenant au maximum les 10 premiers joueurs ayant les plus gros scores.

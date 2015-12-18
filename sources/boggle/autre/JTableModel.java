@@ -9,7 +9,9 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * @author fevrer
+ * Classe JTableModel<T> représentant le modele d'une JTable
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
  *
  */
 public class JTableModel<T> extends AbstractTableModel {
