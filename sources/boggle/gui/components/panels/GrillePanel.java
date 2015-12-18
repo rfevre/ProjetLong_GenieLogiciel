@@ -20,13 +20,15 @@ import boggle.gui.core.Game;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
 
+/**
+ * Cette Classe permet de generer l'interface de la grille 
+ * @author elmassam, 
+ *
+ */
 public class GrillePanel extends JPanel implements Observer {
 
-	private static final long serialVersionUID = 1L;
 	private GrilleLettres  grille;
 	private DeGraphique[][] listeDesGraphiques;
-
-
 
 	private final ImageIcon RED0 = new ImageIcon(getClass().getResource("/img/red0.png"));
 	private final ImageIcon RED1 = new ImageIcon(getClass().getResource("/img/red1.png"));
@@ -54,11 +56,9 @@ public class GrillePanel extends JPanel implements Observer {
 
 	}
 
-
 	public DeGraphique[][] getListeDesGraphiques() {
 		return listeDesGraphiques;
 	}
-
 
 	public void setListeDesGraphiques(DeGraphique[][] listeDesGraphiques) {
 		this.listeDesGraphiques = listeDesGraphiques;
@@ -74,7 +74,7 @@ public class GrillePanel extends JPanel implements Observer {
 		this.grille = grille;
 	}
 
-
+	/** * Permet d'initialiser le layout du panel */
 	public void initLayout(){
 		this.setBackground(Couleurs.DARK_BLUE);
 		this.setLayout(new GridBagLayout());
@@ -90,7 +90,6 @@ public class GrillePanel extends JPanel implements Observer {
 		}
 		this.add(jp);
 	}
-
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -122,12 +121,11 @@ public class GrillePanel extends JPanel implements Observer {
 			setDirectionImage();
 
 		}
-
-
-
 	}	
 
-
+	/**
+	 * Permet de connaitre sens de deplacement lors de la selection des DEs.
+	 */
 	private void setDirectionImage(){
 		Object[] it =  Game.modele.getGrille().getListeDeSelectionnes().toArray();
 		final int nb = Game.modele.getGrille().getListeDeSelectionnes().size();
@@ -165,20 +163,12 @@ public class GrillePanel extends JPanel implements Observer {
 					else if( y == 1 ){ deGr.getDirection().setIcon(DIR7); }
 				}
 			}
-
 		}
-
-
-
 	}
 
 
+	/** Permet de creer une representation graphique d'un De */
 	private class DeGraphique extends JLabel implements MouseListener {
-
-
-
-
-		private static final long serialVersionUID = 1L;
 		private De de;
 		private JLabel direction, premier;
 
@@ -269,10 +259,5 @@ public class GrillePanel extends JPanel implements Observer {
 			}
 
 		}
-
-
-
-
-
 	}
 }

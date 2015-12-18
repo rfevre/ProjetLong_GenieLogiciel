@@ -32,12 +32,14 @@ import boggle.jeu.Joueur;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
 
+/**
+ * Cette classe pemet de controler et d'afficher la zone de saisie des mots
+ * entres par le joueur.
+ * @author elmassam
+ *
+ */
 public class TextInputPanel extends JPanel implements Observer, KeyListener {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	public static String sourceMessage = "clavier";
 
 	private JTextField champSaisie;
@@ -86,6 +88,9 @@ public class TextInputPanel extends JPanel implements Observer, KeyListener {
 	}
 
 
+	/**
+	 * Permet d'initialiser le layout du panel 
+	 */
 	private void initLayout(){
 		champSaisie.setBorder(BorderFactory.createLineBorder(Couleurs.CONCRETE));
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -115,6 +120,11 @@ public class TextInputPanel extends JPanel implements Observer, KeyListener {
 	
 	
 	
+	/**
+	 * Permet de gener des button custom.
+	 * @author elmassam
+	 *
+	 */
 	private class Button extends CustomButton{
 
 		private static final long serialVersionUID = 1L;
@@ -185,10 +195,10 @@ public class TextInputPanel extends JPanel implements Observer, KeyListener {
 		
 	}
 	
+	/** * Methode a executer apres appuie  sur le bouton terminer */
 	private void executerTerminer(){
 		System.out.println("BTN TERMINER");
 		Game.modele.getJoueurEnCours().setEntrainDeJouer(false);
-		//GrilleLettres g = new GrilleLettres();
 		Game.modele.setGrille(new GrilleLettres());
 		this.grille = Game.modele.getGrille();
 		this.grille.setListeDeSelectionnes(new LinkedList<De>());
@@ -219,29 +229,22 @@ public class TextInputPanel extends JPanel implements Observer, KeyListener {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("AV>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MESSAGE " + sourceMessage + " >>>>> TEXT INPUT " + arg + sourceMessage );
-		
 		if("click".equals(sourceMessage)){
 			GrilleLettres g = (GrilleLettres) o;
 			StringBuilder unMot = new StringBuilder();
 			for(De s : g.getListeDeSelectionnes()){
 				unMot.append(s.getChaineFaceVisible());
 			}
-			//System.out.println("ajout de |" +unMot+ "| dans l'input.");
 			this.champSaisie.setText(unMot.toString());
 			
-		}else{
-			//System.out.println("AP>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MESSAGE " + sourceMessage + " >>>>> TEXT INPUT " + arg + sourceMessage );
-			//if(arg == null) champSaisie.setText("");
-			//System.out.println("Rien a faire");
 		}
-		//System.out.println("FIN TEXT INPUT UPDATE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		
-		
-		
-		
 	}
 	
+	/**
+	 * Permet de controler le contenu d'un JTextfield
+	 * @author elmassam
+	 *
+	 */
 	private class JTextFiledFormat extends PlainDocument {
 		private static final long serialVersionUID = 1L;
 		private int limit;
@@ -250,18 +253,13 @@ public class TextInputPanel extends JPanel implements Observer, KeyListener {
 			
 		}
 
-		
-		
-
 		@Override
 		protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
 			super.insertUpdate(chng, attr);
-			//System.out.println("++++ UN INSERT UPDATE ++++ SOURCE EN COURS : " + sourceMessage);
 			if("clavier".equals(sourceMessage)){
 				sourceMessage = "clavier";
 				Game.modele.getGrille().resetDejaVisite();
 				temp = new Stack<>();
-				//System.out.println(champSaisie.getText() + "-------> " +  grille.estUnMotValideBis(champSaisie.getText(), temp) + " ::: " + temp );
 				grille.estUnMotValideBis(champSaisie.getText(), temp);
 				Deque<De> ls = new LinkedList<>(temp);
 				for(De de : ls){
@@ -271,13 +269,9 @@ public class TextInputPanel extends JPanel implements Observer, KeyListener {
 				Deque<De> lis = grille.getListeDeSelectionnes();
 				grille.setListeDeSelectionnes(new LinkedList<De>());
 				grille.setListeDeSelectionnes(lis);
-				//System.out.println(sourceMessage + "|" +arg+"|"  + ls);
 				System.out.println(">>>>>>>>>>> " + ls);
 											
 			}
-			//else{
-				//sourceMessage = "clavier";
-			//}
 		}
 
 
@@ -285,7 +279,6 @@ public class TextInputPanel extends JPanel implements Observer, KeyListener {
 
 		@Override
 		protected void removeUpdate(DefaultDocumentEvent chng) {
-			//System.out.println("suppresseion : " + chng.getLength());
 			super.removeUpdate(chng);
 			grille.removeLastDesSelectionnes();
 		}
@@ -297,17 +290,10 @@ public class TextInputPanel extends JPanel implements Observer, KeyListener {
 		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
 			if(str == null) return;
 			str = str.toUpperCase();
-			//System.out.println("\tInsertion de |"+str+"|");
 			if ((getLength() + str.length()) <= limit){ 
 					if(str.length() == 1){
-						//System.out.println("******************************************************************");
 						if(grille.estUneLettreValide(str)) {
 							super.insertString(offs, str, a);
-							
-							//sourceMessage = "clavier";
-							//System.out.println("CECI EST UN CLAVIER");
-
-							
 						}
 						
 					}else{
