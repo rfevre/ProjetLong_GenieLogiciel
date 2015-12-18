@@ -7,9 +7,14 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+/**
+ * Cette classe permet de generer une des boutons customisés.
+ * 
+ * @author elmassam
+ *
+ */
 public abstract class CustomButton extends JLabel implements MouseListener {
 	
-	private static final long serialVersionUID = 6833943045577353021L;
 	
 	private int id;
 	private final ImageIcon BTN_0 = new ImageIcon(getClass().getResource("/img/btn0.png"));
