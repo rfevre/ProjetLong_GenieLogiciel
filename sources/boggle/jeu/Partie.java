@@ -18,6 +18,13 @@ import boggle.gui.core.Game;
 import boggle.mots.ArbreLexical;
 import boggle.mots.GrilleLettres;
 
+
+/**
+ * Classe Partie qui correspond à une partie de jeu
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class Partie extends Observable implements Observer, Runnable {
 	private List<Joueur> listeJoueurs;
 	private GrilleLettres grille; 
@@ -28,11 +35,12 @@ public class Partie extends Observable implements Observer, Runnable {
 	private int dureeManche, tempsRestant;
 	private int scoreMax = 100;
 
-	// CONSTRUCTEURS //////////////////////////////////////////////////////////
+	/**
+	 * Constructeur de la classe
+	 */
 	public Partie(){
 		this.nbTours = 3;
 		this.grille  = new GrilleLettres();
-		//this.grille.initGrilleDepuisChaine("JOUR PAPA MAMA ZOZN");
 		this.arbre   = ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire"));
 		this.listeJoueurs = new ArrayList<Joueur>();
 		this.dureeManche = 180;
@@ -101,11 +109,14 @@ public class Partie extends Observable implements Observer, Runnable {
 	}
 	public void setNbTours(int nbTours) { this.nbTours = nbTours; }
 	public void setJoueurEnCours(Joueur joueurEnCours) { 
-		//calculerScore(this.joueurEnCours);
 		this.joueurEnCours = joueurEnCours;
 		this.joueurEnCours.setEntrainDeJouer(true);
 		this.setChanged();
 		this.notifyObservers();
+	}
+	
+	public void setScoreMax(int scoreMax) {
+		this.scoreMax = scoreMax;
 	}
 
 	// PUBLIC METHODS /////////////////////////////////////////////////////////
@@ -114,7 +125,7 @@ public class Partie extends Observable implements Observer, Runnable {
 	
 	/**
 	 * Ajoute un joueur à la liste de joueurs
-	 * @param joueur
+	 * @param joueur	Joueur à ajouter
 	 */
 	public synchronized void ajouterJoueur(Joueur joueur){
 		if(!this.listeJoueurs.contains(joueur)){
@@ -132,7 +143,7 @@ public class Partie extends Observable implements Observer, Runnable {
 
 	/**
 	 * Supprime un joueur à la liste de joueurs
-	 * @param joueur
+	 * @param joueur	Joueur à supprimer
 	 */
 	public void supprimerJoueur(Joueur joueur){
 		if(this.listeJoueurs.contains(joueur)){
@@ -141,6 +152,10 @@ public class Partie extends Observable implements Observer, Runnable {
 		}
 	}
 
+	/**
+	 * Méthode qui renseigne le joueur gagnant
+	 * @return	Joueur
+	 */
 	public Joueur getGagnant(){
 		if(getListeJoueurs().size() == 1) return getListeJoueurs().get(0);
 		List<Joueur> tmp = new ArrayList<>(getListeJoueurs());
@@ -149,7 +164,9 @@ public class Partie extends Observable implements Observer, Runnable {
 		return tmp.get(0);
 	}
 
-
+	/**
+	 * Permet de lancer une partie en mode console
+	 */
 	public void lancerPartieConsole(){
 		final Scanner sc = new Scanner(System.in);
 		// nom du joueur
@@ -182,35 +199,33 @@ public class Partie extends Observable implements Observer, Runnable {
 		sc.close();
 	}
 
-	/**Permet de calculer le score du d'un joueur a partir des mots presents dans sa liste	 */
+	/**
+	 * Permet de calculer le score d'un joueur a partir des mots presents dans sa liste	 
+	 * @param joueur		Joueur a qui ont calcule le score
+	 * 
+	 */
 	public synchronized void calculerScore(Joueur joueur){
-		//System.out.println("Calcul de score de : " + joueur);
 		if(joueur == null) return;
 		joueur.setScore(0);
-
 		String points = Utils.getConfigProperty("points");
 		String[] pts = points.split(",");
 		int[] intPts = new int[pts.length];
 		for(int i=0; i<intPts.length; i++){
 			intPts[i] = Integer.parseInt(pts[i]);
 		}
-
-
 		for(int i=0; i<joueur.getListeMots().size(); i++){
 			String mot = joueur.getListeMots().get(i);
 			int gain = arbre.getPointMot(mot);
-			//System.out.println(mot +" rapporte " + gain);
 			joueur.ajoutScore(gain);
 		}
-//		this.setChanged();
-//		this.notifyObservers();
-
 	}
 
 
-	@Override
+	
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	public void update(Observable o, Object arg) {
-		//System.out.println("********* UPDATE PARTIE ************* " + o.getClass());
 		Joueur j = (Joueur) o;
 		calculerScore(j);
 		this.setChanged();
@@ -218,25 +233,21 @@ public class Partie extends Observable implements Observer, Runnable {
 
 	}
 
-
-	
-
-	@Override
-	public void run() {		
-		System.out.println("________________________________________________________________ DEBUT DE LA PARTIE ____ Duree " + getDureeManche());	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	public void run() {
 		for(int tour=1; tour<=nbTours; tour++){
 			this.setNumTour(tour);
 			tempsRestant = this.dureeManche;			
 			for(int i=0; i<getListeJoueurs().size(); i++){
 				Timer t = new Timer(false);
 				t.scheduleAtFixedRate(new Verificateur(), 1000, 1000);
-				System.out.println(t);
 				Joueur joueur = getListeJoueurs().get(i);
 				this.setJoueurEnCours(joueur);
 				grille.resetDejaVisite();
 				grille.resetListeDeSelectionnes();
 				
-				System.out.println("En cours : " + joueurEnCours.getNom());
 				while(joueur.isEntrainDeJouer() && tempsRestant > 0  && estDansEcranJeu(t)){
 					joueur.jouer();
 					if(joueur.getScore() >= scoreMax){
@@ -246,7 +257,6 @@ public class Partie extends Observable implements Observer, Runnable {
 						t.purge();
 						break;
 					}
-					//System.out.println(joueur.getNom() + " est entain de jouer.");
 				}
 				if(joueur.getScore() >= scoreMax){
 					tempsRestant = this.dureeManche;
@@ -258,8 +268,6 @@ public class Partie extends Observable implements Observer, Runnable {
 				tempsRestant = this.dureeManche;
 				t.cancel();
 				t.purge();
-				//t = new Timer(false);
-				//t.scheduleAtFixedRate(new Verificateur(), 1000, 1000);
 				Game.modele.setGrille(new GrilleLettres());
 			}
 			if(!estDansEcranJeu(null)) break;
@@ -267,18 +275,20 @@ public class Partie extends Observable implements Observer, Runnable {
 		finDeLaPartie();
 	}
 
-
+	/**
+	 * Méthode qui lance la partie
+	 */
 	public void lancerLaPartie(){
 		this.thread = new Thread(this);
 		this.thread.start();
 		
 	}
 
+	/**
+	 * Méthode qui détermine la fin de la partie
+	 */
 	public void finDeLaPartie(){
 		try {
-			System.out.println("__________________________________________________________________ FIN DE LA PARTIE ____");	
-			//t.cancel();
-			//t.purge();
 			Joueur gagnant = getGagnant();
 			if(gagnant.getScore() == 0){
 				JOptionPane.showMessageDialog(null, "<html><h2> Pas de gagnant! </h2></html>" );
@@ -296,9 +306,13 @@ public class Partie extends Observable implements Observer, Runnable {
 			}
 		} catch (Exception e) { System.out.println(e.getMessage());	}
 	}
-
-	// PRIVATE METHODS ////////////////////////////////////////////////////////
 	
+	/**
+	 * Méthode qui permet de savoir si l'EcranJeu a été abandonnée
+	 * Dans le cas ou l'on joue un partie et qu'on annule la partie en cours
+	 * @param t			Timer
+	 * @return	boolean
+	 */
 	private boolean estDansEcranJeu(Timer t){
 		if(Game.ECRAN_EN_COURS != TypeEcrans.JEU){
 			System.out.println("Arret de la partie");
@@ -316,33 +330,27 @@ public class Partie extends Observable implements Observer, Runnable {
 		return true;
 	}
 	
-	
-	///////////////////////////////////////////////////////////////////////////
-
+	/**
+	 * Classe privée interne Verificateur qui génère un timer pour connaitre le temps restant
+	 * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+	 * @version 1.0
+	 *
+	 */
 	private class Verificateur extends TimerTask {
 
-		@Override
+		
+		/* (non-Javadoc)
+		 * @see java.util.TimerTask#run()
+		 */
 		public void run() {
 			tempsRestant--;
 			if(tempsRestant<1){
 				joueurEnCours.setEntrainDeJouer(false);
-				//try { thread.join(); } catch (InterruptedException e1) { e1.printStackTrace(); }
 			}
-			//System.out.println(grille);
-			//System.out.println("Il reste " + tempsRestant + " sec.");
 			setChanged();
 			notifyObservers();
 			
 		}
 		
 	}
-
-
-	public void setScoreMax(int scoreMax) {
-		this.scoreMax = scoreMax;
-	}
-
-
-
-
 }
