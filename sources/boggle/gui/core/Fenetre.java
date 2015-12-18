@@ -8,9 +8,12 @@ import boggle.gui.components.ecrans.EcranFactory;
 
 public class Fenetre extends JFrame{
 
-	private static final long serialVersionUID = -4810618286807932601L;
-
-	
+	/**
+	 * Initialise la fenetre de jeu
+	 * @param libelle : nom de la fenetre
+	 * @param width : largeur
+	 * @param hight : hauteur
+	 */
 	public Fenetre(String libelle, int width, int hight){
 		this.setTitle(libelle);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,11 +26,12 @@ public class Fenetre extends JFrame{
 		this.requestFocus();
 	}
 	
+	/**
+	 * MaJ de l'écran courant
+	 */
 	public void updateEcranEnCours(){
 		this.setContentPane(EcranFactory.getInstance(Game.ECRAN_EN_COURS));
 		this.revalidate();
 	}
-		
-
 	
 }

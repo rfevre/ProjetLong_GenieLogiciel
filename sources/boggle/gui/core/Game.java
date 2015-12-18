@@ -14,12 +14,20 @@ public class Game {
 	public static Partie modele = new Partie();
 	
 	private static final Fenetre  fenetre = new Fenetre("BOGGLE", WIDTH, HEIGHT);
-	
 
 	public static TypeEcrans ECRAN_EN_COURS = TypeEcrans.MENU; 
 	private static Game instance; 
 	
 	// CONSTRUCTORS ///////////////////////////////////////////////////////////
+	
+	/**
+	 * Charge l'ecran en cours
+	 */
+	private Game(){
+		goToEcran(ECRAN_EN_COURS);
+	}
+	
+	// GET-SET ////////////////////////////////////////////////////////////////
 	
 	public static Game getInstance(){
 		if(instance == null){
@@ -28,11 +36,11 @@ public class Game {
 		return new Game();
 	}
 	
-	private Game(){
-		goToEcran(ECRAN_EN_COURS);
-	}
+	// PUBLIC METHODS /////////////////////////////////////////////////////////
 	
-	
+	/**
+	 * Remet à zero la partie
+	 */
 	public static void resetPartie(){
 		System.out.println("Avant " + modele);
 		//modele.getThread().interrupt();
@@ -40,21 +48,19 @@ public class Game {
 		System.out.println("Apres " + modele);
 	}
 	
-	
-	// GET-SET ////////////////////////////////////////////////////////////////
-	
-
-	
-	// PUBLIC METHODS /////////////////////////////////////////////////////////
-	
-
-	
+	/**
+	 * Permet de changer d'ecran
+	 * @param ecran : ecran à charger
+	 */
 	public static void goToEcran(TypeEcrans ecran){
 		System.out.println("Changement ecran");
 		ECRAN_EN_COURS = ecran;
 		fenetre.updateEcranEnCours();
 	}
 	
+	/**
+	 * Quitte le programme
+	 */
 	public static void quitter(){
 		System.exit(0);
 	}
