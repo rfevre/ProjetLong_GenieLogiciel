@@ -10,7 +10,8 @@ et effectuer les commandes suivantes :
 mkdir classes
 find -name "*.java" > sources.txt
 javac -sourcepath sources -d classes @sources.txt
-cp -R img/ classes/
+cp -R sources/img/ classes/
+cp -R sources/bdd/ classes/
 
 -----------------------------------------------------------------------------------
 
