@@ -28,9 +28,9 @@ public class BDD {
 	public BDD(){
 		try
 		    {   
-				final URL bdd = getClass().getResource("/bdd/top10.db");
+				//final URL bdd = getClass().getResource("/bdd/top10.db");
 				Class.forName("org.sqlite.JDBC");
-				connexion =  DriverManager.getConnection("jdbc:sqlite:"+bdd);
+				connexion =  DriverManager.getConnection("jdbc:sqlite:top10.db");
 		    }
 		catch (ClassNotFoundException | SQLException e) 
 		    {

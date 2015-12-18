@@ -20,4 +20,3 @@ Pour éxecuter :
 java -classpath classes/:lib/sqlite-jdbc-3.8.11.2.jar boggle.gui.core.Game
 
 -----------------------------------------------------------------------------------
-
