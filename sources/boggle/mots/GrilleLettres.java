@@ -24,6 +24,10 @@ public class GrilleLettres extends Observable {
     private Deque<De> listeDeSelectionnes;
     
     // CONSTRUCTORS ///////////////////////////////////////////////////////////
+    
+    /**
+     * Initialise une grille de lettres composé de dès
+     */
     public GrilleLettres(){
     	this(4,	Utils.DOSSIER_CONFIG + Utils.getConfigProperty("des"));
     	this.setListeDeSelectionnes(new LinkedList<De>());
@@ -31,11 +35,20 @@ public class GrilleLettres extends Observable {
     	this.notifyObservers();
     }
     
+    /**
+     * Initialise une grille de lettres composé de dès, avec une certaine dimension
+     * @param dimension : dimension de la grille
+     */
     public GrilleLettres(int dimension){
     	this.dimension = dimension;
     	this.grille = new De[dimension][dimension];
     }
     
+    /**
+     * Initialise une grille de lettres composé de dès, avec une certaine dimension, depuis un fichier
+     * @param dimension : dimension de la grille
+     * @param chemin : chemin du fichier
+     */
     public GrilleLettres(int dimension, String chemin){
     	this(dimension);
     	this.initGrilleDepuisFichier(chemin);
@@ -52,14 +65,23 @@ public class GrilleLettres extends Observable {
     	this.setChanged();
 		this.notifyObservers();
     }
-        
-    public Deque<De> getListeDeSelectionnes() { return listeDeSelectionnes; }  
+       
+    /**
+     * Récupére les dès sélectionné par l'utilisateur dans la grille 
+     * @return dès sélectionné
+     */
+    public Deque<De> getListeDeSelectionnes() { return listeDeSelectionnes; } 
+    
+    /**
+     * Permet de notifier à la grille les dès selectionnés
+     * @param listeDeSelectionnes : liste de dès que le joueur à selectionnés
+     */
     public void setListeDeSelectionnes(Deque<De> listeDeSelectionnes) { 
     	this.listeDeSelectionnes = listeDeSelectionnes;
 		this.setChanged();
 		this.notifyObservers();
 	}
-
+    
 	public String toString() {
     	final StringBuilder res = new StringBuilder();
 		for (int i = 0; i < dimension; i++) {
@@ -98,7 +120,10 @@ public class GrilleLettres extends Observable {
 		this.setChanged();
 		this.notifyObservers(de);
 	}
-
+	
+	/**
+	 * Retire le dernier dè selectionné
+	 */
 	public void removeLastDesSelectionnes(){
 		if(!this.listeDeSelectionnes.isEmpty() && "clavier".equals(TextInputPanel.sourceMessage)){
 			De de = this.listeDeSelectionnes.removeLast();
@@ -108,15 +133,18 @@ public class GrilleLettres extends Observable {
 		}
 	}
 	
-	
-	
-	
-	/** Permet de recuperer un de avec ses coord x, y*/
+	/**
+	 * Permet de recuperer un de grâce à ses coordonné x, y
+	 * @param x
+	 * @param y
+	 * @return le dè à la position x,y
+	 */
 	public De getDe(int x, int y){
 		if(x<0 || x>dimension-1 || y<0 || y>dimension-1) return null;
 		return this.grille[x][y];
 	}
-	/** Permet d'initialiser une grille a partir d'une chaine qui represente le contenu de chaquue de
+	
+	/** Permet d'initialiser une grille a partir d'une chaine qui represente le contenu de chaque dè
 	 * @param chaine
 	 */
 	public void initGrilleDepuisChaine(String chaine){
@@ -132,7 +160,10 @@ public class GrilleLettres extends Observable {
 		this.notifyObservers();
 	}
 	
-    /** Permet d'initialiser la grille depuis un fichier */
+    /** 
+     * Permet d'initialiser la grille depuis un fichier 
+     * 
+     */
     public void initGrilleDepuisFichier(String chemin){
     	int rx, ry;
 		try {
@@ -275,15 +306,12 @@ public class GrilleLettres extends Observable {
     	return tmp;
     }
     
-    
     public boolean lettreExisteDansLesDesAdjacents(De de, String lettre){
     	if(de == null) return false;
     	List<De> listeDesAdjacents = getListeDesAdjacents(de);
     	List<De> listeDesLettre = getListeDesFromLettre(lettre, listeDesAdjacents);
     	return listeDesLettre.size() != 0;
     }
-    
-    
     
     /** Permet de reinistialiser les des visites. */
     public void resetDejaVisite(){
@@ -295,15 +323,20 @@ public class GrilleLettres extends Observable {
     	}
     }
     
-    
+    /**
+     * Reset la liste de dès selectionné
+     */
     public void resetListeDeSelectionnes(){
     	this.setListeDeSelectionnes(new LinkedList<De>());
     	setChanged();
     	notifyObservers();
     }
-    
-    
-    /** Permet de recuperer la liste des des adjacents */
+
+    /**
+     * Permet de recuperer la liste des des adjacents
+     * @param centre : recherche autour de ce dè
+     * @return la liste des dès adjacents
+     */
     public List<De> getListeDesAdjacents(De centre){
     	if(centre==null) return null;
     	List<De> desAdjacents = new ArrayList<De>();
@@ -322,9 +355,11 @@ public class GrilleLettres extends Observable {
     	return desAdjacents;
     }
     
-    
-    
-    
+    /**
+     * Permet de recuperer la liste des des adjacents, qui n'on pas été selectionné par l'utilisateur
+     * @param centre : recherche autour de ce dè
+     * @return la liste des dès adjacents, non selectionné
+     */
     public List<De> getListeDeAdjacentsNonVisites(De centre){
     	List<De> tmp = new ArrayList<>();
     	
@@ -335,15 +370,14 @@ public class GrilleLettres extends Observable {
     	return tmp;
     }
     
-
+    /**
+     * Permet d'obtenir un dè de façon aléatoire par rapport à une liste de dès envoyé en paramètre
+     * @param liste de dè
+     * @return un dè de la liste de dès
+     */
     public De getRandomDeFromList(List<De> liste){
     	return liste.get(new Random().nextInt(liste.size()));
     }
-    
-    
-    
-	// PRIVATE METHODS ////////////////////////////////////////////////////////
-
     
     public List<De> getListeDeSelectionTemp(String str, Stack<De> resultat){
     	if(str.isEmpty()) return resultat;
@@ -361,31 +395,25 @@ public class GrilleLettres extends Observable {
    			}
     			
    		}
-   		
-    	
-    	
-		return resultat;
-    	
+   			
+		return resultat;	
     }
     
-    
-    
-    
-    
-    
-    
+    /**
+     * Vérifie si un mot est valide en partant d'un dè
+     * @param de : dè d'ou l'on commence
+     * @param mot : mot à verifier
+     * @param resultat : liste de dè par ou l'on est passé dans la grille
+     * @return "true" si le mot est valide (composé que de dès adjacents)
+     */
     public boolean estUnMotValide(De de, String mot, Stack<De> resultat){
     	de.setDejaVisite(true);
-    	//System.out.println(mot + " : " + de + " Deja Visite : " + de.isDejaVisite());
-    	//resultat.push(de);
-    	//System.out.print (de + "("+de.getX() + ","+de.getY()+") »» ");
     	if(mot.length() == 0) return true;
     	final List<De> desAdjacents = getListeDesAdjacents(de);
     	final String lettre = ""+mot.charAt(0);
     	final List<De> nextDeList = getListeDesFromLettre(lettre, desAdjacents);
     	for(De d : nextDeList){
     		if(!d.isDejaVisite()){
-    			//System.out.println(de + "("+de.getX() + ","+de.getY()+")");
     			d.setDejaVisite(true);
     			resultat.push(d);
     			if(estUnMotValide(d, mot.substring(1), resultat) ){
@@ -401,6 +429,37 @@ public class GrilleLettres extends Observable {
     	return false;
     }
     
+    /**
+     * Vérifie si un mot est valide en partant de n'importe ou dans la grille
+     * @param mot : mot à verifier
+     * @param resultat : liste de dè par ou l'on est passé dans la grille
+     * @return "true" si le mot est valide (composé que de dès adjacents)
+     */
+    public boolean estUnMotValideBis(String mot, Stack<De> resultat){
+    	if(mot==null || mot.isEmpty()) return false;
+    	if(mot.length() == 1){
+    		boolean estDansLaGrille = estUneLettreValide(mot);
+    		if(estDansLaGrille) resultat.push(getListeDesFromLettre(mot).get(0));
+    		return estDansLaGrille;
+    	}
+    	
+    	final String premiereLettre = ""+mot.charAt(0);	
+    	final List<De> listeDesLettre = getListeDesFromLettre(premiereLettre);
+    	
+    	for(De d : listeDesLettre){
+    		//resultat.push(d);
+    		if(findWordInBoard(mot, d, resultat )){
+    			//d.setDejaVisite(true);
+    			return true;
+    		}
+    		//resultat.pop();
+    		d.setDejaVisite(false);
+    	}
+    	
+    	return false;  	
+    }
+    
+	// PRIVATE METHODS ////////////////////////////////////////////////////////
     
     private boolean findWordInBoard(String word, De de, Stack<De> resultat) {
     	String ltr = ""+word.charAt(0);
@@ -427,47 +486,8 @@ public class GrilleLettres extends Observable {
 		de.setDejaVisite(false);
 		return false;
 	}
-    
-    
-    public boolean estUnMotValideBis(String mot, Stack<De> resultat){
-    	if(mot==null || mot.isEmpty()) return false;
-    	if(mot.length() == 1){
-    		boolean estDansLaGrille = estUneLettreValide(mot);
-    		if(estDansLaGrille) resultat.push(getListeDesFromLettre(mot).get(0));
-    		return estDansLaGrille;
-    	}
-    	
-    	final String premiereLettre = ""+mot.charAt(0);	
-    	final List<De> listeDesLettre = getListeDesFromLettre(premiereLettre);
-    	
-    	for(De d : listeDesLettre){
-    		//resultat.push(d);
-    		if(findWordInBoard(mot, d, resultat )){
-    			//d.setDejaVisite(true);
-    			return true;
-    		}
-    		//resultat.pop();
-    		d.setDejaVisite(false);
-    	}
-    	
-    	return false;  	
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     ///////////////////////////////////////////////////////////////////////////
     
-   
-
-
-
-
     
 }
