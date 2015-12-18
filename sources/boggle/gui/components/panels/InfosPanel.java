@@ -1,8 +1,6 @@
 package boggle.gui.components.panels;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,16 +11,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.UIManager;
-
 import boggle.autre.Couleurs;
 import boggle.gui.core.Game;
 
-/** 
- * TODO Nom du joueur en cours, son score
- *  
+/**
+ * Cette classe permet d'afficher les informations relatives au joueur en cours. 
  * @author elmassam
- *
  */
 public class InfosPanel extends JPanel implements Observer {
 	
@@ -42,6 +36,7 @@ public class InfosPanel extends JPanel implements Observer {
 		
 	}
 	
+	/** Permet d'initialiser l'interface du panel */
 	public void init() {
 		
 		this.setLayout(new GridBagLayout());
@@ -85,8 +80,6 @@ public class InfosPanel extends JPanel implements Observer {
 		chrono.setBorderPainted(false);
 		chrono.setStringPainted(true);
 		
-//		UIManager.put("ProgressBar.selectionForeground", Color.red);
-//		UIManager.put("ProgressBar.selectionBackground", Color.darkGray);
 		chrono.updateUI();
 	}
 
