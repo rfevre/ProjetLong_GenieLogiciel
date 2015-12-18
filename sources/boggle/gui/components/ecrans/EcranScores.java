@@ -1,12 +1,8 @@
 package boggle.gui.components.ecrans;
 
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -22,13 +18,23 @@ import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
 
+
+/**
+ * Classe EcranScores qui correspond à l'écran de scores affiché à l'utilisateur
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class EcranScores extends Ecran {
 
-	private static final long serialVersionUID = 1L;
 	private static EcranScores instance;
 	private Button btnRetour;
 	
 	
+	/**
+	 * Retourne l'attribut instance de la classe, qui correspond à l'instance courante
+	 * @return Ecran
+	 */
 	public static Ecran getInstance() {
 		if(instance == null){
 			instance = new EcranScores();
@@ -36,6 +42,9 @@ public class EcranScores extends Ecran {
 		return instance;
 	}
 	
+	/**
+	 * Constructeur de la classe
+	 */
 	private EcranScores() {
 		this.setBackground(Couleurs.DARK_BLUE);
 		this.btnRetour = new Button(1, "RETOUR");
@@ -44,15 +53,15 @@ public class EcranScores extends Ecran {
 	}
 	
 	
-	@Override
+	/* (non-Javadoc)
+	 * @see boggle.gui.components.ecrans.Ecran#initLayout()
+	 */
 	public void initLayout() {
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		
 		this.setForeground(Couleurs.SMOKE_WHITE);
 		
-		JPanel panel = new JPanel();
-
 		JLabel titre = new JLabel("<html><h1>MEILLEURS SCORES</h1></html>", SwingConstants.CENTER);
 		titre.setForeground(Couleurs.SMOKE_WHITE);
 		gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 3;
@@ -66,14 +75,7 @@ public class EcranScores extends Ecran {
 			joueurs = bdd.getListScores();	
 		} catch(SQLException e){e.getMessage();}
 
-//		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(0, 10, 2, 10);
-//		gbc.gridy = 0;		
-//		gbc.gridwidth = 1; 
-//		
-//		gbc.weightx = 1;
-//		gbc.gridx=0;
-		
 		int i = 1;
 		for (Joueur j : joueurs) {
 			
@@ -96,16 +98,19 @@ public class EcranScores extends Ecran {
 	}
 	
 	
-
 	/**
-	 * Classe interne Button
+	 * Classe interne privée Button
+	 * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+	 * @version 1.0
 	 *
 	 */
 	private class Button extends CustomButton {
-
-		private static final long serialVersionUID = 1L;
-
-
+		
+		/**
+		 * Constructeur de la classe
+		 * @param id		Identifiant du boutton
+		 * @param libelle	Libelle du boutton
+		 */
 		public Button(int id, String libelle) {
 			super(id, libelle, SwingConstants.CENTER, 150, 50);
 			this.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -116,7 +121,9 @@ public class EcranScores extends Ecran {
 			this.setOpaque(false);
 		}
 
-		
+		/**
+		 * Classe qui correspond à l'événement : 'pression sur la souris'
+		 */
 		public void mousePressed(MouseEvent e) {
 			Button button = (Button)e.getSource();
 			if(button.getId() == 1){ 
