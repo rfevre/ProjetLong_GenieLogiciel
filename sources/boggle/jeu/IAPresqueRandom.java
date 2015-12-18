@@ -14,17 +14,26 @@ import boggle.mots.ArbreLexical;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
 
-
+/**
+ * Classe IAPresqueRandom qui correspond à l'intelligence artificielle
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class IAPresqueRandom extends Joueur {
 
 	private ArbreLexical arbre;
 
+	/**
+	 * Constructeur
+	 * @param nom 
+	 */
 	public IAPresqueRandom(String nom){
 		super(nom);
 		this.type = TypeJoueur.IA_RANDOM_NIV2;
 		this.arbre = Game.modele.getArbre();
 	}
-
+	
 	public ArbreLexical getArbre() { return arbre; }            
 
 	public void setArbre(ArbreLexical arbre) { this.arbre = arbre; } 
@@ -37,55 +46,31 @@ public class IAPresqueRandom extends Joueur {
 	public List<De> choisirUnMot(GrilleLettres grille){
 
 		List<De> listeRetourner = new ArrayList<De>();
-
-		// On sélectionne un De de depart de façon aléatoire dans la grille
-		// Mettre setDejaVisite() à true && ajouter ce De à la liste
 		Random rand = new Random();
 		int x = rand.nextInt(4);
 		int y = rand.nextInt(4);
-
-
-		//int taille = rand.nextInt(16);
-
-
 		De de = grille.getDe(x, y);
 		de.setDejaVisite(true);
-
 		listeRetourner.add(de);
-
-
 		De lastDe = listeRetourner.get(listeRetourner.size()-1);
-
 		List<De> listeAdjacents = grille.getListeDesAdjacents(lastDe);
-
 		for(De unDeAdj : listeAdjacents){
-
 			List<De> ls = grille.getListeDeAdjacentsNonVisites(unDeAdj);
 			if(ls.isEmpty()) continue;
 			listeRetourner.add( grille.getRandomDeFromList(ls));
-
-
-
 			String mot = "";
 			for (De current : listeRetourner){
 				mot += current.getChaineFaceVisible();
 			}
-
 			List<String> listeMots = new ArrayList<>();
 			arbre.motsCommencantPar(mot, listeMots);
-
 			if(listeMots.contains(mot)){
-				System.out.println("----> " + mot);
 				return listeRetourner;
 			}else
 				if(listeMots.isEmpty()){
 					listeRetourner.remove(listeRetourner.size()-1);
 					continue;
-				}
-
-
-
-		}
+				}		}
 		return listeRetourner;
 	}
 
@@ -96,7 +81,6 @@ public class IAPresqueRandom extends Joueur {
 	 * @return de ou null
 	 */
 	public De unDeAdjacentValide(List<De> liste){
-		// On mélange aléatoirement la liste
 		Collections.shuffle(liste);
 
 		for (De de : liste) {
@@ -107,9 +91,10 @@ public class IAPresqueRandom extends Joueur {
 		return null;
 	}
 
-
-
-	@Override
+	
+	/* (non-Javadoc)
+	 * @see boggle.jeu.Joueur#jouer()
+	 */
 	public void jouer() {
 
 		try {
@@ -119,7 +104,6 @@ public class IAPresqueRandom extends Joueur {
 			StringBuilder str = new StringBuilder();
 			for (De de : liste) {
 				str.append(de.getChaineFaceVisible());
-				System.out.println(de.toString());
 				TextInputPanel.sourceMessage = "click";
 				Game.modele.getGrille().addDeToListeDesSelectionnes(de);
 				Thread.sleep(300);
