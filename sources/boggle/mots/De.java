@@ -5,6 +5,8 @@ import java.util.List;
 /**
  * Cette Classe represente un De de 6 faces.
  * Une lettre est inscrite sur chaque face.
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
  *
  */
 public class De {

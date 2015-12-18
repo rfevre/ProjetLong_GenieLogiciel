@@ -5,7 +5,12 @@ import javax.swing.JFrame;
 
 import boggle.gui.components.ecrans.EcranFactory;
 
-
+/**
+ * Classe qui permet de créer la fenetre de l'application
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class Fenetre extends JFrame{
 
 	/**
