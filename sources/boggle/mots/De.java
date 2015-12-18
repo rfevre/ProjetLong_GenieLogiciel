@@ -3,9 +3,6 @@ package boggle.mots;
 import java.util.List;
 
 /**
- * 
- */
-/**
  * Cette Classe represente un De de 6 faces.
  * Une lettre est inscrite sur chaque face.
  *
@@ -19,12 +16,23 @@ public class De {
    
     // CONSTRUCTORS ///////////////////////////////////////////////////////////
     
+    /**
+     * Constructeur qui permet d'instancier un dè avec une position (x,y)
+     * @param x : position x
+     * @param y : position y
+     */
     public De(int x, int y){
     	this.x = x;
     	this.y = y;
     	this.indexFaceVisible = 0;
     }
     
+    /**
+     * Constructeur qui permet d'instancier un dè avec une position (x,y) et les lettres écrite dessus
+     * @param x : position x
+     * @param y : position y
+     * @param lettres : lettres inscrite sur le dé
+     */
     public De(int x, int y, String lettres){
     	this(x, y);
     	this.faces = lettres.split(";");
@@ -62,8 +70,9 @@ public class De {
 	
 	
 	// STATIC METHODS /////////////////////////////////////////////////////////
+	
     /**
-    * Permet de savoir si un de est present dans une liste ou pas.
+    * Permet de savoir si un dé est present dans une liste ou pas.
     * @param de : Correspond au dé que l'on doit vérifier.
     * @param liste : Liste dans laquelle il y a tous les dés déjà selectionnés.
     * @return <code>vrai</code> si le de existe dans la liste sinon <code>false</code> 
