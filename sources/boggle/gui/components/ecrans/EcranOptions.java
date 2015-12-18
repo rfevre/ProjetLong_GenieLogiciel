@@ -20,10 +20,14 @@ import boggle.autre.Utils;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 
+/**
+ * Classe EcranOptions qui correspond à l'écran d'options affiché à l'utilisateur
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class EcranOptions extends Ecran {
 
-	
-	private static final long serialVersionUID = 1L;
 	private static EcranOptions instance;
 	
 	private JTextField dictionnaire, score, nbTours, tempsJeu;
@@ -68,15 +72,14 @@ public class EcranOptions extends Ecran {
 		this.btnRetour = new Button(2, "RETOUR", SwingConstants.CENTER, 150, 50);
 		this.btnValider = new Button(3, "VALIDER", SwingConstants.CENTER, 150, 50);
 		
-		//this.dictionnaire.setEnabled(false);
 		this.dictionnaire.setText(Utils.getConfigProperty("des"));
 		initLayout();
 	}
 	
-	/**
-	 * Methode init() qui initialise l'EcranOptions en plaÃ§ant  les Ã©lÃ©ments
+	
+	/* (non-Javadoc)
+	 * @see boggle.gui.components.ecrans.Ecran#initLayout()
 	 */
-	@Override
 	public void initLayout() {
 		
 		dicoLabel.setForeground(Couleurs.SMOKE_WHITE);
@@ -88,64 +91,52 @@ public class EcranOptions extends Ecran {
 		this.setBackground(Couleurs.DARK_BLUE);
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
-		// Marge interne
 		gbc.insets = new Insets(10,30,10,0);
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridwidth = 1;
 		gbc.weightx = 1;
-		// PremiÃ¨re ligne
-		gbc.gridx=1; gbc.gridy = 0; // gridx et gridy sert Ã  la position
+		gbc.gridx=1; gbc.gridy = 0; 
 		this.add(dicoLabel, gbc);
 		
-		gbc.gridx=2; //gbc.gridy = 0;
+		gbc.gridx=2; 
 		dictionnaire.setPreferredSize(new Dimension(150, 30));
 		this.add(dictionnaire, gbc);
 		
-		//gbc.gridx=3; //gbc.gridy=0;
-		//this.add(btnBrowse, gbc);
-		
-		// DeuxiÃ¨me ligne
 		gbc.gridx=1; gbc.gridy = 1;
 		this.add(scoreLabel, gbc);
 		
-		gbc.gridx=2; //gbc.gridy = 1;
+		gbc.gridx=2;
 		score.setPreferredSize(new Dimension(150, 30));
 		this.add(score, gbc);
 		
-		
-		// TroisiÃ¨me ligne
 		gbc.gridx=1; gbc.gridy = 2;
 		this.add(nbToursLabel, gbc);
 		
-		gbc.gridx=2; //gbc.gridy = 2;
+		gbc.gridx=2;
 		nbTours.setPreferredSize(new Dimension(150, 30));
 		this.add(nbTours, gbc);
 				
-		// TroisiÃ¨me ligne
 		gbc.gridx=1; gbc.gridy = 3;
 		this.add(tempsJeuLabel, gbc);
 		
-		gbc.gridx=2; //gbc.gridy = 3;
+		gbc.gridx=2; 
 		tempsJeu.setPreferredSize(new Dimension(150, 30));
 		this.add(tempsJeu, gbc);
 		
-		// QuatriÃ¨me ligne
 		gbc.gridx=1; gbc.gridy = 4;
 		this.add(tailleGrilleLabel, gbc);
 		
-		gbc.gridx=2; //gbc.gridy = 4;
+		gbc.gridx=2;
 		tailleGrille.setPreferredSize(new Dimension(150, 30));
 		this.add(tailleGrille, gbc);
 		
-		
-		// CinquiÃ¨me ligne
 		gbc.gridx =0; gbc.gridy=5;
 		gbc.insets = new Insets(100,100,0,0);
 		this.btnRetour.setBackground(Color.RED);
 		this.add(btnRetour, gbc);
 		
-		gbc.gridx = 5; //gbc.gridy=5;
+		gbc.gridx = 5;
 		gbc.insets = new Insets(100,0,0,100);
 		this.btnValider.setBackground(Color.RED);
 		this.add(btnValider, gbc);
@@ -153,50 +144,47 @@ public class EcranOptions extends Ecran {
 	}
 	
 	/**
-	 * Classe interne Button
+	 * Classe interne privée Button
+	 * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+	 * @version 1.0
 	 *
 	 */
 	private class Button extends CustomButton{
-
-		private static final long serialVersionUID = 1L;
 		
 		/**
 		 * Constructeur de la classe intern bouton
-		 * @param id : correspond Ã  l'id du boutton
-		 * @param libelle :  correspond Ã  libelle du bouton
-		 * @param alignement : correspond Ã  l'alignement du bouton
-		 * @param w : correspond Ã  la largeur du bouton
-		 * @param h : correspond Ã  la hauteur du bouton
+		 * @param id : 			correspond à  l'id du boutton
+		 * @param libelle :  	correspond à  libelle du bouton
+		 * @param alignement : 	correspond à  l'alignement du bouton
+		 * @param w : 			correspond à  la largeur du bouton
+		 * @param h : 			correspond à  la hauteur du bouton
 		 */
 		public Button(int id, String libelle, int alignement, int w, int h) {
 			super(id, libelle, alignement, w, h);
 			this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			
 			this.setVerticalTextPosition(SwingConstants.CENTER);
 			this.setHorizontalTextPosition(SwingConstants.CENTER);
 			this.setForeground(Couleurs.SMOKE_WHITE);
 			this.setOpaque(false);
 		}
 		
-		@Override
 		/**
-		 * Classe qui correspond Ã  l'Ã©venement : 'pression sur la souris'
+		 * Classe qui correspond à l'événement : 'pression sur la souris'
 		 */
 		public void mousePressed(MouseEvent e) {
 			
 			Button button = (Button)e.getSource();
-			if(button.getId() == 1) // Bouton browse
+			if(button.getId() == 1)
 			{
 				
 			}
-			else if(button.getId() == 2) // Bouton retour
+			else if(button.getId() == 2)
 			{ 
 				Game.goToEcran(TypeEcrans.MENU);
 			}
-			else if(button.getId() == 3) // Bouton valider
+			else if(button.getId() == 3)
 			{  
 				verifOptions();
-				// Modif Ã  faire en fonction des choix de l'utilisateur
 			}
 				
 			
@@ -205,10 +193,12 @@ public class EcranOptions extends Ecran {
 		
 	}
 	
+	/**
+	 * Méthode qui vérifie les options inscrites par l'utilisateur
+	 */
 	private void verifOptions(){
 		boolean changement = false;
 		
-		//Vérification du champ nbTours
 		if (Pattern.matches("[0-9]*",nbTours.getText())){
 			if (Integer.parseInt(nbTours.getText())>0 && Integer.parseInt(nbTours.getText())<20){
 				Game.modele.setNbTours(Integer.parseInt(nbTours.getText()));
@@ -222,7 +212,6 @@ public class EcranOptions extends Ecran {
 			changement = false;
 		}
 		
-		//Vérification du champ tempsJeu
 		if (Pattern.matches("[0-9]*",tempsJeu.getText())){
 			if (Integer.parseInt(tempsJeu.getText())>0 && Integer.parseInt(tempsJeu.getText())<600){
 				Game.modele.setDurreeManche(Integer.parseInt(tempsJeu.getText()));
@@ -236,7 +225,6 @@ public class EcranOptions extends Ecran {
 			changement = false;
 		}
 		
-		//Vérification du champ score 
 		if (Pattern.matches("[0-9]*", score.getText())){ // true)
 			if (Integer.parseInt(score.getText())>0 && Integer.parseInt(score.getText())<1000){
 				Game.modele.setScoreMax(Integer.parseInt(score.getText()));
@@ -249,8 +237,6 @@ public class EcranOptions extends Ecran {
 		else{
 			changement = false;
 		}
-		
-		//On vérifie si tout à bien étais pris en compte
 		if (changement){
 			JOptionPane.showMessageDialog(null, "Changements pris en compte." );
 			Game.goToEcran(TypeEcrans.MENU);

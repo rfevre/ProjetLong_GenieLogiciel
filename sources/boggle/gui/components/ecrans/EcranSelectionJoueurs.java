@@ -25,11 +25,16 @@ import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
 import boggle.jeu.JoueurFactory;
-import boggle.jeu.Partie;
 import boggle.jeu.TypeJoueur;
+
+/**
+ * Classe EcranSelectionJoueurs qui correspond à l'écran de selection des joueurs qui est affiché à l'utilisateur
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class EcranSelectionJoueurs extends Ecran {
 
-	private static final long serialVersionUID = 1L;
 	private static EcranSelectionJoueurs instance;
 	private Avatar[] listeAvatars = new Avatar[5];
 	
@@ -37,13 +42,21 @@ public class EcranSelectionJoueurs extends Ecran {
 	private final ImageIcon USRH = new ImageIcon(getClass().getResource("/img/usrh.png"));
 	private final ImageIcon USRIA = new ImageIcon(getClass().getResource("/img/usria.png"));
 	
+	
+	/**
+	 * Retourne l'attribut instance de la classe, qui correspond à l'instance courante
+	 * @return EcranSelectionJoueurs
+	 */
 	public static EcranSelectionJoueurs getInstance() {
 		if(instance == null){
 			instance = new EcranSelectionJoueurs();
 		}
 		return new EcranSelectionJoueurs();
 	}
-		
+	
+	/**
+	 * Constructeur de la classe
+	 */
 	private EcranSelectionJoueurs() {
 		System.out.println("ECRAN SELECTION");
 		initLayout();
@@ -51,7 +64,7 @@ public class EcranSelectionJoueurs extends Ecran {
 	
 	/**
 	 * Fonction qui vérifie si la liste des avatars est vide ou non
-	 * @return
+	 * @return boolean
 	 */
 	public boolean listeAvatarsVide(){
 		for (Avatar av : listeAvatars) {
@@ -62,7 +75,10 @@ public class EcranSelectionJoueurs extends Ecran {
 		return false;
 	}
 	
-	@Override
+	
+	/* (non-Javadoc)
+	 * @see boggle.gui.components.ecrans.Ecran#initLayout()
+	 */
 	public void initLayout() {
 		final JPanel avatarsPanel = new JPanel();
 		final JPanel btnsPanel = new JPanel();
@@ -132,7 +148,6 @@ public class EcranSelectionJoueurs extends Ecran {
 					avatar.nom.requestFocus();	
 				}else{
 					Joueur joueur = avatar.getJoueurInstance();
-					//System.out.println(joueur);
 					Game.modele.ajouterJoueur(joueur);
 				}				
 			}
@@ -143,20 +158,21 @@ public class EcranSelectionJoueurs extends Ecran {
 	
 	
 	
-	private void resetListeAvatar(){
-		this.listeAvatars = new Avatar[5];
-		
-	}
+
 	
 	/**
-	 * Classe intern Button
-	 * @author elmassam
+	 * Classe interne privée Button
+	 * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+	 * @version 1.0
 	 *
 	 */
 	private class Button extends CustomButton {
 		
-		private static final long serialVersionUID = 1L;
-
+		/**
+		 * Constructeur de la classe
+		 * @param id		Identifiant de la classe
+		 * @param libelle	Libelle de la classe
+		 */
 		public Button(int id, String libelle) {
 			super(id, libelle, SwingConstants.CENTER, 150, 50);
 			this.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -168,45 +184,30 @@ public class EcranSelectionJoueurs extends Ecran {
 			this.setOpaque(false);
 		}
 
-
-
-		@Override
-		/**
-		 * Lorsque l'on presse sur la boutton dont l'id est 1, "CONTINUER", on appelle la fonction verifierListeJoueurs
-		 * Si on presse le boutton dont l'id est 2, "RETOUR", on reviens sur l'écran du MENU
-		 */
+		
 		public void mousePressed(MouseEvent e) {
 			Button button = (Button) e.getSource();
 			if(button.getId() == 1){
-				// Click sur continuer
 				Game.modele.resetListeJoueurs();
-				//System.out.println("Appuie sur continuer");
 				verifierListeJoueurs();
-				
 			}else if(button.getId() == 2){
-				// Click sur retour
 				Game.goToEcran(TypeEcrans.MENU);
 			}
 		}
-
-		@Override
+		
+		
 		public void mouseReleased(MouseEvent e) {
 			super.mouseReleased(e);
 		}
 	}
 	
 	/**
-	 * 
-	 */
-	
-	/**
-	 * Classe interne correspondant aux avatars
-	 * @author elmassam
+	 * Classe interne privée Avatar
+	 * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+	 * @version 1.0
 	 *
 	 */
 	private class Avatar extends JPanel implements MouseListener{
-		
-		private static final long serialVersionUID = 1L;
 		
 		private JLabel		photo;
 		private JTextField	nom;
@@ -215,7 +216,7 @@ public class EcranSelectionJoueurs extends Ecran {
 		private boolean		estHumain;
 		
 		/**
-		 * Constructeur Avatar
+		 * Constructeur de la classe Avatar
 		 */
 		public Avatar(){
 			this.actif = false;
@@ -225,17 +226,11 @@ public class EcranSelectionJoueurs extends Ecran {
 		
 		}
 		
-		//////////////////////// GETTEURS AVATARS //////////////////////////////////
 		public String getNom() { return nom.getText(); }
 
 		public TypeJoueur getTypeIA() { return (TypeJoueur) typeIA.getValue(); }
 
 		public boolean isActif() { return actif; }
-
-		public boolean estHumain() { return estHumain; }
-
-		//////////////////////// FIN GETTEURS AVATARS //////////////////////////////
-		
 		
 		/**
 		 * Retourne l'instance de Joueur
@@ -255,6 +250,9 @@ public class EcranSelectionJoueurs extends Ecran {
 		
 		
 		
+		/**
+		 * Permet d'initialiser les éléments de l'ecran de selections des joueurs
+		 */
 		private void init(){
 			this.setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -294,19 +292,15 @@ public class EcranSelectionJoueurs extends Ecran {
 				if(estHumain){
 					typeIA.setEnabled(false);
 					photo.setIcon(USRH);
-					//photo.setBackground(Color.ORANGE);
 					
 				} else {
 					typeIA.setEnabled(true);
 					photo.setIcon(USRIA);
-					//photo.setBackground(Color.CYAN);
 				}
 			} else {
-				//photo.setBackground(Couleurs.DARK_BLUE);
 				nom.setEnabled(false);
 				typeIA.setEnabled(false);
 				photo.setIcon(USROFF);
-				//typeIA.setVisible(false);
 			}
 			photo.setText("Actif : " + actif + (estHumain ? " Humain" : " Robot"));
 		}
@@ -318,12 +312,6 @@ public class EcranSelectionJoueurs extends Ecran {
 
 		public void mouseExited(MouseEvent e){}
 		
-		/**
-		 * Evenement concernant la souris
-		 * Lorsque l'on presse avec la partie droite de la souris, on active ou désactive l'avatar
-		 * 
-		 * Lorsque l'on presse avec la partie gauche de la souris, on choisit entre Humain ou IA
-		 */
 		public void mousePressed(MouseEvent e){
 			if(SwingUtilities.isLeftMouseButton(e)){
 				if(actif){
@@ -332,7 +320,6 @@ public class EcranSelectionJoueurs extends Ecran {
 			}else if(SwingUtilities.isRightMouseButton(e)){
 				actif=!actif;
 			}
-			//System.out.println(estHumain + " " + actif);
 			updateAvatar();
 		}
 
@@ -340,7 +327,7 @@ public class EcranSelectionJoueurs extends Ecran {
 		
 		
 		
-	} // FIN CLASSE AVATAR
+	}
 	
 	
 }
