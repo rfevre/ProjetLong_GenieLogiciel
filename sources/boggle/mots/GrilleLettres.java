@@ -17,6 +17,12 @@ import java.util.Stack;
 import boggle.autre.Utils;
 import boggle.gui.components.panels.TextInputPanel;
 
+/**
+ * Classe qui permet de créer une grille de lettre par rapport à des dès
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class GrilleLettres extends Observable {
     
     private int dimension;				// taille de la grille

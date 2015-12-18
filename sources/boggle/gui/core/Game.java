@@ -6,7 +6,12 @@ import boggle.gui.components.ecrans.*;
 import boggle.jeu.Partie;
 
 
-
+/**
+ * Classe qui permet de jouer une partie
+ * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
+ * @version 1.0
+ *
+ */
 public class Game {
 
 	public static final int WIDTH  = 1200;
