@@ -33,7 +33,7 @@ public class InfosPanel extends JPanel implements Observer {
 	private double dureeMax;
 	
 	public InfosPanel(){
-		this.dureeMax = Game.modele.getDurreeManche();
+		this.dureeMax = Game.modele.getDureeManche();
 		this.setBackground(Couleurs.SMOKE_WHITE);
 		
 		init();
@@ -58,23 +58,23 @@ public class InfosPanel extends JPanel implements Observer {
 		//gbc.insets = new Insets(20, 10, 5, 10);
 		gbc.insets = new Insets(0, 5, 5, 5);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.fill = GridBagConstraints.NONE;
 		
-
+		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridy = 0; gbc.gridx = 0; gbc.weightx = 0.4;
 		this.add(numTour, gbc);
 
-		//gbc.anchor = GridBagConstraints.EAST;
-		//gbc.fill = GridBagConstraints.NONE;
 
+		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.gridx = 1;	gbc.weightx = 0.3;
 		this.add(nomJoueurEnCours, gbc);
-		
+		gbc.anchor = GridBagConstraints.EAST;
 		gbc.gridx = 2; 
 		this.add(scoreJoueurEnCours, gbc );
 		
 
 		gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 3; 		gbc.weightx = 1;
-		//gbc.fill = GridBagConstraints.BOTH;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(0, 5, 5, 5);
 		this.add(chrono, gbc);
 		
@@ -96,14 +96,14 @@ public class InfosPanel extends JPanel implements Observer {
 		numTour.setText("<html><h2> MANCHE N° <span style='color:c0392b;'>" +Game.modele.getNumTour() + "/" + Game.modele.getNbTours()+ "</span></h2></html>");
 		nomJoueurEnCours.setText("<html><h2>JOUEUR EN COURS : <span style='color:c0392b;'>" +Game.modele.getJoueurEnCours().getNom()+ "</span> " +ia+"</h2></html>");
 		scoreJoueurEnCours.setText("<html><h2>SCORE : <span style='color:c0392b;'>" +Game.modele.getJoueurEnCours().getScore()+ " points.</span></h2></html>");
-		int val = (int) ((Game.modele.getDurreeManche()/dureeMax)*100);
+		int val = (int) ((Game.modele.getTempsRestant()/dureeMax)*100);
 		chrono.setValue(val);
 		
 		if(val>50){ chrono.setForeground(Couleurs.GREEN1); }
 		else if(val>25){chrono.setForeground(Couleurs.CARROT);}
 		else if(val>=0){chrono.setForeground(Couleurs.RED1);}
 		
-		int time = Game.modele.getDurreeManche();
+		int time = Game.modele.getTempsRestant();
 		String txt = time>60 ? (time / 60) + " minutes et " +time%60+ " secondes." : time+ " secondes.";  
 		
 		chrono.setString(txt);

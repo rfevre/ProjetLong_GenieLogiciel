@@ -2,11 +2,6 @@ package boggle.autre;
 
 import java.awt.Color;
 
-/**
- * Classe Couleurs qui définit les couleurs utilisées dans le projet
- * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
- * @version 1.0
- */
 public class Couleurs {
 
 	public static final Color DARK_BLUE = new Color(41,42,48);
@@ -20,4 +15,10 @@ public class Couleurs {
 	public static final Color DARK_BLUE_1 = new Color (44, 62, 80);
 	public static final Color RED1 = new Color (192, 57, 43);
 	public static final Color GREEN1 = new Color (46, 204, 113);
+	
+	public static final Color YELLOW = new Color (241, 196, 15);
+	
+	
+	
+	
 }

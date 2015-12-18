@@ -114,7 +114,7 @@ public class ListeMotsPanel extends JPanel implements Observer {
 
 		@Override
 		public String toString() {
-			return "<html><table><tr><td width=\"200\">" +mot+ "</td><td align=\"right\">" +points+ " point.</td></tr></table></html>";
+			return "<html><table><tr><td width=\"200\">" +mot+ "</td><td width=\"50\" align=\"right\">" +points+ " point.</td></tr></table></html>";
 		}
 		
 		@Override
@@ -131,16 +131,15 @@ public class ListeMotsPanel extends JPanel implements Observer {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			//ModeleDeTable mod = (ModeleDeTable) table.getModel();
-
-			c.setFont(new Font("default", Font.BOLD, 12));
-			if( row==0 ){
+			UnMot mot = (UnMot) value;
+			table.setRowHeight(25);
+			
+			if(mot!= null && mot.points>0){
 				c.setBackground(Couleurs.CARROT);
 				c.setForeground(Couleurs.SMOKE_WHITE);		
-			}
-			
-			else{            
-				c.setBackground(Couleurs.DARK_BLUE);
-				c.setForeground(Couleurs.SMOKE_WHITE);	
+			}else{
+				c.setBackground(Couleurs.CONCRETE);
+				c.setForeground(Couleurs.DARK_BLUE);	
 			}
 
 			return c;

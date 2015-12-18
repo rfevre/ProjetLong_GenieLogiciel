@@ -56,7 +56,6 @@ public class GrilleLettres extends Observable {
     public Deque<De> getListeDeSelectionnes() { return listeDeSelectionnes; }  
     public void setListeDeSelectionnes(Deque<De> listeDeSelectionnes) { 
     	this.listeDeSelectionnes = listeDeSelectionnes;
-    	
 		this.setChanged();
 		this.notifyObservers();
 	}
@@ -296,6 +295,14 @@ public class GrilleLettres extends Observable {
     	}
     }
     
+    
+    public void resetListeDeSelectionnes(){
+    	this.setListeDeSelectionnes(new LinkedList<De>());
+    	setChanged();
+    	notifyObservers();
+    }
+    
+    
     /** Permet de recuperer la liste des des adjacents */
     public List<De> getListeDesAdjacents(De centre){
     	if(centre==null) return null;
@@ -395,28 +402,20 @@ public class GrilleLettres extends Observable {
     }
     
     
-    
-    
-    
-    
-    
-    
     private boolean findWordInBoard(String word, De de, Stack<De> resultat) {
     	String ltr = ""+word.charAt(0);
     	if(!ltr.equals(de.getChaineFaceVisible())) return false;
     	de.setDejaVisite(true);
     	resultat.push(de);
-    	System.out.println("-----------> "+ de);
+    	//System.out.println("-----------> "+ de);
 		if(word.length()==1) return ltr.equals(de.getChaineFaceVisible());
 		for(De adj : getListeDesAdjacents(de)){
 			if(!adj.isDejaVisite()){
 					if ((""+word.charAt(1)).equals(adj.getChaineFaceVisible())) {
 						adj.setDejaVisite(true);
 						if((findWordInBoard(word.substring(1), adj, resultat))){
-							
 							return true;
 						}
-							
 					}else{
 						//if(!resultat.empty()) resultat.pop();
 						adj.setDejaVisite(false);
@@ -428,10 +427,6 @@ public class GrilleLettres extends Observable {
 		de.setDejaVisite(false);
 		return false;
 	}
-    
-    
-    
-    
     
     
     public boolean estUnMotValideBis(String mot, Stack<De> resultat){
@@ -471,54 +466,7 @@ public class GrilleLettres extends Observable {
     
    
 
-	public static void main(String[] args) {
-//    	GrilleLettres g = new GrilleLettres();
-//    	//g.initGrilleDepuisChaine("ABCD EFGH IJKL MNOP");
-//    	System.out.println(g);
-//    	 Set<String> ls = g.getTousLesMots();;
-//    	System.out.println(ls.size());
-//    	ArbreLexical arbre = ArbreLexical.creerArbreDepuisUneListe(ls);
-//    	arbre.afficherArbre(0);
-		
-		GrilleLettres g = new GrilleLettres();
-		//g.initGrilleDepuisChaine("ABCD EAGH IJKL MNOP");
-		g.initGrilleDepuisChaine("TSET LSNA ANVA FUIE");
-		//g.initGrilleDepuisChaine("ABCD ABCD ABCD ABCD");
-		System.out.println(g);
-		De de = g.getDe(0, 0);
-		System.out.println(g.lettreExisteDansLesDesAdjacents(de, "K"));
-		//System.out.println(g.estUnMotValide(g.getDe(0, 0), "A"));
-		
 
-		Stack<De> res = new Stack<>();
-		//System.out.println(">>> " + g.findWordInBoard("IVAE", g.getDe(3,2)));
-		//System.out.println(">>> " + g.estUnMotValideBis("SENVA", res));
-		//System.out.println(res);
-//		List<De> ls = g.getListeDeSelectionTemp("FUN", res);
-//		System.out.println(ls.size());
-//		System.out.println(ls);
-
-    	
-    	
-//    	GrilleLettres grilleTest = new GrilleLettres(4, "config/des-4x4.csv");
-//
-//		Joueur j = new Joueur("Toto");
-//    	System.out.println(grilleTest);
-//		
-//		Scanner sc = new Scanner(System.in);
-//		String str = "";
-//		do{
-//			str = sc.nextLine().toUpperCase();
-//			if(grilleTest.estUnMotValide(str)){
-//				j.ajouterUnMot(str);
-//			}
-//			grilleTest.resetDejaVisite();
-//			
-//			
-//		}while(!"".equals(str));
-//		System.out.println(j.getNom() + " : " + j.getListeMots());
-//		sc.close();
-	}
 
 
     

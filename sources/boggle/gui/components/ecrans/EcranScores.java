@@ -56,6 +56,7 @@ public class EcranScores extends Ecran {
 		JLabel titre = new JLabel("<html><h1>MEILLEURS SCORES</h1></html>", SwingConstants.CENTER);
 		titre.setForeground(Couleurs.SMOKE_WHITE);
 		gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 3;
+		gbc.insets = new Insets(0, 0, 50, 0);
 		this.add(titre, gbc);
 		
 		
@@ -90,6 +91,7 @@ public class EcranScores extends Ecran {
 		gbc.gridwidth = 3;
 		gbc.weightx = 1; gbc.gridy = i;
 		gbc.gridx=0;
+		gbc.insets = new Insets(20, 0, 0, 0);
 		this.add(btnRetour, gbc);
 	}
 	

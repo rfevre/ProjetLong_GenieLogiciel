@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
+import boggle.gui.core.Game;
+
 public class Joueur extends Observable implements Comparable<Joueur>, CommentJouer {
 	
 	// Attributs 
@@ -12,13 +14,15 @@ public class Joueur extends Observable implements Comparable<Joueur>, CommentJou
 	protected String nom;
 	protected int score;
 	protected List<String> listeMots;
-	protected boolean entrainDeJouer; 
+	protected boolean entrainDeJouer;
+	protected TypeJoueur type;
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	
 	public Joueur(String nom){
 		this.nom = nom;
 		this.score = 0;
 		this.listeMots = new ArrayList<String>();
+		this.type = TypeJoueur.HUMAIN;
 	}
 	
 	
@@ -46,7 +50,7 @@ public class Joueur extends Observable implements Comparable<Joueur>, CommentJou
 	public void setListeMots(List<String> listeMots) { this.listeMots = listeMots; }
 	
 	public String toString(){ 
-		return "<html><table><tr><td width=\"180\">" +nom+ "</td><td align=\"right\">" +score+ " point.</td></tr></table></html>";
+		return "<html><table><tr><td width=\"200\">" +nom+ "</td><td width=\"50\" align=\"right\">" +score+ " pts</td></tr></table></html>";
 	}
 	
 	
@@ -93,9 +97,15 @@ public class Joueur extends Observable implements Comparable<Joueur>, CommentJou
 	
 
 
-	public synchronized void arreterDeJoueur(){
+	public void arreterDeJoueur(){
 			System.out.println(nom + " a dit STOP");
-			this.entrainDeJouer = false;
+			this.setEntrainDeJouer(false);
 	}
 	
+	protected boolean peutJoueur(){ return Game.modele.getJoueurEnCours().isEntrainDeJouer() && Game.modele.getDureeManche() > 0; }
+
+
+	public TypeJoueur getType() {
+		return this.type;
+	}
 }

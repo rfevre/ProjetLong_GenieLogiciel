@@ -25,6 +25,7 @@ import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
 import boggle.jeu.JoueurFactory;
+import boggle.jeu.Partie;
 import boggle.jeu.TypeJoueur;
 public class EcranSelectionJoueurs extends Ecran {
 
@@ -132,12 +133,12 @@ public class EcranSelectionJoueurs extends Ecran {
 				}else{
 					Joueur joueur = avatar.getJoueurInstance();
 					//System.out.println(joueur);
-					//Game.modele = new Partie();
 					Game.modele.ajouterJoueur(joueur);
-					Game.goToEcran(TypeEcrans.JEU);
 				}				
 			}
 		}
+		if(Game.modele.getListeJoueurs().isEmpty()) return;
+		Game.goToEcran(TypeEcrans.JEU);
 	}
 	
 	
@@ -265,7 +266,7 @@ public class EcranSelectionJoueurs extends Ecran {
 			photo.setPreferredSize(new Dimension(150, 150));
 			photo.setIcon(USROFF);
 			int rnd = (int) (Math.random()*100);
-			nom = new JTextField("SansNom"+rnd);
+			nom = new JTextField("Joueur"+rnd);
 			typeIA = new JSpinner(new SpinnerListModel(TypeJoueur.getListeIA()));
 			((DefaultEditor) typeIA.getEditor()).getTextField().setEditable(false);
 			

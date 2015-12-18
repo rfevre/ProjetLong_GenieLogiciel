@@ -16,16 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import boggle.autre.Couleurs;
+import boggle.autre.Utils;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 
-
-/**
-*  Classe qui correspond à l'EcranOptions
-* @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
-* @version 1.0
-*
-*/
 public class EcranOptions extends Ecran {
 
 	
@@ -42,7 +36,7 @@ public class EcranOptions extends Ecran {
 	
 	
 	/**
-	 * Retourne l'attribut instance de la classe, qui correspond à l'instance courante
+	 * Retourne l'attribut instance de la classe, qui correspond Ã  l'instance courante
 	 * @return EcranOptions
 	 */
 	public static Ecran getInstance() {
@@ -74,11 +68,13 @@ public class EcranOptions extends Ecran {
 		this.btnRetour = new Button(2, "RETOUR", SwingConstants.CENTER, 150, 50);
 		this.btnValider = new Button(3, "VALIDER", SwingConstants.CENTER, 150, 50);
 		
+		//this.dictionnaire.setEnabled(false);
+		this.dictionnaire.setText(Utils.getConfigProperty("des"));
 		initLayout();
 	}
 	
 	/**
-	 * Méthode init() qui initialise l'EcranOptions en plaçant  les élé©ments
+	 * Methode init() qui initialise l'EcranOptions en plaÃ§ant  les Ã©lÃ©ments
 	 */
 	@Override
 	public void initLayout() {
@@ -106,8 +102,8 @@ public class EcranOptions extends Ecran {
 		dictionnaire.setPreferredSize(new Dimension(150, 30));
 		this.add(dictionnaire, gbc);
 		
-		gbc.gridx=3; //gbc.gridy=0;
-		this.add(btnBrowse, gbc);
+		//gbc.gridx=3; //gbc.gridy=0;
+		//this.add(btnBrowse, gbc);
 		
 		// DeuxiÃ¨me ligne
 		gbc.gridx=1; gbc.gridy = 1;
@@ -158,8 +154,6 @@ public class EcranOptions extends Ecran {
 	
 	/**
 	 * Classe interne Button
-	 * @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
-	 * @version 1.0
 	 *
 	 */
 	private class Button extends CustomButton{
@@ -186,7 +180,7 @@ public class EcranOptions extends Ecran {
 		
 		@Override
 		/**
-		 * Classe qui correspond à  l'évenement : 'pression sur la souris'
+		 * Classe qui correspond Ã  l'Ã©venement : 'pression sur la souris'
 		 */
 		public void mousePressed(MouseEvent e) {
 			
@@ -211,11 +205,6 @@ public class EcranOptions extends Ecran {
 		
 	}
 	
-	/**
-	*
-	* Méthode qui vérifie si les options ont été changées
-	*
-	*/
 	private void verifOptions(){
 		boolean changement = false;
 		
@@ -248,10 +237,9 @@ public class EcranOptions extends Ecran {
 		}
 		
 		//Vérification du champ score 
-		//TODO : faire un setScore
-		if (Pattern.matches("[0-9]*",score.getText())){ // true)
+		if (Pattern.matches("[0-9]*", score.getText())){ // true)
 			if (Integer.parseInt(score.getText())>0 && Integer.parseInt(score.getText())<1000){
-				//Game.modele.setScoreMax(Integer.parseInt(score.getText()));
+				Game.modele.setScoreMax(Integer.parseInt(score.getText()));
 				changement = true;
 			}
 			else{

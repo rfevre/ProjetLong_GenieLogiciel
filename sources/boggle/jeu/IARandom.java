@@ -15,6 +15,7 @@ public class IARandom extends Joueur {
 
 	public IARandom(String nom){
 		super(nom);
+		this.type = TypeJoueur.IA_RANDOM_NIV1;
 	}
 
 	/**
@@ -27,8 +28,7 @@ public class IARandom extends Joueur {
 
 		// On sélectionne un nombre aléatoire de 3(inclus) à 17(exclus)
 		Random rand = new Random();
-		int nbAlea = rand.nextInt(14) + 3;
-		System.out.println(nbAlea);
+		int nbAlea = rand.nextInt(13) + 3;
 		// On sélectionne un De de depart de façon aléatoire de la grille
 		// Mettre setDejaVisite() à true && ajouter ce De à la liste
 		int x, y;
@@ -43,7 +43,6 @@ public class IARandom extends Joueur {
 		boolean deAdj = true;
 
 		while (listeRetourner.size() < nbAlea && deAdj == true ){
-
 			// On récupère le dé mis dans la liste précedemment
 			De leDe = listeRetourner.get(i-1);
 
@@ -62,7 +61,6 @@ public class IARandom extends Joueur {
 				i++;
 			}
 		}
-
 		return listeRetourner;
 	}
 
@@ -85,26 +83,27 @@ public class IARandom extends Joueur {
 		return null;
 	}
 
-	public synchronized void jouer() {
-		try {
-			System.out.println(nom + " EST ENTRAIN DE JOUEUR !!!");
+	public void jouer() {
+			//System.out.println(nom + " EST ENTRAIN DE JOUEUR !!!");
+			//Game.modele.getGrille().resetDejaVisite();
 			List<De> liste = choisirUnMot(Game.modele.getGrille());
 			Game.modele.getGrille().resetDejaVisite();
 			StringBuilder str = new StringBuilder();
 			for (De de : liste) {
 				str.append(de.getChaineFaceVisible());
-				System.out.println(de.toString());
+				//System.out.println(de.toString());
 				TextInputPanel.sourceMessage = "click";
 				Game.modele.getGrille().addDeToListeDesSelectionnes(de);
-				Thread.sleep(300);
+				try { Thread.sleep(300); } catch (InterruptedException e) { e.printStackTrace(); }
 			}
 			Game.modele.getJoueurEnCours().ajouterUnMot(str.toString());
 			Game.modele.getGrille().resetDejaVisite();
 			Game.modele.getGrille().setListeDeSelectionnes(new LinkedList<>());
-			Thread.sleep(1000);
-		} catch (InterruptedException e) { e.printStackTrace(); }
+			try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
 	}
 
+	
+	
 
 
 

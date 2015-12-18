@@ -14,26 +14,19 @@ import boggle.gui.components.panels.ListeMotsPanel;
 import boggle.gui.components.panels.TextInputPanel;
 import boggle.gui.core.Game;
 
-/**
-*
-* Classe qui correspond à l'EcranJeu
-* @author Rémy FEVRE, Zakaria ZEMMIRI, Mustapha EL MASSAOUDI
-* @version 1.0
-*/
 public class EcranJeu extends Ecran implements Observer  {
 	
 	private static final long serialVersionUID = 1L;
 	private static EcranJeu instance;
 	private Thread thread;
 	private GrillePanel grilleGraphique;
+	private TextInputPanel 	textInputPanel;
+	
 	public static Ecran getInstance() {
 		//TODO : supprimer singleton
 		return new EcranJeu();
 	}
 	
-	/**
-	* Constructeur
-	*/
 	private EcranJeu() {
 		Game.modele.setJoueurEnCours(Game.modele.getListeJoueurs().get(0));
 		Game.modele.addObserver(this);
@@ -86,11 +79,7 @@ public class EcranJeu extends Ecran implements Observer  {
 //	}
 	
 	
-	/**
-	*
-	* Méthode qui initiliase l'EcranJeu en ajoutant les éléments
-	*
-	*/
+	@Override
 	public void initLayout() {
 		
 		
@@ -99,7 +88,7 @@ public class EcranJeu extends Ecran implements Observer  {
 		ListeJoueursPanel listeJoueursPenel = new ListeJoueursPanel();
 		InfosPanel 		infosPanel 		= new InfosPanel();
 		ListeMotsPanel 	listeMotsPanel 	= new ListeMotsPanel();
-		TextInputPanel 	textInputPanel 	= new TextInputPanel();
+		textInputPanel 	= new TextInputPanel();
 		grilleGraphique = new GrillePanel();
 		
 		// Liste des mots
@@ -125,10 +114,11 @@ public class EcranJeu extends Ecran implements Observer  {
 			this.remove(grilleGraphique);
 			grilleGraphique = new GrillePanel();
 			grilleGraphique.setGrille(Game.modele.getGrille());
+			textInputPanel.setGrille(Game.modele.getGrille());
+			textInputPanel.getChampSaisie().setText("");
 			this.add(grilleGraphique, BorderLayout.CENTER);			
 			this.revalidate();
 			this.repaint();
-
 			
 			
 		}

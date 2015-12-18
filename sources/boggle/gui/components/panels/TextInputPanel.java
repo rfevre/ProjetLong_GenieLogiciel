@@ -1,12 +1,13 @@
 package boggle.gui.components.panels;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -24,15 +25,15 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import boggle.autre.Couleurs;
-import boggle.autre.Utils;
 import boggle.gui.components.ecrans.TypeEcrans;
 import boggle.gui.components.elements.CustomButton;
 import boggle.gui.core.Game;
 import boggle.jeu.Joueur;
 import boggle.mots.De;
 import boggle.mots.GrilleLettres;
+import javafx.scene.input.KeyCode;
 
-public class TextInputPanel extends JPanel implements Observer {
+public class TextInputPanel extends JPanel implements Observer, KeyListener {
 	
 	/**
 	 * 
@@ -53,7 +54,17 @@ public class TextInputPanel extends JPanel implements Observer {
 	private final ImageIcon BTN_AJOUTER_2 = new ImageIcon(getClass().getResource("/img/btnajouter2.png"));
 	
 	
-	
+	public GrilleLettres getGrille() {
+		return grille;
+	}
+
+
+	public void setGrille(GrilleLettres grille) {
+		this.grille = grille;
+		this.grille.addObserver(this);
+	}
+
+
 	public TextInputPanel(){
 		
 		this.champSaisie = new JTextField();
@@ -62,7 +73,7 @@ public class TextInputPanel extends JPanel implements Observer {
 		this.terminer = new Button(3, "TERMINER", SwingConstants.CENTER, 150, 40);
 		initLayout();		
 		this.champSaisie.setText("");
-		
+		this.champSaisie.addKeyListener(this);
 		this.grille = Game.modele.getGrille();
 	
 		this.grille.addObserver(this);
@@ -71,6 +82,11 @@ public class TextInputPanel extends JPanel implements Observer {
 	}
 	
 	
+	public JTextField getChampSaisie() {
+		return champSaisie;
+	}
+
+
 	private void initLayout(){
 		champSaisie.setBorder(BorderFactory.createLineBorder(Couleurs.CONCRETE));
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -176,6 +192,7 @@ public class TextInputPanel extends JPanel implements Observer {
 		//GrilleLettres g = new GrilleLettres();
 		Game.modele.setGrille(new GrilleLettres());
 		this.grille = Game.modele.getGrille();
+		this.grille.setListeDeSelectionnes(new LinkedList<De>());
 		this.grille.addObserver(this);
 	}
 	
@@ -203,8 +220,7 @@ public class TextInputPanel extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-
-		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MESSAGE " + sourceMessage + " >>>>> TEXT INPUT" );
+		System.out.println("AV>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MESSAGE " + sourceMessage + " >>>>> TEXT INPUT " + arg + sourceMessage );
 		
 		if("click".equals(sourceMessage)){
 			GrilleLettres g = (GrilleLettres) o;
@@ -216,6 +232,8 @@ public class TextInputPanel extends JPanel implements Observer {
 			this.champSaisie.setText(unMot.toString());
 			
 		}else{
+			//System.out.println("AP>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MESSAGE " + sourceMessage + " >>>>> TEXT INPUT " + arg + sourceMessage );
+			//if(arg == null) champSaisie.setText("");
 			//System.out.println("Rien a faire");
 		}
 		//System.out.println("FIN TEXT INPUT UPDATE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
@@ -251,10 +269,16 @@ public class TextInputPanel extends JPanel implements Observer {
 					de.setDejaVisite(true);
 				}
 				grille.setListeDeSelectionnes(ls);
+				Deque<De> lis = grille.getListeDeSelectionnes();
+				grille.setListeDeSelectionnes(new LinkedList<De>());
+				grille.setListeDeSelectionnes(lis);
+				//System.out.println(sourceMessage + "|" +arg+"|"  + ls);
+				System.out.println(">>>>>>>>>>> " + ls);
 											
-			}else{
-				sourceMessage = "clavier";
 			}
+			//else{
+				//sourceMessage = "clavier";
+			//}
 		}
 
 
@@ -281,7 +305,7 @@ public class TextInputPanel extends JPanel implements Observer {
 						if(grille.estUneLettreValide(str)) {
 							super.insertString(offs, str, a);
 							
-							sourceMessage = "clavier";
+							//sourceMessage = "clavier";
 							//System.out.println("CECI EST UN CLAVIER");
 
 							
@@ -294,6 +318,21 @@ public class TextInputPanel extends JPanel implements Observer {
 			}
 		}
 	}
+
+	public void keyPressed(KeyEvent e) {
+		sourceMessage = "clavier";
+		if(e.getKeyCode() == KeyEvent.VK_ENTER){
+			final String mot = champSaisie.getText();
+			if(!mot.isEmpty()){
+				executerAjouter(mot);
+			}
+		}
+	}
+
+
+	public void keyReleased(KeyEvent e) {}
+
+	public void keyTyped(KeyEvent e) {}
 	
 	
 }

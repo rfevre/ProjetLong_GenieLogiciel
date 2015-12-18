@@ -56,6 +56,7 @@ public class De {
 
 	public boolean equals(Object o) {
 		final De autre = (De) o;
+		if(o==null) return false;
 		return (x == autre.getX() && y == autre.getY());  
 	}
 	

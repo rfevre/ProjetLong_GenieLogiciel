@@ -21,6 +21,7 @@ public class IAPresqueRandom extends Joueur {
 
 	public IAPresqueRandom(String nom){
 		super(nom);
+		this.type = TypeJoueur.IA_RANDOM_NIV2;
 		this.arbre = Game.modele.getArbre();
 	}
 
@@ -60,22 +61,23 @@ public class IAPresqueRandom extends Joueur {
 		for(De unDeAdj : listeAdjacents){
 
 			List<De> ls = grille.getListeDeAdjacentsNonVisites(unDeAdj);
+			if(ls.isEmpty()) continue;
 			listeRetourner.add( grille.getRandomDeFromList(ls));
 
 
 
-				String mot = "";
-				for (De current : listeRetourner){
-					mot += current.getChaineFaceVisible();
-				}
+			String mot = "";
+			for (De current : listeRetourner){
+				mot += current.getChaineFaceVisible();
+			}
 
-				List<String> listeMots = new ArrayList<>();
-				arbre.motsCommencantPar(mot, listeMots);
+			List<String> listeMots = new ArrayList<>();
+			arbre.motsCommencantPar(mot, listeMots);
 
-				if(listeMots.contains(mot)){
-					System.out.println("----> " + mot);
-					return listeRetourner;
-				}else
+			if(listeMots.contains(mot)){
+				System.out.println("----> " + mot);
+				return listeRetourner;
+			}else
 				if(listeMots.isEmpty()){
 					listeRetourner.remove(listeRetourner.size()-1);
 					continue;
@@ -83,7 +85,7 @@ public class IAPresqueRandom extends Joueur {
 
 
 
-			}
+		}
 		return listeRetourner;
 	}
 
@@ -107,12 +109,8 @@ public class IAPresqueRandom extends Joueur {
 
 
 
-
-
-
-
 	@Override
-	public synchronized void jouer() {
+	public void jouer() {
 
 		try {
 			System.out.println(nom + " EST ENTRAIN DE JOUEUR !!!");
@@ -124,46 +122,15 @@ public class IAPresqueRandom extends Joueur {
 				System.out.println(de.toString());
 				TextInputPanel.sourceMessage = "click";
 				Game.modele.getGrille().addDeToListeDesSelectionnes(de);
-				Thread.sleep(50);
+				Thread.sleep(300);
 			}
 			Game.modele.getJoueurEnCours().ajouterUnMot(str.toString());
 			Game.modele.getGrille().resetDejaVisite();
 			Game.modele.getGrille().setListeDeSelectionnes(new LinkedList<>());
-			Thread.sleep(300);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) { e.printStackTrace(); }
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//	public static void main(String[] args) {
-//
-//		GrilleLettres grilleTest = new GrilleLettres();
-//		System.out.println(grilleTest.toString());
-//		IAPresqueRandom j = new IAPresqueRandom("J");
-//		j.setArbre(ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire")));
-//		List<De> liste = j.choisirUnMot(grilleTest);
-//		for (De de : liste) {
-//			System.out.println(de.toString());
-//		}
-//		System.out.println();
-//		liste = j.choisirUnMot(grilleTest);
-//		for (De de : liste) {
-//			System.out.println(de.toString());
-//		}
-//	}
 
 }

@@ -36,7 +36,7 @@ public class Game {
 	public static void resetPartie(){
 		System.out.println("Avant " + modele);
 		//modele.getThread().interrupt();
-		//modele = new Partie();
+		modele = new Partie();
 		System.out.println("Apres " + modele);
 	}
 	

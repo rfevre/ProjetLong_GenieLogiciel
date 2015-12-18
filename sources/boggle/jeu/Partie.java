@@ -1,16 +1,17 @@
 package boggle.jeu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javax.swing.JOptionPane;
+
+import boggle.autre.BDD;
 import boggle.autre.Utils;
 import boggle.gui.components.ecrans.TypeEcrans;
 import boggle.gui.core.Game;
@@ -24,7 +25,8 @@ public class Partie extends Observable implements Observer, Runnable {
 	private ArbreLexical arbre;
 	private Joueur joueurEnCours;
 	private Thread thread;
-	private int durreeManche = 180;
+	private int dureeManche, tempsRestant;
+	private int scoreMax = 100;
 
 	// CONSTRUCTEURS //////////////////////////////////////////////////////////
 	public Partie(){
@@ -33,6 +35,8 @@ public class Partie extends Observable implements Observer, Runnable {
 		//this.grille.initGrilleDepuisChaine("JOUR PAPA MAMA ZOZN");
 		this.arbre   = ArbreLexical.creerArbreDepuisFichier(Utils.DOSSIER_CONFIG + Utils.getConfigProperty("dictionnaire"));
 		this.listeJoueurs = new ArrayList<Joueur>();
+		this.dureeManche = 180;
+		this.tempsRestant = dureeManche;
 	}
 
 
@@ -54,8 +58,28 @@ public class Partie extends Observable implements Observer, Runnable {
 		this.notifyObservers("grille");
 	}  
 
-	public int getDurreeManche() {
-		return durreeManche;
+	public int getScoreMax() {
+		return scoreMax;
+	}
+
+
+	public void setDureeManche(int dureeManche) {
+		this.dureeManche = dureeManche;
+	}
+
+
+	public int getDureeManche() {
+		return dureeManche;
+	}
+
+
+	public int getTempsRestant() {
+		return tempsRestant;
+	}
+
+
+	public void setTempsRestant(int tempsRestant) {
+		this.tempsRestant = tempsRestant;
 	}
 
 
@@ -69,8 +93,9 @@ public class Partie extends Observable implements Observer, Runnable {
 	}
 
 
-	public void setDurreeManche(int durreeManche) {
-		this.durreeManche = durreeManche;
+	public void setDurreeManche(int dureeManche) {
+		System.out.println("DUREE " + dureeManche);
+		this.dureeManche = dureeManche;
 		this.setChanged();
 		this.notifyObservers();
 	}
@@ -84,7 +109,9 @@ public class Partie extends Observable implements Observer, Runnable {
 	}
 
 	// PUBLIC METHODS /////////////////////////////////////////////////////////
+	
 
+	
 	/**
 	 * Ajoute un joueur à la liste de joueurs
 	 * @param joueur
@@ -183,7 +210,7 @@ public class Partie extends Observable implements Observer, Runnable {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("********* UPDATE PARTIE ************* " + o.getClass());
+		//System.out.println("********* UPDATE PARTIE ************* " + o.getClass());
 		Joueur j = (Joueur) o;
 		calculerScore(j);
 		this.setChanged();
@@ -192,41 +219,50 @@ public class Partie extends Observable implements Observer, Runnable {
 	}
 
 
-	Timer t;
+	
+
 	@Override
-	public void run() {
-		int dureeMax = durreeManche;
-		t = new Timer (1000, new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// 
-				durreeManche--;
-				if(durreeManche<0){
-					joueurEnCours.setEntrainDeJouer(false);
-					t.stop();
-				}
-				System.out.println("Il reste " + durreeManche + " sec.");
-				setChanged();
-				notifyObservers();
-				
-			}
-		});
-		System.out.println("________________________________________________________________ DEBUT DE LA PARTIE ____");	
+	public void run() {		
+		System.out.println("________________________________________________________________ DEBUT DE LA PARTIE ____ Duree " + getDureeManche());	
 		for(int tour=1; tour<=nbTours; tour++){
 			this.setNumTour(tour);
+			tempsRestant = this.dureeManche;			
 			for(int i=0; i<getListeJoueurs().size(); i++){
-				durreeManche = dureeMax;
+				Timer t = new Timer(false);
+				t.scheduleAtFixedRate(new Verificateur(), 1000, 1000);
+				System.out.println(t);
 				Joueur joueur = getListeJoueurs().get(i);
 				this.setJoueurEnCours(joueur);
-				t.restart();
-				while(joueur.isEntrainDeJouer() && durreeManche > 0){	
-					joueur.jouer();
-				}
+				grille.resetDejaVisite();
+				grille.resetListeDeSelectionnes();
 				
-				joueur.arreterDeJoueur();
-				//Game.modele.getGrille().resetDejaVisite();
+				System.out.println("En cours : " + joueurEnCours.getNom());
+				while(joueur.isEntrainDeJouer() && tempsRestant > 0  && estDansEcranJeu(t)){
+					joueur.jouer();
+					if(joueur.getScore() >= scoreMax){
+						joueur.setEntrainDeJouer(false);
+						tempsRestant = this.dureeManche;
+						t.cancel();
+						t.purge();
+						break;
+					}
+					//System.out.println(joueur.getNom() + " est entain de jouer.");
+				}
+				if(joueur.getScore() >= scoreMax){
+					tempsRestant = this.dureeManche;
+					t.cancel();
+					t.purge();
+					break;
+				}
+				joueur.arreterDeJoueur(); 
+				tempsRestant = this.dureeManche;
+				t.cancel();
+				t.purge();
+				//t = new Timer(false);
+				//t.scheduleAtFixedRate(new Verificateur(), 1000, 1000);
+				Game.modele.setGrille(new GrilleLettres());
 			}
+			if(!estDansEcranJeu(null)) break;
 		}
 		finDeLaPartie();
 	}
@@ -241,15 +277,70 @@ public class Partie extends Observable implements Observer, Runnable {
 	public void finDeLaPartie(){
 		try {
 			System.out.println("__________________________________________________________________ FIN DE LA PARTIE ____");	
-			t.stop();
-			JOptionPane.showMessageDialog(null, "<html><h2>Victoire de " + getGagnant().getNom() + " avec " + getGagnant().getScore() + " points.</h2></html>" );
+			//t.cancel();
+			//t.purge();
+			Joueur gagnant = getGagnant();
+			if(gagnant.getScore() == 0){
+				JOptionPane.showMessageDialog(null, "<html><h2> Pas de gagnant! </h2></html>" );
+			}else{
+				JOptionPane.showMessageDialog(null, "<html><h2>Victoire de " + gagnant.getNom() + " avec " + gagnant.getScore() + " points.</h2></html>" );
+				BDD bdd = new BDD();
+				bdd.ajouterUnScore(gagnant);
+				bdd.fermer();
+			}
 			Game.goToEcran(TypeEcrans.SCORES);
-			this.thread.join();
+			try {
+				this.thread.join();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 		} catch (Exception e) { System.out.println(e.getMessage());	}
 	}
 
 	// PRIVATE METHODS ////////////////////////////////////////////////////////
+	
+	private boolean estDansEcranJeu(Timer t){
+		if(Game.ECRAN_EN_COURS != TypeEcrans.JEU){
+			System.out.println("Arret de la partie");
+			try {
+				if(t!= null){
+					t.cancel();
+					t.purge();
+				}
+				this.thread.join();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			return false;
+		}
+		return true;
+	}
+	
+	
 	///////////////////////////////////////////////////////////////////////////
+
+	private class Verificateur extends TimerTask {
+
+		@Override
+		public void run() {
+			tempsRestant--;
+			if(tempsRestant<1){
+				joueurEnCours.setEntrainDeJouer(false);
+				//try { thread.join(); } catch (InterruptedException e1) { e1.printStackTrace(); }
+			}
+			//System.out.println(grille);
+			//System.out.println("Il reste " + tempsRestant + " sec.");
+			setChanged();
+			notifyObservers();
+			
+		}
+		
+	}
+
+
+	public void setScoreMax(int scoreMax) {
+		this.scoreMax = scoreMax;
+	}
 
 
 
